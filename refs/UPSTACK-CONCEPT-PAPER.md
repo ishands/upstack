@@ -3,7 +3,7 @@
 **Concept Paper v1.0**
 **Author:** Ishan De Silva
 **Date:** February 2026
-**Status:** Foundational — for Git project initialisation
+**Status:** Foundational — philosophical and theoretical foundation
 
 ---
 
@@ -129,11 +129,11 @@ The framework's principles are identical for both personas. The templates, confi
 
 Every Upstack learning project — whether personal or organisational — is structured around three documents. These are not bureaucratic requirements. Each one serves a specific learning function that the research validates.
 
-The **Tutor Contract** (`TUTOR-CONTRACT.md`) is the meta-prompt that configures the AI's behaviour. It defines the AI's roles — Guide, Scribe, Code Reviewer, Challenger — and critically, the constraints on each role. The most important constraint is the guide role: the AI should ask questions that lead toward the answer rather than providing the answer directly. It should challenge assumptions rather than confirm them. It should require the learner to attempt before it assists, and to explain before it corrects. This document is the operational heart of Upstack. It is what converts an oracle into a tutor.
+The **Tutor Contract** is the meta-prompt that configures the AI's behaviour. It defines the AI's roles — Guide, Scribe, Code Reviewer, Challenger — and critically, the constraints on each role. The most important constraint is the guide role: the AI should ask questions that lead toward the answer rather than providing the answer directly. It should challenge assumptions rather than confirm them. It should require the learner to attempt before it assists, and to explain before it corrects. This document is the operational heart of Upstack. It is what converts an oracle into a tutor.
 
-The **Learner Context** (`LEARNER-CONTEXT.md` for personal, `ORG-PROFILE.md` for organisational) declares who the learner is and what they already know. This is not administrative — it is the bridge. Learning is associative: new knowledge hooks onto existing knowledge. Without an explicit declaration of prior knowledge, the AI cannot calibrate the difficulty, cannot use the right analogies, cannot know where to start the bridge from known to unknown. The quality of this document directly determines the quality of the tutoring. The Go project's audience declaration — "experienced engineers coming from C++, Java, Python; skip programming basics; focus on Go idioms and differences from system languages" — is the model.
+The **Learner Context** declares who the learner is and what they already know. This is not administrative — it is the bridge. Learning is associative: new knowledge hooks onto existing knowledge. Without an explicit declaration of prior knowledge, the AI cannot calibrate the difficulty, cannot use the right analogies, cannot know where to start the bridge from known to unknown. The quality of this document directly determines the quality of the tutoring. The Go project's audience declaration — "experienced engineers coming from C++, Java, Python; skip programming basics; focus on Go idioms and differences from system languages" — is the model.
 
-The **Learning Log** (`LEARNING-LOG.md`) is the living document that captures the journey. Its structure — Initial Question, Conceptual Shift, Comparison to Prior Knowledge, Practical Examples — is not arbitrary. It is a forced retrieval and articulation mechanism. The act of documenting the conceptual shift is the consolidation of learning. Writing "I thought interfaces worked like this, but in Go they are implicit and consumer-defined — here is the moment that clicked" is not documentation after the learning; it is the final step of the learning itself. The log also creates a teaching artefact: something that can be used to help the next person on the same journey.
+The **Learning Log** is the living document that captures the journey. Its structure — Initial Question, Conceptual Shift, Comparison to Prior Knowledge, Practical Examples — is not arbitrary. It is a forced retrieval and articulation mechanism. The act of documenting the conceptual shift is the consolidation of learning. Writing "I thought interfaces worked like this, but in Go they are implicit and consumer-defined — here is the moment that clicked" is not documentation after the learning; it is the final step of the learning itself. The log also creates a teaching artefact: something that can be used to help the next person on the same journey.
 
 ### 4.3 The AI Role Configuration
 
@@ -165,13 +165,11 @@ The Reasoning Visibility Principle has implications for how Upstack's organisati
 
 ### 4.5 The Override/Extend Architecture
 
-Upstack is designed as a framework, not a rigid prescription. Its repository architecture reflects the software engineering principle of framework versus application: the framework defines the structure and the defaults; the application customises and extends within that structure.
+Upstack is designed as a framework, not a rigid prescription. Its architecture reflects the software engineering principle of framework versus application: the framework defines the structure and the defaults; adopters customise and extend within that structure.
 
-The `/meta` directory contains the stable framework core — the base templates, the principles documentation, the anti-patterns guide. This is designed to be cloned and not modified. Its stability is what gives the framework its integrity across different use cases.
+The framework core — base templates, the principles documentation, the anti-patterns guide — is designed to be inherited without modification. Its stability is what gives the framework its integrity across different use cases. Overrides and extensions live in a separate layer that takes precedence where conflicts arise, using the same pattern as dotfiles, configuration systems, and theme frameworks.
 
-The `/meta-custom` directory is where individual adopters place their overrides and extensions. Same filenames as `/meta`, with custom content taking precedence. An organisation might extend the Tutor Contract with domain-specific constraints. A learner might extend the Learner Context template with sections specific to their learning style. The override mechanism is familiar to any engineer — it is the same pattern as dotfiles, configuration systems, and theme frameworks.
-
-Individual learning projects live in their own directories — `/learning-go`, `/learning-rust`, `/learning-ddd` — each containing the three core documents plus assignment materials and documentation. A `/learning-template` directory provides a blank, annotated scaffold that makes starting a new project as frictionless as possible.
+Individual learning projects are self-contained within the repository, each containing the three core documents plus assignment materials and documentation. A blank, annotated scaffold makes starting a new project as frictionless as possible.
 
 ---
 
@@ -179,114 +177,25 @@ Individual learning projects live in their own directories — `/learning-go`, `
 
 The Go language learning project is not just an example — it is the proof of concept that preceded and inspired the framework. It was built by the author as a personal learning workspace for an experienced C++/Python developer learning Go idiomatically, and it contains the three Upstack documents in their earliest, most authentic form.
 
-The original `meta/README.md` — the document that became the Tutor Contract template — includes the most important single line in the entire framework: *"Do NOT offer the full answer with code snippets. Help the human learn, don't spoon feed."* This instruction, written before Upstack existed as a named framework, is the productive struggle principle operationalised as an AI configuration. It works because it explicitly fights AI's natural gravity toward maximum immediate helpfulness.
+The original tutor configuration — the document that became the Tutor Contract template — includes the most important single line in the entire framework: *"Do NOT offer the full answer with code snippets. Help the human learn, don't spoon feed."* This instruction, written before Upstack existed as a named framework, is the productive struggle principle operationalised as an AI configuration. It works because it explicitly fights AI's natural gravity toward maximum immediate helpfulness.
 
-The public `README.md` — which became the Learner Context template — demonstrates the power of precise audience declaration. By explicitly stating what is excluded ("programming basics") and what the bridge is ("experienced engineers from C++, Java, Python"), it enables the AI tutor to calibrate every explanation, every analogy, every challenge to exactly the right level. The Go-specific idioms and differences from system languages are the entire focus — the signal-to-noise ratio of the learning is extraordinarily high as a result.
+The learner context document demonstrates the power of precise audience declaration. By explicitly stating what is excluded ("programming basics") and what the bridge is ("experienced engineers from C++, Java, Python"), it enables the AI tutor to calibrate every explanation, every analogy, every challenge to exactly the right level. The Go-specific idioms and differences from system languages are the entire focus — the signal-to-noise ratio of the learning is extraordinarily high as a result.
 
 The two completed assignments — HostManager (a system monitor) and Feed Catcher (a market data feed client for Binance orderbook streams) — demonstrate the context-before-concept principle. These are not toy examples. They are real systems drawn from the author's capital markets domain. Every concept — goroutines, channels, interfaces, context cancellation — emerges from the needs of the system rather than being introduced abstractly. This is far transfer being seeded: the mental models formed are connected to real problem spaces from the beginning, which is what makes them transferable.
 
-In the Upstack repository, the Go project is annotated to make the framework principles visible. Each design decision in the three core documents is called out with an Upstack annotation explaining which principle it embodies. This transforms the Go project from a personal learning workspace into a teaching artefact — exactly what the Learning Log protocol is designed to produce.
+In the Upstack repository, the Go project is annotated to make the framework principles visible. Each design decision in the three core documents is called out with an annotation explaining which principle it embodies. This transforms the Go project from a personal learning workspace into a teaching artefact — exactly what the Learning Log protocol is designed to produce.
 
 ---
 
-## 6. Repository Structure
+## 6. Contributing
 
-```
-upstack/
-│
-├── README.md
-│   The manifesto. The thesis, the why, the personas,
-│   and the quick-start guide for new adopters.
-│
-├── meta/
-│   The framework core. Stable. Clone and do not modify.
-│   │
-│   ├── PRINCIPLES.md
-│   │   The full theoretical foundation: learning stack,
-│   │   near/far transfer, productive struggle, double-loop
-│   │   learning, metacognition, reasoning visibility.
-│   │   The scholarly spine with citations.
-│   │
-│   ├── TUTOR-CONTRACT.md
-│   │   Base template for AI tutor configuration.
-│   │   Defines all five AI roles and their constraints.
-│   │   The "do not spoon feed" principle lives here.
-│   │
-│   ├── LEARNER-CONTEXT.md
-│   │   Personal learner profile template.
-│   │   Guided questions for declaring prior knowledge,
-│   │   learning style, goals, and domain context.
-│   │
-│   ├── ORG-PROFILE.md
-│   │   Organisational L&D configuration template.
-│   │   For managers configuring apprentice learning
-│   │   and reasoning review protocols.
-│   │
-│   ├── LEARNING-LOG.md
-│   │   Template for the living learning document.
-│   │   Structure: Initial Question → Conceptual Shift
-│   │   → Comparison to Prior Knowledge → Practical Examples.
-│   │
-│   └── ANTI-PATTERNS.md
-│       What Upstack is NOT. Oracle mode. Spoon feeding.
-│       Single-loop traps. The failure modes to avoid.
-│
-├── meta-custom/
-│   Your overrides and extensions. This is where you
-│   customise the framework for your context.
-│   Files here take precedence over /meta equivalents.
-│   Start with empty directory; add only what you need.
-│
-├── learning-go/
-│   The featured use case. Fully worked and annotated.
-│   │
-│   ├── README.md           (Learner Context — annotated)
-│   ├── meta/README.md      (Tutor Contract — annotated)
-│   ├── docs/
-│   │   ├── PRIMER.md       (Go philosophy and type system)
-│   │   ├── TUTORIAL.md     (Living learning log)
-│   │   └── UPSTACK-NOTES.md (Framework annotations)
-│   └── assignments/
-│       ├── hostmanager/    (Assignment 1 — system monitor)
-│       └── feedcatcher/    (Assignment 2 — market data feed)
-│
-└── learning-template/
-    Blank scaffold for starting a new learning project.
-    Copy this directory, rename it, fill in the templates.
-    │
-    ├── README.md           (Learner Context template)
-    ├── docs/
-    │   ├── TUTORIAL.md     (Learning Log template)
-    │   └── PRIMER.md       (Optional concept primer)
-    └── assignments/
-        └── README.md       (Assignment structure guide)
-```
+Upstack grows stronger with every use case contributed. Each new learning project validates and extends the framework. A Go-to-Rust project from a Python engineer demonstrates the Learner Context for a different prior knowledge profile. A domain-driven design project from a junior engineer demonstrates the framework for conceptual rather than language learning. An org-L&D case study demonstrates the Reasoning Visibility Principle in a real team context.
+
+Contributors are asked to annotate their learning projects with Upstack callouts — brief notes that make the framework principles visible in their specific context. This is what transforms personal learning artefacts into community teaching resources.
 
 ---
 
-## 7. Getting Started
-
-### For Personal Learners
-
-The fastest path to a working Upstack configuration is three steps. First, clone the repository and copy the `/learning-template` directory to a new name — `/learning-rust`, `/learning-system-design`, whatever the domain. Second, fill in the `README.md` with your learner context: who you are, what you already know, what you are explicitly not trying to learn, and what domain-specific context the AI needs to calibrate its guidance. Third, open the `meta/TUTOR-CONTRACT.md` and read it carefully — this is the configuration you paste at the start of every AI session. Add any domain-specific constraints to your `meta-custom/` override if needed.
-
-Then begin. Write your first assignment. When you are stuck, start your AI session with the Tutor Contract. When something clicks, document it in the Learning Log immediately. The framework will do the rest.
-
-### For Organisational L&D
-
-Start with `/meta/ORG-PROFILE.md` and `/meta/TUTOR-CONTRACT.md`. The Org Profile will guide you through defining the apprentice's prior knowledge, the domain context, and the specific skills you are developing. The Tutor Contract configures the AI's behaviour in learning sessions. Additionally, read the Reasoning Visibility Principle in `PRINCIPLES.md` and implement the reasoning review protocol: build a regular cadence of improvisational probing into your 1-on-1s with apprentices. "Walk me through your thinking" is where the real development happens.
-
----
-
-## 8. Contributing
-
-Upstack grows stronger with every use case contributed. Each new learning project validates and extends the framework. A `/learning-rust` project from a Python engineer demonstrates the Learner Context for a different prior knowledge profile. A `/learning-ddd` project from a junior engineer demonstrates the framework for conceptual rather than language learning. An org-L&D case study demonstrates the Reasoning Visibility Principle in a real team context.
-
-Contributors are asked to annotate their learning projects with Upstack callouts — brief notes that make the framework principles visible in their specific context. This is what transforms personal learning artefacts into community teaching resources. The annotation convention is defined in `/learning-go/docs/UPSTACK-NOTES.md` and serves as the model.
-
----
-
-## 9. Relationship to The Complete Engineer
+## 7. Relationship to The Complete Engineer
 
 Upstack is a standalone open-source project, but it is also a concrete expression of two pillars of The Complete Engineer framework. The Technical Foundations pillar — knowing why, not just what — is precisely the Understanding layer of the Upstack learning stack. The Professional Integrity pillar — self-regulation, accountability, the internal governance that operates without external enforcement — is the organisational expression of metacognition: the capacity to self-regulate your learning and your performance without needing a manager to administer productive struggle for you.
 
@@ -294,7 +203,7 @@ Upstack gives The Complete Engineer something tangible and downloadable. The new
 
 ---
 
-## 10. The Name
+## 8. The Name
 
 Upstack refers to the learning stack — the progression from Exposure at the base, through Knowledge, through Understanding, to Transfer at the peak. Moving upstack means deliberately climbing toward genuine insight rather than staying at the level of recalled knowledge and AI-generated output.
 
@@ -302,7 +211,7 @@ It is a one-word name that engineers feel immediately. Moving up the stack, towa
 
 ---
 
-## 11. Summary
+## 9. Summary
 
 Upstack exists because AI has made a specific and important kind of learning significantly harder: the kind that builds genuine understanding through effortful processing, productive struggle, and the slow construction of mental models that transfer to novel contexts. It does not fight AI — it redirects it, configuring it as a calibrated tutor rather than a frictionless oracle.
 

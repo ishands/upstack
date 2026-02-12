@@ -1,9 +1,10 @@
 # Upstack — Technical Specification
 
-**Version:** 1.0  
-**Author:** Ishan De Silva  
-**Date:** 11 February 2026  
+**Version:** 2.0
+**Author:** Ishan De Silva
+**Date:** 12 February 2026
 **Status:** Pre-build specification
+**Major Revision:** Journal-based progress tracking; decoupled course content from learner state
 
 ---
 
@@ -11,7 +12,7 @@
 
 1. [Product Overview](#1-product-overview)
 2. [Repository Architecture](#2-repository-architecture)
-3. [Data Model — COURSE.md Schema](#3-data-model--coursemd-schema)
+3. [COURSE.md Schema — Curriculum Definition](#3-coursemd-schema--curriculum-definition)
 4. [Progress Tracking Model](#4-progress-tracking-model)
 5. [Progress Scripts](#5-progress-scripts)
 6. [AI Tool Integration](#6-ai-tool-integration)
@@ -37,11 +38,11 @@ Upstack is a local-first, open-source learning framework that configures AI as a
 
 **Local-first.** All data lives in the repository. No backend, no database, no accounts. Progress is version-controlled markdown. The web app reads from the filesystem at runtime.
 
-**Fork-and-own.** Users fork the repository to make Upstack theirs. Their progress, custom courses, and personal configuration travel with them in their own GitHub repository.
+**Fork-and-own.** Users fork the repository to make Upstack theirs. Their progress, custom courses, and personal configuration travel with them in their own GitHub repository. Learners can pull upstream course updates at any time without merge conflicts.
 
 **AI-agnostic.** The framework works with any AI tool that supports file access or tool use — Claude Code, Cursor, VS Code with AI extensions, or plain chat interfaces with copy-paste.
 
-**Version-controlled progress.** Progress state lives in `COURSE.md` files as markdown checkboxes. Completion history is the git log. Reports are committed markdown files. Everything is auditable, portable, and human-readable without the app running.
+**Version-controlled progress.** Progress state lives in `progress/<slug>/journal.md` as markdown checkboxes. Completion history is the git log. Reports are committed markdown files. Everything is auditable, portable, and human-readable without the app running.
 
 **Organisation-ready.** Progress reports are generated as timestamped markdown files committed to the repository. They can be emailed to L&D coordinators by the AI agent or the user. The report format is designed for both human reading and future programmatic aggregation.
 
@@ -66,7 +67,7 @@ upstack/
 ├── CONTRIBUTING.md              # How to add courses and contribute
 ├── package.json                 # Root — web app dependencies + scripts
 │
-├── refs/                        # Initial refrence material
+├── refs/                        # Initial reference material
 │   ├──UPSTACK-CONCEPT-PAPER.md  # Full theoretical foundation
 │   └──UPSTACK-TECH-SPEC.md      # The original technical spec (this file)
 │
@@ -77,6 +78,7 @@ upstack/
 │   ├── LEARNER-CONTEXT.md       # Personal learner profile template
 │   ├── ORG-PROFILE.md           # Org L&D configuration template
 │   ├── LEARNING-LOG.md          # Living learning document template
+│   ├── JOURNAL-TEMPLATE.md      # Learning journal template
 │   └── ANTI-PATTERNS.md        # What Upstack is not
 │
 ├── meta-custom/                 # Your overrides — modify freely
@@ -101,16 +103,19 @@ upstack/
 │   ├── curated/                 # Community bootcamp definitions
 │   └── custom/                  # Your org-specific bootcamps
 │
-├── progress/                    # Version-controlled progress reports
-│   └── .gitkeep                 # Reports committed here by scripts
+├── progress/                    # Learner-owned — never upstreamed
+│   └── learning-go/             # One directory per active course
+│       ├── journal.md           # Living learning journal (source of truth)
+│       └── report-20260207.md   # Generated progress reports
 │
 ├── scripts/                     # CLI tools for progress collection
-│   ├── collect-progress.js      # Walk courses, parse checkboxes
+│   ├── collect-progress.js      # Walk journals, extract completion state
 │   ├── generate-report.js       # Compile progress into report markdown
 │   ├── send-report.js           # Email report or open mailto link
 │   ├── generate-catalogue.js    # Build catalogue JSON for web app
 │   └── utils/
-│       ├── parse-course.js      # COURSE.md parser
+│       ├── parse-course.js      # COURSE.md parser (curriculum structure)
+│       ├── parse-journal.js     # Journal parser (progress state)
 │       ├── parse-bootcamp.js    # BOOTCAMP.md parser
 │       └── git-utils.js         # Git log timestamp extraction
 │
@@ -142,11 +147,13 @@ upstack/
 
 ---
 
-## 3. Data Model — COURSE.md Schema
+## 3. COURSE.md Schema — Curriculum Definition
 
 ### 3.1 COURSE.md Structure
 
 Every course is defined by a `COURSE.md` file at the root of its directory. The file has two parts: YAML frontmatter carrying machine-readable metadata, and a markdown body carrying human-readable content.
+
+**Key principle:** `COURSE.md` is the curriculum definition. Learners never edit it. All progress and completion state lives in `progress/<slug>/journal.md`. This separation guarantees zero merge conflicts when learners pull upstream course updates.
 
 ```markdown
 ---
@@ -155,12 +162,12 @@ Every course is defined by a `COURSE.md` file at the root of its directory. The 
 # ============================================
 
 # Required fields
-title: 'Learning Go'
-slug: 'learning-go'
+title: 'Course Title'
+slug: 'course-slug'
 version: '1.0'
-author: 'Ishan De Silva'
-created: '2026-01-15'
-updated: '2026-02-10'
+author: 'Author Name'
+created: 'YYYY-MM-DD'
+updated: 'YYYY-MM-DD'
 
 # Categorisation
 domain:
@@ -168,20 +175,18 @@ domain:
   # engineering-practices | soft-skills | domain-knowledge
 level: 'intermediate' # beginner | intermediate | advanced
 tags:
-  - go
-  - concurrency
-  - systems-programming
+  - tag1
+  - tag2
 
 # Target audience
 target-audience: >
-  Experienced engineers (5+ years) coming from C++, Java, or Python.
-  Assumes deep familiarity with OOP, concurrency, and systems concepts.
-  Not suitable for beginners to programming.
+  Describe the target learner. Be specific about required background,
+  experience level, and what prior knowledge is assumed.
+  Not suitable for beginners to the field.
 
 prerequisites:
-  - 'Comfortable with at least one compiled language'
-  - 'Understanding of concurrency concepts (threads, locks)'
-  - 'Familiarity with HTTP and network programming'
+  - 'Prerequisite 1'
+  - 'Prerequisite 2'
 
 # Upstack configuration
 ai-tools: # Tested with these tools
@@ -193,143 +198,139 @@ tutor-contract:
   # override with custom path
 
 # Display
-featured: true # Show in featured section of catalogue
+featured: false # Show in featured section of catalogue
 thumbnail: 'docs/thumbnail.png' # Optional course thumbnail
-estimated-hours: 40
-
-# Progress tracking — managed by scripts, do not edit manually
-progress:
-  started: '2026-02-01'
-  last-active: '2026-02-10'
-  completed: false
-  completion-date: null
+estimated-hours: 0
 ---
 
-# Learning Go
+# Course Title
 
-A hands-on Go workspace built by an experienced C++/Python developer
-learning Go idiomatically, guided by an AI tutor configured with Upstack.
+A concise description of the course — what you will build and why it matters
+to the target learner.
 
 ## What You Will Learn
 
-By the end of this course you will understand Go's core type system,
-idiomatic error handling, goroutines and channels, and how to structure
-real Go projects. More importantly, you will understand _why_ Go makes
-the design choices it does — not just how to use it.
+A short paragraph summarising the learning outcomes. What capability will the
+learner have at the end that they did not have at the start?
 
 ## Learning Objectives
 
-- Translate OOP mental models into Go's composition-based paradigm
-- Understand Go interfaces as consumer-defined contracts, not inheritance
-- Build genuine intuition for goroutine and channel patterns
-- Write idiomatic Go that a senior Go engineer would recognise as natural
+- Objective 1
+- Objective 2
+- Objective 3
 
 ## Learner Context
 
 > This section is read by your AI tutor at the start of each session.
 > Be specific. The quality of your tutor calibration depends on this.
 
-I am an experienced software engineer with 15+ years in C++ and Python,
-primarily in capital markets systems. I understand OOP deeply — classes,
-inheritance, polymorphism, virtual dispatch. I know concurrency through
-threads, mutexes, and condition variables. I am learning Go because I
-want to understand its approach to concurrency and composition without
-carrying C++ habits into it.
+Describe your professional background, what you already know, what mental
+models you are bringing in, and how you want to be taught. The more
+specific you are, the better the tutor calibration.
 
-**Do not** explain basic programming concepts. **Do** explain why Go
-made specific design choices differently from C++. **Challenge** my
-C++ assumptions actively.
+## Course Structure
 
-## Modules and Assignments
+### Module 1: Module Name
 
-Progress is tracked by checking off assignments below.
-Check an assignment when you have completed it AND can explain it.
+Brief description of what this module covers and why it is sequenced first.
 
-### Module 1: Core Language
+#### Assignment 1: Title
 
-- [ ] **Assignment 1: HostManager** — System monitor covering structs,
-      interfaces, error handling, testing, goroutines, channels.
-      `assignments/01-hostmanager/`
+Brief description of what this assignment builds and why.
 
-- [ ] **Assignment 2: Feed Catcher** — Market data feed client covering
-      context, cancellation, REST, WebSockets, advanced channel patterns.
-      `assignments/02-feedcatcher/`
+- [ ] Topic 1 — brief description
+- [ ] Topic 2 — brief description
+- [ ] Topic 3 — brief description
 
-### Module 2: Resilience (Optional)
+#### Assignment 2: Title
 
-- [ ] **Assignment 3: Resilience Layer** — Supervision, reconnection,
-      exponential backoff, structured logging, interface mocks.
-      `assignments/03-resilience/`
+Brief description.
+
+- [ ] Topic 1 — brief description
+- [ ] Topic 2 — brief description
+
+### Module 2: Module Name (Optional)
+
+#### Assignment 3: Title
+
+Brief description.
+
+- [ ] Topic 1 — brief description
 
 ## Reasoning Review Prompts
 
 > For L&D coordinators and mentors: use these in 1-on-1s to probe
 > for genuine understanding beyond completion state.
+> Do not accept "yes I know it" — ask them to explain, to give an
+> example, to identify where the concept breaks down.
 
 **After Assignment 1:**
 
-- What is the difference between a Go interface and a C++ abstract class?
-- Why does Go use explicit error returns instead of exceptions?
-- What is the goroutine scheduler doing that a thread scheduler does not?
-- Where does the fan-out pattern break down?
+- Question probing conceptual understanding?
+- Question probing design decisions?
+- Question probing edge cases or failure modes?
 
 **After Assignment 2:**
 
-- When would you use context cancellation versus a done channel?
-- What is the closure gotcha in goroutines and why does it happen?
-- If the WebSocket drops mid-stream, what is your recovery strategy?
+- Question probing conceptual understanding?
+- Question probing trade-offs or alternatives?
 
 ## Learning Log
 
-See `docs/TUTORIAL.md` for the living record of this learning journey —
-initial questions, conceptual shifts, comparisons to prior knowledge,
-and practical examples accumulated during the course.
+See `docs/TUTORIAL.md` for the polished reference record of this course —
+clean examples and distilled understanding accumulated during the course.
+
+See `progress/<slug>/journal.md` for the living learning journal —
+raw mistakes, corrections, and aha moments preserved in full.
 ```
 
 ### 3.2 COURSE.md Parsing Rules
 
-The `parse-course.js` utility extracts the following from each `COURSE.md`:
+The `parse-course.js` utility extracts curriculum structure from each `COURSE.md` for use by the web app and bootcamp scripts. It does **not** extract completion state — that is the journal's responsibility.
 
 **From YAML frontmatter:** all metadata fields as-is.
 
-**From markdown body:** module and assignment progress by scanning for the pattern:
+**From markdown body:** module and assignment structure by scanning for the patterns:
 
 ```
-- [ ] or - [x]  followed by  **Assignment N: Title**
+### Module N: Name
+#### Assignment N: Title
+- [ ] Topic — description
 ```
 
-The parser builds a structured progress object:
+The parser builds a structured curriculum object:
 
 ```json
 {
-  "slug": "learning-go",
-  "title": "Learning Go",
+  "slug": "course-slug",
+  "title": "Course Title",
   "modules": [
     {
-      "name": "Module 1: Core Language",
+      "name": "Module 1: Module Name",
       "assignments": [
         {
           "id": "01",
-          "title": "HostManager",
-          "completed": false,
-          "completedDate": null
+          "title": "Assignment 1: Title",
+          "topics": [
+            "Topic 1 — brief description",
+            "Topic 2 — brief description"
+          ]
         },
         {
           "id": "02",
-          "title": "Feed Catcher",
-          "completed": true,
-          "completedDate": "2026-02-07T14:23:00Z"
+          "title": "Assignment 2: Title",
+          "topics": [
+            "Topic 1 — brief description"
+          ]
         }
       ]
     }
   ],
-  "completionPercent": 33,
-  "totalAssignments": 3,
-  "completedAssignments": 1
+  "totalAssignments": 2
 }
 ```
 
-Completion dates are extracted from `git log` on the `COURSE.md` file — specifically the commit timestamp of the line that changed from `- [ ]` to `- [x]` for each assignment.
+Completion state (which assignments are done and when) is parsed separately by `parse-journal.js` and merged by `generate-catalogue.js` to produce the full catalogue entry used by the web app.
 
 ---
 
@@ -337,17 +338,26 @@ Completion dates are extracted from `git log` on the `COURSE.md` file — specif
 
 ### 4.1 How Progress is Tracked
 
-Progress state lives entirely in the `COURSE.md` file as markdown checkboxes. The learner marks an assignment complete by changing `- [ ]` to `- [x]` in the relevant `COURSE.md` and committing. This is the only required action. Everything else — timestamps, history, reporting — is derived from this single source of truth.
+Progress state lives in `progress/<course-slug>/journal.md` — a learner-owned file created and maintained by the AI tutor. It is the single source of truth for completion state.
 
-**The rule:** only check an assignment when you can explain what you built and why the key design decisions were made. This is not enforced by the system — it is a learner contract enforced by personal integrity and the AI tutor's Reasoning Visibility checks.
+**The separation:**
+
+| File | Owner | Contains |
+|------|-------|----------|
+| `courses/*/COURSE.md` | Course author | Curriculum topics, reasoning prompts |
+| `progress/*/journal.md` | Learner | Completion checkboxes, narrative, mistakes |
+
+This separation guarantees zero merge conflicts: course authors update `COURSE.md`, learners accumulate progress in `journal.md`. The two files never conflict.
+
+**The rule:** only mark an assignment complete after the AI tutor has asked and received satisfactory answers to the Reasoning Review Prompts for that assignment. This is enforced by the tutor contract, not by the system — it is a learner contract underpinned by the AI's verification role.
 
 ### 4.2 Git Log as Timeline
 
-Because progress is committed to git, `git log` provides a complete, tamper-evident timeline:
+Because the journal is committed to git, `git log` provides a complete, tamper-evident timeline:
 
 ```bash
 # When was Assignment 1 completed?
-git log -p --follow courses/curated/learning-go/COURSE.md \
+git log -p --follow progress/learning-go/journal.md \
   | grep -B5 '\+- \[x\] \*\*Assignment 1'
 ```
 
@@ -355,16 +365,94 @@ This extracts the exact commit timestamp when the checkbox was ticked. The scrip
 
 ### 4.3 Report Storage
 
-Generated reports are committed to the `/progress` directory:
+Generated reports are committed alongside the journal in the course's progress subdirectory:
 
 ```
 progress/
-  learning-go-report-20260207.md
-  learning-go-report-20260211.md
-  bootcamp-se-fundamentals-report-20260214.md
+  learning-go/
+    journal.md
+    report-20260207.md
+    report-20260211.md
+  another-course/
+    journal.md
+    report-20260214.md
 ```
 
-Reports are never overwritten — each generation creates a new timestamped file. The report history is therefore also version-controlled. An L&D coordinator can ask for "the report from last week" and get it from git history.
+Reports are never overwritten — each generation creates a new timestamped file. An L&D coordinator can ask for "the report from last week" and get it from git history.
+
+### 4.4 The Learning Journal
+
+**Location:** `progress/<course-slug>/journal.md`
+
+**Created by:** AI tutor from `meta/JOURNAL-TEMPLATE.md` when the learner starts a course.
+
+**Updated by:** AI tutor as Scribe during every learning session.
+
+**Purpose:** Not a log, not a diary — a **narrative of productive struggle** that preserves:
+
+- Assignment completion state (the Progress Tracker section)
+- What was attempted per assignment
+- Mistakes made and why they happened (the broken mental model)
+- Corrected understanding after the fix
+- Aha moments when concepts clicked
+
+The journal is the real learning artifact. It is private to the learner's fork and is never upstreamed.
+
+**Example journal structure:**
+
+````markdown
+# Course Title — Personal Journal
+
+**Started:** YYYY-MM-DD
+**Learner:** Name
+
+## Progress Tracker
+
+- [x] **Assignment 1: Title** — completed YYYY-MM-DD
+- [x] **Assignment 2: Title** — completed YYYY-MM-DD
+- [ ] **Assignment 3: Title**
+
+---
+
+## Milestone 1: Assignment Title
+
+**Goal:** What this assignment covers
+
+**Date:** Start to End
+
+### What I Attempted
+
+Initial approach and reasoning...
+
+### Mistakes and Corrections
+
+**Error 1: Description**
+
+```lang
+// Before (incorrect)
+code
+```
+
+**Why it was wrong:** Explanation of the broken mental model
+
+```lang
+// After (corrected)
+code
+```
+
+**The concept:** Understanding gained from fixing this
+
+### What Clicked
+
+Aha moments — conceptual shifts, unexpected connections, things that
+suddenly made sense after struggling with them.
+
+---
+
+## Assignment 1: Title — ✅ Completed YYYY-MM-DD
+
+**Key takeaway:** The most important lesson from this assignment
+````
 
 ---
 
@@ -374,7 +462,7 @@ All scripts live in `/scripts` and are Node.js. They are invoked either by the A
 
 ### 5.1 `collect-progress.js`
 
-Walks the courses directory, parses all `COURSE.md` files, extracts progress state including git timestamps, and outputs structured JSON.
+Walks the `progress/` directory, parses all `journal.md` files, extracts completion state including git timestamps, and outputs structured JSON.
 
 ```javascript
 #!/usr/bin/env node
@@ -383,45 +471,36 @@ Walks the courses directory, parses all `COURSE.md` files, extracts progress sta
 
 const fs = require('fs');
 const path = require('path');
-const { parseCourse } = require('./utils/parse-course');
+const { parseJournal } = require('./utils/parse-journal');
 const { getCompletionTimestamp } = require('./utils/git-utils');
 
-const COURSES_DIR = path.join(__dirname, '..', 'courses');
+const PROGRESS_DIR = path.join(__dirname, '..', 'progress');
 
 async function collectProgress(courseSlug = null) {
   const results = [];
 
-  // Walk curated and custom course directories
-  const courseDirs = ['curated', 'custom'];
+  if (!fs.existsSync(PROGRESS_DIR)) return results;
 
-  for (const dir of courseDirs) {
-    const dirPath = path.join(COURSES_DIR, dir);
-    if (!fs.existsSync(dirPath)) continue;
+  const courseDirs = fs
+    .readdirSync(PROGRESS_DIR, { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => d.name)
+    .filter((name) => !courseSlug || name === courseSlug);
 
-    const courses = fs
-      .readdirSync(dirPath, { withFileTypes: true })
-      .filter((d) => d.isDirectory())
-      .map((d) => d.name);
+  for (const courseName of courseDirs) {
+    const journalPath = path.join(PROGRESS_DIR, courseName, 'journal.md');
+    if (!fs.existsSync(journalPath)) continue;
 
-    for (const courseName of courses) {
-      if (courseSlug && courseName !== courseSlug) continue;
+    const journalData = parseJournal(journalPath);
 
-      const courseMdPath = path.join(dirPath, courseName, 'COURSE.md');
-      if (!fs.existsSync(courseMdPath)) continue;
-
-      const courseData = parseCourse(courseMdPath);
-
-      // Enrich with git timestamps
-      for (const module of courseData.modules) {
-        for (const assignment of module.assignments) {
-          if (assignment.completed) {
-            assignment.completedDate = await getCompletionTimestamp(courseMdPath, assignment.title);
-          }
-        }
+    // Enrich with git timestamps
+    for (const assignment of journalData.assignments) {
+      if (assignment.completed) {
+        assignment.completedDate = await getCompletionTimestamp(journalPath, assignment.title);
       }
-
-      results.push(courseData);
     }
+
+    results.push(journalData);
   }
 
   return results;
@@ -442,13 +521,10 @@ collectProgress(courseArg).then((data) => {
       console.log(
         `   Progress: ${course.completionPercent}% ` + `(${course.completedAssignments}/${course.totalAssignments})`,
       );
-      course.modules.forEach((mod) => {
-        console.log(`\n   ${mod.name}`);
-        mod.assignments.forEach((a) => {
-          const tick = a.completed ? '✅' : '⬜';
-          const date = a.completedDate ? ` — completed ${a.completedDate}` : '';
-          console.log(`     ${tick} ${a.title}${date}`);
-        });
+      course.assignments.forEach((a) => {
+        const tick = a.completed ? '✅' : '⬜';
+        const date = a.completedDate ? ` — completed ${a.completedDate}` : '';
+        console.log(`   ${tick} ${a.title}${date}`);
       });
     });
   }
@@ -459,12 +535,12 @@ module.exports = { collectProgress };
 
 ### 5.2 `generate-report.js`
 
-Calls `collect-progress.js`, then generates a formatted markdown report and commits it to `/progress`.
+Calls `collect-progress.js` for completion state, loads `COURSE.md` for module structure, generates a formatted markdown report, and commits it to `progress/<slug>/`.
 
 ```javascript
 #!/usr/bin/env node
 // scripts/generate-report.js
-// Usage: node scripts/generate-report.js [--course <slug>] [--learner <name>]
+// Usage: node scripts/generate-report.js --course <slug> [--learner <name>]
 //   AI agents: invoke this when a module is completed or learner requests a report.
 
 const fs = require('fs');
@@ -472,8 +548,6 @@ const path = require('path');
 const { execSync } = require('child_process');
 const { collectProgress } = require('./collect-progress');
 const { parseCourse } = require('./utils/parse-course');
-
-const PROGRESS_DIR = path.join(__dirname, '..', 'progress');
 
 function formatDate(date = new Date()) {
   return date.toISOString().slice(0, 10).replace(/-/g, '');
@@ -484,43 +558,54 @@ function formatDateTime(date = new Date()) {
 }
 
 async function generateReport({ courseSlug, learnerName, periodDays = 7 }) {
+  // Completion state from journal
   const allProgress = await collectProgress(courseSlug);
 
   if (allProgress.length === 0) {
-    console.error(`No course found with slug: ${courseSlug}`);
+    console.error(`No progress journal found for course: ${courseSlug}`);
     process.exit(1);
   }
 
-  const course = allProgress[0];
+  const journalData = allProgress[0];
   const now = new Date();
   const periodStart = new Date(now - periodDays * 24 * 60 * 60 * 1000);
 
+  // Course structure from COURSE.md (for module breakdown in report)
+  const courseMdPath = findCourseMd(courseSlug);
+  const courseStructure = courseMdPath ? parseCourse(courseMdPath) : null;
+
   // Identify what was completed in the reporting period
-  const completedThisPeriod = [];
-  for (const module of course.modules) {
-    for (const assignment of module.assignments) {
-      if (assignment.completed && assignment.completedDate) {
-        const completedAt = new Date(assignment.completedDate);
-        if (completedAt >= periodStart) {
-          completedThisPeriod.push({
-            module: module.name,
-            ...assignment,
-          });
-        }
-      }
-    }
-  }
+  const completedThisPeriod = journalData.assignments.filter((a) => {
+    if (!a.completed || !a.completedDate) return false;
+    return new Date(a.completedDate) >= periodStart;
+  });
 
   // Load reasoning review prompts from COURSE.md
-  const courseMdPath = findCourseMd(courseSlug);
   const reasoningPrompts = extractReasoningPrompts(courseMdPath, completedThisPeriod);
+
+  // Build module breakdown by merging course structure + journal completion state
+  const progressMap = {};
+  for (const a of journalData.assignments) {
+    progressMap[a.title] = { completed: a.completed, completedDate: a.completedDate };
+  }
+
+  const moduleBreakdown = courseStructure?.modules.map((mod) => {
+    const modAssignments = mod.assignments.map((a) => ({
+      ...a,
+      ...(progressMap[a.title] || { completed: false, completedDate: null }),
+    }));
+    const modCompleted = modAssignments.filter((a) => a.completed).length;
+    const modTotal = modAssignments.length;
+    const pct = Math.round((modCompleted / modTotal) * 100);
+    return { name: mod.name, assignments: modAssignments, pct, modCompleted, modTotal };
+  }) || [];
 
   // Build report markdown
   const reportDate = formatDate(now);
   const reportContent =
     `# Upstack Progress Report
 **Learner:** ${learnerName || 'Not specified — add --learner "Your Name"'}
-**Course:** ${course.title}
+**Course:** ${journalData.title}
 **Report Date:** ${formatDateTime(now)}
 **Reporting Period:** Last ${periodDays} days
 
@@ -528,7 +613,7 @@ async function generateReport({ courseSlug, learnerName, periodDays = 7 }) {
 
 ## Summary
 
-${generateSummaryNarrative(course, completedThisPeriod, periodDays)}
+${generateSummaryNarrative(journalData, completedThisPeriod, periodDays)}
 
 ---
 
@@ -537,27 +622,29 @@ ${generateSummaryNarrative(course, completedThisPeriod, periodDays)}
 ${
   completedThisPeriod.length === 0
     ? '_No assignments completed in this period._'
-    : completedThisPeriod.map((a) => `- [x] **${a.title}** — ${a.module}\n` + `  Completed: ${a.completedDate}`).join('\n\n')
+    : completedThisPeriod
+        .map((a) => `- [x] **${a.title}**\n` + `  Completed: ${a.completedDate}`)
+        .join('\n\n')
 }
 
 ---
 
 ## Overall Course Progress
 
-**${course.completionPercent}% complete** ` +
-    `(${course.completedAssignments} of ${course.totalAssignments} assignments)
+**${journalData.completionPercent}% complete** ` +
+    `(${journalData.completedAssignments} of ${journalData.totalAssignments} assignments)
 
-${course.modules
-  .map((mod) => {
-    const modCompleted = mod.assignments.filter((a) => a.completed).length;
-    const modTotal = mod.assignments.length;
-    const pct = Math.round((modCompleted / modTotal) * 100);
-    return (
-      `**${mod.name}** — ${pct}% (${modCompleted}/${modTotal})\n` +
-      mod.assignments.map((a) => `  ${a.completed ? '- [x]' : '- [ ]'} ${a.title}`).join('\n')
-    );
-  })
-  .join('\n\n')}
+${
+  moduleBreakdown.length > 0
+    ? moduleBreakdown
+        .map(
+          (mod) =>
+            `**${mod.name}** — ${mod.pct}% (${mod.modCompleted}/${mod.modTotal})\n` +
+            mod.assignments.map((a) => `  ${a.completed ? '- [x]' : '- [ ]'} ${a.title}`).join('\n'),
+        )
+        .join('\n\n')
+    : journalData.assignments.map((a) => `  ${a.completed ? '- [x]' : '- [ ]'} ${a.title}`).join('\n')
+}
 
 ---
 
@@ -574,7 +661,7 @@ ${reasoningPrompts.length === 0 ? '_No new assignments to review this period._' 
 
 ## Recommended Next Steps
 
-${generateNextSteps(course)}
+${generateNextSteps(journalData)}
 
 ---
 
@@ -582,56 +669,51 @@ _Generated by Upstack on ${formatDateTime(now)}_
 _Repository: run \`git log progress/\` to see full report history_
 `;
 
-  // Write report to /progress directory
-  if (!fs.existsSync(PROGRESS_DIR)) {
-    fs.mkdirSync(PROGRESS_DIR, { recursive: true });
+  // Write report to progress/<courseSlug>/ directory
+  const progressDir = path.join(__dirname, '..', 'progress', courseSlug);
+  if (!fs.existsSync(progressDir)) {
+    fs.mkdirSync(progressDir, { recursive: true });
   }
 
-  const reportFilename = `${courseSlug}-report-${reportDate}.md`;
-  const reportPath = path.join(PROGRESS_DIR, reportFilename);
+  const reportFilename = `report-${reportDate}.md`;
+  const reportPath = path.join(progressDir, reportFilename);
   fs.writeFileSync(reportPath, reportContent);
 
   // Commit the report
   try {
-    execSync(`git add progress/${reportFilename}`, { cwd: path.join(__dirname, '..') });
+    execSync(`git add progress/${courseSlug}/${reportFilename}`, { cwd: path.join(__dirname, '..') });
     execSync(`git commit -m "progress: ${courseSlug} report ${reportDate}"`, { cwd: path.join(__dirname, '..') });
-    console.log(`✅ Report committed: progress/${reportFilename}`);
+    console.log(`✅ Report committed: progress/${courseSlug}/${reportFilename}`);
   } catch (e) {
-    console.log(`⚠️  Report written to progress/${reportFilename}`);
+    console.log(`⚠️  Report written to progress/${courseSlug}/${reportFilename}`);
     console.log('   (git commit failed — commit manually if needed)');
   }
 
   return { reportPath, reportFilename, reportContent };
 }
 
-function generateSummaryNarrative(course, completedThisPeriod, periodDays) {
+function generateSummaryNarrative(journalData, completedThisPeriod, periodDays) {
   if (completedThisPeriod.length === 0) {
     return (
       `No assignments were completed in the last ${periodDays} days. ` +
-      `Overall course progress is at ${course.completionPercent}%.`
+      `Overall course progress is at ${journalData.completionPercent}%.`
     );
   }
   const names = completedThisPeriod.map((a) => a.title).join(', ');
   return (
     `${completedThisPeriod.length} assignment(s) completed this period: ` +
-    `${names}. Overall course progress is now ${course.completionPercent}% ` +
-    `(${course.completedAssignments} of ${course.totalAssignments} assignments).`
+    `${names}. Overall course progress is now ${journalData.completionPercent}% ` +
+    `(${journalData.completedAssignments} of ${journalData.totalAssignments} assignments).`
   );
 }
 
-function generateNextSteps(course) {
-  const nextAssignments = [];
-  for (const module of course.modules) {
-    for (const assignment of module.assignments) {
-      if (!assignment.completed) {
-        nextAssignments.push(`- **${assignment.title}** (${module.name})`);
-        if (nextAssignments.length >= 2) break;
-      }
-    }
-    if (nextAssignments.length >= 2) break;
-  }
-  return nextAssignments.length > 0
-    ? nextAssignments.join('\n')
+function generateNextSteps(journalData) {
+  const next = journalData.assignments
+    .filter((a) => !a.completed)
+    .slice(0, 2)
+    .map((a) => `- **${a.title}**`);
+  return next.length > 0
+    ? next.join('\n')
     : '_All assignments complete. Consider contributing a new course!_';
 }
 
@@ -762,7 +844,7 @@ module.exports = { sendReport };
 
 ### 5.4 `generate-catalogue.js`
 
-Runs at `npm start` time, walks all course and bootcamp directories, and writes `web/src/data/catalogue.json`.
+Runs at `npm start` time, walks all course and bootcamp directories, and writes `web/src/data/catalogue.json`. For each course, reads `COURSE.md` for curriculum structure and enriches with completion data from the learner's journal if present.
 
 ```javascript
 #!/usr/bin/env node
@@ -772,10 +854,12 @@ Runs at `npm start` time, walks all course and bootcamp directories, and writes 
 const fs = require('fs');
 const path = require('path');
 const { parseCourse } = require('./utils/parse-course');
+const { parseJournal } = require('./utils/parse-journal');
 const { parseBootcamp } = require('./utils/parse-bootcamp');
 
 const COURSES_DIR = path.join(__dirname, '..', 'courses');
 const BOOTCAMPS_DIR = path.join(__dirname, '..', 'bootcamps');
+const PROGRESS_DIR = path.join(__dirname, '..', 'progress');
 const OUTPUT_PATH = path.join(__dirname, '..', 'web', 'src', 'data', 'catalogue.json');
 
 async function generateCatalogue() {
@@ -797,6 +881,38 @@ async function generateCatalogue() {
         const data = parseCourse(courseMd);
         data.type = type; // 'curated' or 'custom'
         data.path = path.join('courses', type, entry.name);
+
+        // Enrich with progress data from journal if present
+        const journalPath = path.join(PROGRESS_DIR, entry.name, 'journal.md');
+        if (fs.existsSync(journalPath)) {
+          const journalData = parseJournal(journalPath);
+
+          // Build progress map and merge completion state into module/assignment structure
+          const progressMap = {};
+          for (const a of journalData.assignments) {
+            progressMap[a.title] = { completed: a.completed, completedDate: a.completedDate };
+          }
+          for (const module of data.modules || []) {
+            for (const assignment of module.assignments || []) {
+              const p = progressMap[assignment.title] || { completed: false, completedDate: null };
+              assignment.completed = p.completed;
+              assignment.completedDate = p.completedDate;
+            }
+          }
+
+          data.completionPercent = journalData.completionPercent;
+          data.completedAssignments = journalData.completedAssignments;
+          data.totalAssignments = journalData.totalAssignments;
+          data.progress = {
+            started: journalData.started,
+            completed: journalData.completionPercent === 100,
+            'last-active': journalData.assignments
+              .filter((a) => a.completedDate)
+              .sort((a, b) => new Date(b.completedDate) - new Date(a.completedDate))[0]
+              ?.completedDate || null,
+          };
+        }
+
         courses.push(data);
         console.log(`  ✓ course: ${data.title}`);
       } catch (e) {
@@ -845,16 +961,112 @@ generateCatalogue().catch((e) => {
 });
 ```
 
+### 5.5 `parse-journal.js`
+
+New utility that parses `progress/<slug>/journal.md` and extracts completion state.
+
+```javascript
+// scripts/utils/parse-journal.js
+// Parses progress/<course-slug>/journal.md to extract completion state
+
+const fs = require('fs');
+const path = require('path');
+
+function parseJournal(journalPath) {
+  const content = fs.readFileSync(journalPath, 'utf8');
+
+  // Extract header fields
+  const titleMatch = content.match(/^#\s+(.+?)\s+—\s+Personal Journal/m);
+  const learnerMatch = content.match(/\*\*Learner:\*\*\s+(.+)/);
+  const startedMatch = content.match(/\*\*Started:\*\*\s+(.+)/);
+
+  // Derive slug from journal path: progress/<slug>/journal.md
+  const slug = path.basename(path.dirname(journalPath));
+
+  // Extract Progress Tracker section
+  const trackerMatch = content.match(/## Progress Tracker([\s\S]*?)(?=^---|\n## (?!Progress))/m);
+  const assignments = [];
+
+  if (trackerMatch) {
+    const pattern = /- \[([ x])\] \*\*([^*]+)\*\*/g;
+    let match;
+    while ((match = pattern.exec(trackerMatch[1])) !== null) {
+      const fullTitle = match[2].trim();
+      // Strip " — completed YYYY-MM-DD" suffix if present
+      const title = fullTitle.replace(/\s+—\s+completed\s+\S+$/, '').trim();
+      assignments.push({
+        completed: match[1] === 'x',
+        title,
+        completedDate: null, // enriched by collect-progress.js via git-utils
+      });
+    }
+  }
+
+  const totalAssignments = assignments.length;
+  const completedAssignments = assignments.filter((a) => a.completed).length;
+  const completionPercent =
+    totalAssignments > 0 ? Math.round((completedAssignments / totalAssignments) * 100) : 0;
+
+  return {
+    slug,
+    title: titleMatch ? titleMatch[1] : slug,
+    learner: learnerMatch ? learnerMatch[1].trim() : null,
+    started: startedMatch ? startedMatch[1].trim() : null,
+    assignments,
+    completionPercent,
+    totalAssignments,
+    completedAssignments,
+  };
+}
+
+module.exports = { parseJournal };
+```
+
 ---
 
 ## 6. AI Tool Integration
 
-### 6.1 The Reporting Protocol Section of TUTOR-CONTRACT.md
+### 6.1 The Progress Tracking Protocol Section of TUTOR-CONTRACT.md
 
-The base `TUTOR-CONTRACT.md` in `/meta` includes a reporting protocol section that instructs the AI how and when to use the progress scripts:
+The base `TUTOR-CONTRACT.md` in `/meta` includes a progress tracking protocol section that instructs the AI how to maintain the journal and when to use the progress scripts:
 
 ```markdown
-## Reporting Protocol
+## Progress Tracking Protocol
+
+### The Learning Journal
+
+Your primary responsibility as Scribe is maintaining `progress/<course-slug>/journal.md`.
+
+**On course start:**
+- Check if `progress/<course-slug>/journal.md` exists
+- If not: create it from `meta/JOURNAL-TEMPLATE.md`, populating the Progress
+  Tracker with the assignments listed in COURSE.md Course Structure section
+- Commit: `git add progress/<slug>/journal.md && git commit -m "progress: start <slug>"`
+
+**During each session — document as you go:**
+1. **What I Attempted** — what the learner tried and their reasoning
+2. **Mistakes and Corrections** — every error with:
+   - Incorrect code or approach
+   - Why it was wrong (the broken mental model)
+   - Corrected version
+   - Concept that explains the fix
+3. **What Clicked** — aha moments and conceptual shifts
+
+**CRITICAL:** Preserve mistakes. The journal is not polished output — it is
+the raw record of productive struggle. Documented errors teach more than
+clean examples.
+
+**On assignment completion:**
+1. Ask 2–3 Reasoning Review Prompts from COURSE.md for that assignment
+2. Require explanation in the learner's own words — not code, not recitation
+3. Push for edge cases and failure modes
+4. If understanding is shallow → guide further, do not mark complete
+5. Only when satisfied: change `- [ ]` to `- [x]` in Progress Tracker
+6. Add `— completed YYYY-MM-DD` to the checkbox line
+7. Add a completion summary below the milestone section
+8. Commit: `git add progress/<slug>/journal.md && git commit -m "progress: complete <assignment>"`
+
+Never mark based on working code alone.
 
 ### Tools Available
 
@@ -863,7 +1075,7 @@ Invoke them via your bash/terminal tool when the triggers below fire.
 
 | Script              | Purpose                           | Invocation                                                         |
 | ------------------- | --------------------------------- | ------------------------------------------------------------------ |
-| collect-progress.js | Read current progress state       | `node scripts/collect-progress.js --course <slug>`                 |
+| collect-progress.js | Read current completion state     | `node scripts/collect-progress.js --course <slug>`                 |
 | generate-report.js  | Generate + commit progress report | `node scripts/generate-report.js --course <slug> --learner "Name"` |
 | send-report.js      | Email report to coordinator       | `node scripts/send-report.js --report <path> --to <email>`         |
 
@@ -885,9 +1097,9 @@ Generate a progress report automatically when:
    progress report now."
 3. Ask: "Who should I send this to? Please provide email address(es)."
    (If learner says "just save it", skip sending)
-4. Run `generate-report.js` — this commits the report to /progress
+4. Run `generate-report.js` — this commits the report to progress/<slug>/
 5. If sending: run `send-report.js` with the provided addresses
-6. Confirm: "Report saved to progress/ and sent to [addresses]."
+6. Confirm: "Report saved to progress/<slug>/ and sent to [addresses]."
 
 ### Privacy Rules
 
@@ -909,12 +1121,16 @@ Load the full tutor contract before beginning any session:
 
 @meta/TUTOR-CONTRACT.md
 
-Also load the learner context for the active course:
+Load the active course definition (curriculum reference — do not edit):
 
 @courses/curated/learning-go/COURSE.md
 
+Load the learner's journal (create from template if it does not exist):
+
+@progress/learning-go/journal.md
+
 You have bash tool access. Use the scripts in /scripts as defined
-in the Reporting Protocol section of the tutor contract.
+in the Progress Tracking Protocol section of the tutor contract.
 ```
 
 ### 6.3 Cursor / VS Code Configuration
@@ -927,11 +1143,16 @@ You are an Upstack learning tutor for this repository.
 Your configuration is defined in meta/TUTOR-CONTRACT.md.
 Read it completely before your first response.
 
-The active course context is in courses/curated/learning-go/COURSE.md.
+The active course definition is in courses/curated/learning-go/COURSE.md.
 Read the Learner Context section to calibrate your guidance level.
+This file is the curriculum reference — learners do not edit it.
+
+The learner's journal is in progress/learning-go/journal.md.
+Create it from meta/JOURNAL-TEMPLATE.md if it does not exist.
+This is where you record progress, mistakes, and insights as Scribe.
 
 You have terminal access. Use /scripts for progress reporting
-as defined in the Reporting Protocol.
+as defined in the Progress Tracking Protocol.
 ```
 
 ---
@@ -1325,15 +1546,15 @@ export default function ReportViewer({ courseSlug }) {
     <section className="report-viewer">
       <h2>Progress Reports</h2>
       <p>
-        Reports are version-controlled markdown files in <code>/progress</code>. View them in your editor, or run:
+        Reports are version-controlled markdown files in <code>progress/{courseSlug}/</code>. View them in your editor, or run:
       </p>
-      <code className="code-block">ls progress/{courseSlug}-report-*.md</code>
+      <code className="code-block">ls progress/{courseSlug}/report-*.md</code>
       <p>To generate a new report:</p>
       <code className="code-block">npm run report -- --course {courseSlug} --learner "Your Name"</code>
       <p>To send the latest report:</p>
       <code className="code-block">
         node scripts/send-report.js \<br />
-        &nbsp;&nbsp;--report progress/{courseSlug}-report-YYYYMMDD.md \<br />
+        &nbsp;&nbsp;--report progress/{courseSlug}/report-YYYYMMDD.md \<br />
         &nbsp;&nbsp;--to coordinator@yourorg.com
       </code>
     </section>
@@ -1366,10 +1587,10 @@ Overall course progress is now 67% (2 of 3 assignments).
 
 ## Completed This Period
 
-- [x] **Assignment 1: HostManager** — Module 1: Core Language
+- [x] **Assignment 1: HostManager**
       Completed: 2026-02-07T14:23:00Z
 
-- [x] **Assignment 2: Feed Catcher** — Module 1: Core Language
+- [x] **Assignment 2: Feed Catcher**
       Completed: 2026-02-10T11:05:00Z
 
 ---
@@ -1380,12 +1601,12 @@ Overall course progress is now 67% (2 of 3 assignments).
 
 **Module 1: Core Language** — 100% (2/2)
 
-- [x] Assignment 1: HostManager
-- [x] Assignment 2: Feed Catcher
+  - [x] Assignment 1: HostManager
+  - [x] Assignment 2: Feed Catcher
 
 **Module 2: Resilience (Optional)** — 0% (0/1)
 
-- [ ] Assignment 3: Resilience Layer
+  - [ ] Assignment 3: Resilience Layer
 
 ---
 
@@ -1411,7 +1632,7 @@ Overall course progress is now 67% (2 of 3 assignments).
 
 ## Recommended Next Steps
 
-- **Assignment 3: Resilience Layer** (Module 2: Resilience)
+- **Assignment 3: Resilience Layer**
 
 ---
 
@@ -1522,13 +1743,21 @@ npm start
 #    Fill in the Learner Context section with YOUR background
 #    Open Claude Code / Cursor in this repository
 #    The tutor contract loads automatically (CLAUDE.md / .cursorrules)
+#    The AI creates progress/learning-go/journal.md on first session
 #    Begin Assignment 1
 
 # 6. Track progress
-#    When you complete an assignment, check it off in COURSE.md
-#    git add courses/curated/learning-go/COURSE.md
+#    The AI tutor maintains your journal as you learn
+#    When an assignment is complete and verified, the AI marks it in the journal
+#    git add progress/learning-go/journal.md
 #    git commit -m "progress: complete assignment 1 hostmanager"
 #    git push  ← your progress is now on your GitHub
+
+# 7. Pull upstream course updates at any time — zero merge conflicts
+#    git fetch upstream
+#    git merge upstream/main
+#    # COURSE.md merges cleanly (you never edited it)
+#    # progress/learning-go/journal.md is untouched
 ```
 
 ### 10.2 Organisational Setup
@@ -1551,7 +1780,7 @@ cp -r bootcamps/curated/template bootcamps/custom/se-fundamentals
 #    echo "COORDINATOR_EMAIL=manager@yourorg.com" > .env
 #    Reports are sent weekly by the AI tutor or manually via:
 node scripts/send-report.js \
-  --report progress/learning-go-report-YYYYMMDD.md \
+  --report progress/learning-go/report-YYYYMMDD.md \
   --to manager@yourorg.com
 ```
 
@@ -1561,7 +1790,7 @@ node scripts/send-report.js \
 
 The following sections of the original Concept Paper v1.0 are superseded by this specification:
 
-**Section 4.2 (Three Core Documents)** — expanded to include the progress tracking model and the COURSE.md schema as a fourth core artefact.
+**Section 4.2 (Three Core Documents)** — expanded to include the progress tracking model, the COURSE.md schema, and the learning journal as additional core artefacts.
 
 **Section 6 (Repository Structure)** — superseded by Section 2 of this spec. The directory tree is substantially expanded to include `/scripts`, `/web`, `/bootcamps`, and `/progress`.
 
@@ -1570,18 +1799,18 @@ The following sections of the original Concept Paper v1.0 are superseded by this
 **New additions not in original paper:**
 
 - Product component architecture (Section 1)
-- COURSE.md data model and parsing rules (Section 3)
-- Progress tracking via git log (Section 4)
+- COURSE.md curriculum definition and parsing rules (Section 3)
+- Journal-based progress tracking via git log (Section 4)
 - Progress scripts with full source (Section 5)
 - AI tool integration — Claude Code, Cursor, plain chat (Section 6)
 - React web application with component architecture (Section 7)
 - Report generation, format, and delivery (Section 8)
 - Bootcamp / learning path model (Section 9)
 
-The Concept Paper v1.0 remains valid as the theoretical and philosophical foundation. This specification is its technical complement.
+**v2.0 architectural change (Sections 3–6):** Decoupled course content from learner state. `COURSE.md` is now the immutable curriculum definition — topic-level checkboxes describe what each assignment covers, authored by course designers, never edited by learners. Assignment completion state moves to `progress/<slug>/journal.md`, eliminating git merge conflicts when learners pull upstream updates. The AI tutor takes on an explicit Scribe role: creating the journal on course start, documenting productive struggle during sessions, and enforcing a reasoning verification gate before marking any assignment complete.
 
 ---
 
-_Technical Specification v1.0 — 11 February 2026._
+_Technical Specification v2.0 — 12 February 2026._
 _Ishan De Silva._
 _Upstack — Knowledge is a commodity. This is how you build insight._
