@@ -153,6 +153,8 @@ upstack/
 
 **`core/` vs `custom/` separation.** Everything in `core/` is upstream-managed — learners do not modify these files. Everything in `custom/` is user-owned. This separation guarantees zero merge conflicts when pulling upstream course updates. The `profile/` and `progress/` directories are also user-owned but serve distinct purposes: profile captures who the learner is (static-ish), progress captures what they've done (changes every session).
 
+**Two-layer calibration model.** Upstack calibrates the AI tutor using two complementary layers. The **Learner Profile** (`profile/PROFILE.md`) is the learner's full anatomy — professional background, skills inventory, mental models, Dreyfus self-assessment, and learning preferences across all courses. The **Learner Context** (`progress/<slug>/learner-context.md`) is the body spec for one garment — which parts of the learner's anatomy are relevant to *this specific course*. The profile changes slowly as the learner grows (the anatomy grows — completing courses builds new skills and shifts Dreyfus levels upward); the context is created once per course. The tutor reads both: profile first (who you are), then context (how your background applies to this course). See `core/meta/PROFILE-TEMPLATE.md` and `core/meta/LEARNER-CONTEXT.md` for the measurement checklists.
+
 **Note on tool-specific skill discovery:** AI tools discover skills in tool-specific locations (e.g., `.claude/skills/` for Claude Code, `.gemini/skills/` for Gemini). The canonical location is `skills/` at the repo root. Use symlinks or tool configuration to map from the tool-specific path to the canonical location. For example: `ln -s ../../skills .claude/skills`. The SKILL.md format is the same regardless of discovery path.
 
 ---
@@ -1065,7 +1067,7 @@ metadata:
 4. Check if `progress/<slug>/learner-context.md` exists
 5. If not: interview the learner using `core/meta/LEARNER-CONTEXT.md` as the measurement checklist, write answers to `progress/<slug>/learner-context.md`
 6. Commit: `git add progress/<slug>/ && git commit -m "progress: start <slug>"`
-7. Read learner context and calibrate guidance level
+7. Calibrate: read `profile/PROFILE.md` (if it exists) for the learner's full background, then `progress/<slug>/learner-context.md` for course-specific context. Profile first (who you are), then context (how your background applies to this course). See `core/meta/PROFILE-TEMPLATE.md` §"How the Tutor Reads the Profile" for per-section guidance.
 8. Summarise: what assignments are ahead, where the learner left off (if resuming)
 
 #### 6.3.2 `complete-assignment`
@@ -1190,6 +1192,30 @@ metadata:
 5. Commit: `git add custom/courses/<slug> && git commit -m "course: scaffold <slug>"`
 
 **Contains:** `references/COURSE-SCHEMA.md` (the COURSE.md schema from Section 3)
+
+#### 6.3.7 `configure-profile`
+
+```yaml
+---
+name: configure-profile
+description: >
+  Create or update the global learner profile. Interviews the learner
+  using the measurement checklist in core/meta/PROFILE-TEMPLATE.md and
+  writes the structured result to profile/PROFILE.md. Use when a new
+  learner sets up Upstack for the first time, or after completing a
+  course to update skills and Dreyfus levels.
+metadata:
+  version: '1.0'
+---
+```
+
+**Instructions summary:**
+1. Read `core/meta/PROFILE-TEMPLATE.md` — the measurement checklist
+2. Check if `profile/PROFILE.md` exists
+3. If new profile: interview the learner through all 7 measurement fields (Name, Professional Background, Skills Inventory, Mental Models, Dreyfus Self-Assessment, Learning Preferences, Completed Courses). Use the Ask/Probe guidance in the template. Do not rush — the profile interview is the learner's first experience with Upstack's conversational calibration.
+4. If updating: read the existing profile, ask what has changed rather than starting from scratch. Natural update triggers: after completing a course (new skills, shifted Dreyfus levels), after a career change, when starting a course in a new domain.
+5. Write `profile/PROFILE.md` using the structured output format defined in the template — Skills Inventory uses Strong/Moderate/Weak groupings, Dreyfus Self-Assessment uses a table with exact Dreyfus labels, Completed Courses includes the Dreyfus shift notation (e.g., "Novice → Competent"). Follow the 6 recording rules in the template's Recording Guidance section.
+6. Commit: `git add profile/PROFILE.md && git commit -m "profile: configure learner profile"` (or `"profile: update learner profile"` for updates)
 
 ---
 
@@ -1827,7 +1853,7 @@ node skills/send-report/scripts/send-report.js \
 
 The following sections of the original Concept Paper v1.0 are superseded by this specification:
 
-**Section 4.2 (Three Core Documents)** — expanded to include the progress tracking model, the COURSE.md schema, and the learning journal as additional core artefacts.
+**Section 4.2 (Three Core Documents)** — expanded to include the progress tracking model, the COURSE.md schema, and the learning journal as additional core artefacts. A fourth document — the **Learner Profile** — was added during M1 implementation, establishing a two-layer calibration model: global profile (full anatomy) + per-course learner context (body spec for one garment). See Section 2 for the full model.
 
 **Section 6 (Repository Structure)** — superseded by Section 2 of this spec. The directory tree is substantially expanded to include `/scripts`, `/web`, `/bootcamps`, and `/progress`.
 
@@ -1839,6 +1865,7 @@ The following sections of the original Concept Paper v1.0 are superseded by this
 - COURSE.md curriculum definition and parsing rules (Section 3)
 - Journal-based progress tracking via git log (Section 4)
 - Progress scripts with full source (Section 5)
+- Two-layer calibration model — global Learner Profile + per-course Learner Context (Sections 2, 6)
 - AI tool integration — AGENTS.md, Agent Skills, plain chat (Section 6)
 - Web application with component architecture (Section 7)
 - Report generation, format, and delivery (Section 8)

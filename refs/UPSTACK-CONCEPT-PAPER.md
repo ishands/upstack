@@ -1,8 +1,8 @@
 # Upstack: A Meta-Framework for Human Learning in the Age of AI
 
-**Concept Paper v1.0**
+**Concept Paper v1.1**
 **Author:** Ishan De Silva
-**Date:** February 2026
+**Date:** 02 March 2026
 **Status:** Foundational — philosophical and theoretical foundation
 
 ---
@@ -21,7 +21,7 @@ The framework provides structured templates, principles, and protocols for two p
 
 Something fundamental has changed in how people learn. AI tools — large language models in particular — have broken the historic link between producing an output and understanding how to produce it. A junior engineer today can generate a working REST API, a clean sorting algorithm, a well-structured class design — without ever building the mental model of why it works. The output is indistinguishable from the output of someone who deeply understands the domain. The understanding is not there.
 
-This is genuinely new. Before AI, the friction of figuring things out *was* the mechanism of learning. Stack Overflow still required you to read, interpret, and adapt. Textbooks required you to struggle with examples. Senior colleagues required you to articulate your thinking before they would help. Every pathway to an answer involved some degree of effortful processing, and that effort was — without anyone necessarily designing it this way — the actual learning happening.
+This is genuinely new. Before AI, the friction of figuring things out _was_ the mechanism of learning. Stack Overflow still required you to read, interpret, and adapt. Textbooks required you to struggle with examples. Senior colleagues required you to articulate your thinking before they would help. Every pathway to an answer involved some degree of effortful processing, and that effort was — without anyone necessarily designing it this way — the actual learning happening.
 
 AI has removed that friction almost entirely. And in doing so, it has inadvertently removed the learning.
 
@@ -55,7 +55,7 @@ At the base is **Exposure**: you have encountered something. You can recognise i
 
 Above that is **Knowledge**: you can recall it. You know what it is, what it is called, and broadly how it works. You can reproduce patterns you have seen. Most traditional education and most AI-assisted learning stops here.
 
-Above that is **Understanding**: you know *why* it works. You have a genuine mental model — an internal representation that lets you predict behaviour, identify exceptions, and reason from first principles. This is where real competence lives.
+Above that is **Understanding**: you know _why_ it works. You have a genuine mental model — an internal representation that lets you predict behaviour, identify exceptions, and reason from first principles. This is where real competence lives.
 
 At the top is **Transfer**: you can apply your understanding in contexts you have never encountered before. Near transfer applies knowledge to situations structurally similar to where it was learned — AI handles this trivially, because near transfer is essentially pattern matching. Far transfer applies knowledge across superficially different domains, requiring genuine abstraction and analogical reasoning. This is where human value in the AI era is concentrated.
 
@@ -125,13 +125,15 @@ The **Organisational L&D User** is a manager, technical lead, or L&D professiona
 
 The framework's principles are identical for both personas. The templates, configurations, and success metrics differ.
 
-### 4.2 The Three Core Documents
+### 4.2 The Four Core Documents
 
-Every Upstack learning project — whether personal or organisational — is structured around three documents. These are not bureaucratic requirements. Each one serves a specific learning function that the research validates.
+Every Upstack learning project — whether personal or organisational — is structured around four documents. These are not bureaucratic requirements. Each one serves a specific learning function that the research validates.
 
 The **Tutor Contract** is the meta-prompt that configures the AI's behaviour. It defines the AI's roles — Guide, Scribe, Code Reviewer, Challenger — and critically, the constraints on each role. The most important constraint is the guide role: the AI should ask questions that lead toward the answer rather than providing the answer directly. It should challenge assumptions rather than confirm them. It should require the learner to attempt before it assists, and to explain before it corrects. This document is the operational heart of Upstack. It is what converts an oracle into a tutor.
 
 The **Learner Context** declares who the learner is and what they already know. This is not administrative — it is the bridge. Learning is associative: new knowledge hooks onto existing knowledge. Without an explicit declaration of prior knowledge, the AI cannot calibrate the difficulty, cannot use the right analogies, cannot know where to start the bridge from known to unknown. The quality of this document directly determines the quality of the tutoring. The Go project's audience declaration — "experienced engineers coming from C++, Java, Python; skip programming basics; focus on Go idioms and differences from system languages" — is the model.
+
+The **Learner Profile** where the Learner Context is per-course — what you bring to _this_ course — the Profile is global: who you are across all courses. The two form a layered calibration model: the profile captures the learner's full professional anatomy (background, skills, mental models, Dreyfus levels); the learner context captures which parts of that anatomy are relevant to one specific course. Critically, the anatomy grows: completing courses builds new skills, shifts Dreyfus levels upward, and adds new mental models. Each new course draws from a bigger, stronger body.
 
 The **Learning Log** is the living document that captures the journey. Its structure — Initial Question, Conceptual Shift, Comparison to Prior Knowledge, Practical Examples — is not arbitrary. It is a forced retrieval and articulation mechanism. The act of documenting the conceptual shift is the consolidation of learning. Writing "I thought interfaces worked like this, but in Go they are implicit and consumer-defined — here is the moment that clicked" is not documentation after the learning; it is the final step of the learning itself. The log also creates a teaching artefact: something that can be used to help the next person on the same journey.
 
@@ -177,7 +179,7 @@ Individual learning projects are self-contained within the repository, each cont
 
 The Go language learning project is not just an example — it is the proof of concept that preceded and inspired the framework. It was built by the author as a personal learning workspace for an experienced C++/Python developer learning Go idiomatically, and it contains the three Upstack documents in their earliest, most authentic form.
 
-The original tutor configuration — the document that became the Tutor Contract template — includes the most important single line in the entire framework: *"Do NOT offer the full answer with code snippets. Help the human learn, don't spoon feed."* This instruction, written before Upstack existed as a named framework, is the productive struggle principle operationalised as an AI configuration. It works because it explicitly fights AI's natural gravity toward maximum immediate helpfulness.
+The original tutor configuration — the document that became the Tutor Contract template — includes the most important single line in the entire framework: _"Do NOT offer the full answer with code snippets. Help the human learn, don't spoon feed."_ This instruction, written before Upstack existed as a named framework, is the productive struggle principle operationalised as an AI configuration. It works because it explicitly fights AI's natural gravity toward maximum immediate helpfulness.
 
 The learner context document demonstrates the power of precise audience declaration. By explicitly stating what is excluded ("programming basics") and what the bridge is ("experienced engineers from C++, Java, Python"), it enables the AI tutor to calibrate every explanation, every analogy, every challenge to exactly the right level. The Go-specific idioms and differences from system languages are the entire focus — the signal-to-noise ratio of the learning is extraordinarily high as a result.
 
@@ -223,6 +225,6 @@ Knowledge is a commodity. Upstack is how you build insight.
 
 ---
 
-*Concept Paper v1.0 — February 2026*
-*Ishan De Silva*
-*For questions, contributions, and organisational enquiries: see the project repository.*
+_Concept Paper v1.1_
+_Ishan De Silva_
+_For questions, contributions, and organisational enquiries: see the project repository._
