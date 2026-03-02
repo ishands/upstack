@@ -27,7 +27,7 @@ The skeleton that everything else depends on.
 - [x] `AGENTS.md` — root-level tutor configuration (ambient behaviour layer)
 - [x] `profile/` structure — learner identity, background, preferences (`core/meta/PROFILE-TEMPLATE.md` + `profile/PROFILE.md` output)
 - [x] `progress/` structure — one subdirectory per active course with journal + reports
-- [ ] `package.json` — root manifest with npm run scripts
+- [x] `package.json` — root manifest (scripts added as M2/M3 items are built)
 
 ---
 
