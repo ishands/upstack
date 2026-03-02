@@ -35,6 +35,8 @@ The skeleton that everything else depends on.
 
 The operational backbone. Build in dependency order.
 
+- [ ] `README.md` — quick start manifesto (what Upstack is, how to get started, disclaimer)
+- [ ] `docs/LEARNING-WITH-UPSTACK.md` — the full guide: tutor/scribe design, configure profile, pick your IDE, start a course, work through assignments, journal as proof of learning
 - [ ] Skill directory structure — at `.claude/skills/`, one subdirectory per skill, SKILL.md + optional scripts, references, assets, etc.
 - [ ] `configure-profile` — create/update learner profile (background, experience level, learning preferences). First skill because tutor calibration depends on it.
 - [ ] `create-course` — scaffold a new course from COURSE.md schema into `custom/courses/`. Needed for the Java engineer.
