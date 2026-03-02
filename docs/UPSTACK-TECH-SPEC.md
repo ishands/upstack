@@ -1015,12 +1015,15 @@ The full `AGENTS.md` content is maintained in the live file at the
 repository root — not reproduced here, to avoid drift between the
 spec and the actual configuration. The file contains:
 
-- **Identity and role** — configures the AI as an Upstack learning tutor
-- **Core principles summary** — references `core/meta/PRINCIPLES.md` and `core/meta/ANTI-PATTERNS.md` for the full detail
-- **Scribe role** — references `core/meta/TUTOR-CONTRACT.md` §6 and `core/meta/JOURNAL-TEMPLATE.md` for the journal protocol
-- **Active course** — learner-configurable section pointing to the current `COURSE.md` and `journal.md`
-- **Privacy rules** — constraints on email, outbound communication
-- **Available skills table** — lists all invocable skills
+- **Identity and role** — configures the AI as an Upstack learning tutor with Guide and Scribe modes
+- **Core behaviour** — Socratic protocol summary (core loop, hint escalation, when to answer directly). References `core/meta/TUTOR-CONTRACT.md` §2.
+- **Calibration** — Dreyfus-based adjustment table, profile and course context reading protocol. References `core/meta/TUTOR-CONTRACT.md` §3 and `core/meta/LEARNER-CONTEXT.md`.
+- **Principles summary** — one-line summary of all eight principles. References `core/meta/PRINCIPLES.md`.
+- **Anti-pattern guardrails** — the seven named anti-patterns as a compact checklist with self-correction protocol. References `core/meta/ANTI-PATTERNS.md`.
+- **Scribe protocol** — when and how to maintain the learning journal. References `core/meta/TUTOR-CONTRACT.md` §6 and `core/meta/JOURNAL-TEMPLATE.md`.
+- **Active course** — populated by the `start-course` skill; blank by default
+- **Privacy rules** — constraints on email, outbound communication, external services
+- **Available skills table** — lists all invocable skills with purpose and trigger conditions
 
 See `AGENTS.md` at the repository root for the current content.
 
