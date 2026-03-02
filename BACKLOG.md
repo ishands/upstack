@@ -25,7 +25,7 @@ The skeleton that everything else depends on.
 - [x] `core/meta/JOURNAL-TEMPLATE.md` — journal scaffold for new courses
 - [x] `core/meta/LEARNER-CONTEXT.md` — template for learner profile within a course
 - [x] `AGENTS.md` — root-level tutor configuration (ambient behaviour layer)
-- [ ] `profile/` structure — learner identity, background, preferences (design TBD during `configure-profile` skill)
+- [x] `profile/` structure — learner identity, background, preferences (`core/meta/PROFILE-TEMPLATE.md` + `profile/PROFILE.md` output)
 - [ ] `progress/` structure — one subdirectory per active course with journal + reports
 - [ ] `package.json` — root manifest with npm run scripts
 

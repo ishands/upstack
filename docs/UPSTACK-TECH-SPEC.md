@@ -83,7 +83,8 @@ upstack/
 │   │   ├── TUTOR-CONTRACT-ORG.md # Organisational variant
 │   │   ├── ANTI-PATTERNS.md     # What Upstack is not
 │   │   ├── JOURNAL-TEMPLATE.md  # Learning journal template
-│   │   └── LEARNER-CONTEXT.md   # Learner profile template for courses
+│   │   ├── LEARNER-CONTEXT.md   # Per-course learner calibration template
+│   │   └── PROFILE-TEMPLATE.md  # Global learner profile template
 │   │
 │   ├── courses/                 # Community-contributed, reviewed courses
 │   │   └── learning-go/         # Featured use case (fully annotated)
@@ -138,7 +139,7 @@ upstack/
 │       └── git-utils.js         # Git log timestamp extraction
 │
 ├── profile/                     # Learner identity — who you are
-│   └── .gitkeep
+│   └── PROFILE.md               # Created by configure-profile skill
 │
 ├── progress/                    # Learner-owned — never upstreamed
 │   └── learning-go/             # One directory per active course
