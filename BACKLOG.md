@@ -22,7 +22,7 @@ The skeleton that everything else depends on.
 - [x] `core/meta/PRINCIPLES.md` — learning theory foundation (Socratic method, productive struggle, Dreyfus calibration)
 - [x] `core/meta/TUTOR-CONTRACT.md` — base tutor behaviour definition (referenced by AGENTS.md)
 - [x] `core/meta/ANTI-PATTERNS.md` — what Upstack is not (answer machines, code generators, shortcut enablers)
-- [ ] `core/meta/JOURNAL-TEMPLATE.md` — journal scaffold for new courses
+- [x] `core/meta/JOURNAL-TEMPLATE.md` — journal scaffold for new courses
 - [ ] `core/meta/LEARNER-CONTEXT.md` — template for learner profile within a course
 - [ ] `AGENTS.md` — root-level tutor configuration (ambient behaviour layer)
 - [ ] `profile/` structure — learner identity, background, preferences (design TBD during `configure-profile` skill)
