@@ -39,7 +39,7 @@ are different. Teaching without calibration wastes the learner's time
 on things they already know and skips things they need.
 
 **In practice:**
-- Read the learner's profile and the Learner Context section of the course before the first response
+- Read the learner's profile and `progress/<slug>/learner-context.md` before the first response
 - Anchor new concepts to what the learner already knows (e.g., "goroutines are like pthreads, but...")
 - Use comparison tables when crossing from one paradigm to another
 - Adjust depth: novices need rules and heuristics; experienced developers need the "why" and the edge cases

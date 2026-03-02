@@ -142,6 +142,7 @@ upstack/
 │
 ├── progress/                    # Learner-owned — never upstreamed
 │   └── learning-go/             # One directory per active course
+│       ├── learner-context.md   # This learner's calibration for this course
 │       ├── journal.md           # Living learning journal (source of truth)
 │       └── report-20260207.md   # Generated progress reports
 │
@@ -186,7 +187,11 @@ tags:
   - tag1
   - tag2
 
-# Target audience
+# Target audience — the "garment spec"
+# These fields define who this course is designed for.
+# The individual learner's background goes in ## Learner Context below,
+# not here. See core/meta/LEARNER-CONTEXT.md for the distinction.
+level: 'competent'           # Dreyfus level: novice | beginner | competent | proficient | expert
 target-audience: >
   Describe the target learner. Be specific about required background,
   experience level, and what prior knowledge is assumed.
@@ -226,15 +231,6 @@ learner have at the end that they did not have at the start?
 - Objective 1
 - Objective 2
 - Objective 3
-
-## Learner Context
-
-> This section is read by your AI tutor at the start of each session.
-> Be specific. The quality of your tutor calibration depends on this.
-
-Describe your professional background, what you already know, what mental
-models you are bringing in, and how you want to be taught. The more
-specific you are, the better the tutor calibration.
 
 ## Course Structure
 
@@ -396,71 +392,9 @@ Reports are never overwritten — each generation creates a new timestamped file
 
 **Updated by:** AI tutor as Scribe during every learning session.
 
-**Purpose:** Not a log, not a diary — a **narrative of productive struggle** that preserves:
+**Purpose:** Not a log, not a diary — a **narrative of productive struggle.** The journal is the real learning artifact. It is private to the learner's fork and is never upstreamed.
 
-- Assignment completion state (the Progress Tracker section)
-- What was attempted per assignment
-- Mistakes made and why they happened (the broken mental model)
-- Corrected understanding after the fix
-- Aha moments when concepts clicked
-
-The journal is the real learning artifact. It is private to the learner's fork and is never upstreamed.
-
-**Example journal structure:**
-
-````markdown
-# Course Title — Personal Journal
-
-**Started:** YYYY-MM-DD
-**Learner:** Name
-
-## Progress Tracker
-
-- [x] **Assignment 1: Title** — completed YYYY-MM-DD
-- [x] **Assignment 2: Title** — completed YYYY-MM-DD
-- [ ] **Assignment 3: Title**
-
----
-
-## Milestone 1: Assignment Title
-
-**Goal:** What this assignment covers
-
-**Date:** Start to End
-
-### What I Attempted
-
-Initial approach and reasoning...
-
-### Mistakes and Corrections
-
-**Error 1: Description**
-
-```lang
-// Before (incorrect)
-code
-```
-
-**Why it was wrong:** Explanation of the broken mental model
-
-```lang
-// After (corrected)
-code
-```
-
-**The concept:** Understanding gained from fixing this
-
-### What Clicked
-
-Aha moments — conceptual shifts, unexpected connections, things that
-suddenly made sense after struggling with them.
-
----
-
-## Assignment 1: Title — ✅ Completed YYYY-MM-DD
-
-**Key takeaway:** The most important lesson from this assignment
-````
+For the full journal structure (header format, per-assignment sections, error documentation format, scribe instructions), see `core/meta/JOURNAL-TEMPLATE.md`. For the scribe protocol that governs how the tutor maintains the journal, see `core/meta/TUTOR-CONTRACT.md` §6.
 
 ---
 
@@ -1077,77 +1011,18 @@ The base `core/meta/TUTOR-CONTRACT.md` file is retained as the detailed referenc
 
 The `AGENTS.md` file at the repository root is the LLM-agnostic agent configuration. It is read automatically by tools that support the AGENTS.md standard (Claude Code, Codex, Cursor, Gemini, and others). For tools that do not yet read AGENTS.md natively, use a symlink: `ln -s AGENTS.md CLAUDE.md` or `ln -s AGENTS.md .cursorrules`.
 
-```markdown
-# Upstack — AI Tutor Configuration
+The full `AGENTS.md` content is maintained in the live file at the
+repository root — not reproduced here, to avoid drift between the
+spec and the actual configuration. The file contains:
 
-You are an Upstack learning tutor. Your role is to guide learners through
-structured courses by teaching through productive struggle — not by
-providing answers.
+- **Identity and role** — configures the AI as an Upstack learning tutor
+- **Core principles summary** — references `core/meta/PRINCIPLES.md` and `core/meta/ANTI-PATTERNS.md` for the full detail
+- **Scribe role** — references `core/meta/TUTOR-CONTRACT.md` §6 and `core/meta/JOURNAL-TEMPLATE.md` for the journal protocol
+- **Active course** — learner-configurable section pointing to the current `COURSE.md` and `journal.md`
+- **Privacy rules** — constraints on email, outbound communication
+- **Available skills table** — lists all invocable skills
 
-## Core Principles
-
-Read `core/meta/PRINCIPLES.md` for the full learning theory foundation.
-Read `core/meta/ANTI-PATTERNS.md` for what Upstack is explicitly not.
-
-The short version:
-
-- **Guide, never answer.** Ask questions that lead the learner to discover
-  the answer themselves. If they are stuck, narrow the problem space —
-  do not solve it for them.
-- **Calibrate to the learner.** Read the Learner Context section of the
-  active COURSE.md before your first response. Adjust your language,
-  analogies, and depth to match their declared background and level.
-- **Preserve mistakes.** When the learner makes an error, do not silently
-  correct it. Make them see it, understand why their mental model was
-  wrong, and arrive at the correction themselves. The mistake is the
-  learning artifact.
-
-## The Scribe Role
-
-During every session, you are also the Scribe — maintaining the learner's
-journal at `progress/<course-slug>/journal.md`. Document as you go:
-
-1. **What I Attempted** — what the learner tried and their reasoning
-2. **Mistakes and Corrections** — every error with:
-   - Incorrect code or approach
-   - Why it was wrong (the broken mental model)
-   - Corrected version
-   - The concept that explains the fix
-3. **What Clicked** — aha moments and conceptual shifts
-
-**CRITICAL:** The journal is not polished output — it is the raw record
-of productive struggle. Documented errors teach more than clean examples.
-
-## Active Course
-
-Load the active course definition (curriculum reference — do not edit):
-Read `core/courses/learning-go/COURSE.md`
-
-Load the learner's journal (create from template if it does not exist):
-Read `progress/learning-go/journal.md`
-
-## Privacy Rules
-
-- Never store email addresses anywhere
-- Always ask for recipient addresses at send time
-- Never send without explicit learner confirmation
-- The learner controls all outbound communication
-
-## Available Skills
-
-The following skills are available for discrete actions. In tools that
-support skill invocation (e.g., `/skill-name`), use them directly.
-In plain chat, follow the instructions in the skill's SKILL.md file.
-
-| Skill | Purpose |
-|-------|---------|
-| `start-course` | Initialise a course — create journal, load context, calibrate |
-| `complete-assignment` | Run reasoning review gate, mark assignment complete, commit |
-| `check-progress` | Display current completion state |
-| `generate-report` | Generate and commit a progress report |
-| `send-report` | Email a report to coordinator(s) |
-| `create-course` | Scaffold a new course from the schema |
-```
+See `AGENTS.md` at the repository root for the current content.
 
 ### 6.3 Skill Catalogue
 
@@ -1180,12 +1055,14 @@ metadata:
 ```
 
 **Instructions summary:**
-1. Read the active `COURSE.md` — extract the Course Structure and Learner Context sections
+1. Read the active `COURSE.md` — extract the Course Structure section
 2. Check if `progress/<slug>/journal.md` exists
-3. If not: create it from `core/meta/JOURNAL-TEMPLATE.md`, populating the Progress Tracker with assignments from COURSE.md
-4. Commit: `git add progress/<slug>/journal.md && git commit -m "progress: start <slug>"`
-5. Read the Learner Context section and calibrate guidance level
-6. Summarise: what assignments are ahead, where the learner left off (if resuming)
+3. If not: create journal from `core/meta/JOURNAL-TEMPLATE.md`, populating the Progress Tracker with assignments from COURSE.md
+4. Check if `progress/<slug>/learner-context.md` exists
+5. If not: interview the learner using `core/meta/LEARNER-CONTEXT.md` as the measurement checklist, write answers to `progress/<slug>/learner-context.md`
+6. Commit: `git add progress/<slug>/ && git commit -m "progress: start <slug>"`
+7. Read learner context and calibrate guidance level
+8. Summarise: what assignments are ahead, where the learner left off (if resuming)
 
 #### 6.3.2 `complete-assignment`
 
@@ -1206,15 +1083,12 @@ metadata:
 **Instructions summary:**
 1. Identify which assignment the learner is completing
 2. Load the Reasoning Review Prompts for that assignment from COURSE.md
-3. Ask 2–3 prompts — require explanation in the learner's own words, not code or recitation
-4. Push for edge cases and failure modes
-5. If understanding is shallow: guide further, do not mark complete
-6. Only when satisfied:
+3. Follow the reasoning review protocol in `core/meta/TUTOR-CONTRACT.md` §7
+4. Only when understanding is verified:
    - Change `- [ ]` to `- [x]` in the Progress Tracker section of the journal
    - Add `— completed YYYY-MM-DD` to the checkbox line
    - Add a completion summary below the milestone section
    - Commit: `git add progress/<slug>/journal.md && git commit -m "progress: complete <assignment>"`
-7. Never mark based on working code alone
 
 #### 6.3.3 `check-progress`
 
@@ -1596,7 +1470,7 @@ export default function CourseDetail({ catalogue }) {
                 <code>cat core/meta/TUTOR-CONTRACT.md</code>
               </li>
               <li>Start your AI session, paste the contract first</li>
-              <li>Paste your learner context from COURSE.md</li>
+              <li>The tutor will interview you for your learner context on first session</li>
               <li>Begin Assignment 1</li>
             </ol>
           </div>
@@ -1895,7 +1769,7 @@ npm install
 
 # 4. Start the featured Go course
 #    Open core/courses/learning-go/COURSE.md
-#    Fill in the Learner Context section with YOUR background
+#    The tutor will interview you for your learner context on first session
 #    Open your AI tool (Claude Code, Cursor, Codex, etc.) in this repository
 #    The tutor configuration loads automatically via AGENTS.md
 #    Use /start-course to initialise your journal (or the AI creates it on first session)

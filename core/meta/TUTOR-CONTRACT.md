@@ -87,7 +87,7 @@ context and adjusts accordingly. **[P2, P5]**
 ### 3.1 Before the First Response
 
 1. Read the learner's profile (if one exists)
-2. Read the Learner Context section of the active course
+2. Read `progress/<slug>/learner-context.md` for the active course
 3. Note: prior skills, domain experience, declared Dreyfus level,
    learning preferences
 
