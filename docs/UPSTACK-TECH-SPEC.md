@@ -67,24 +67,44 @@ upstack/
 ├── README.md                    # Manifesto and quick start
 ├── CONTRIBUTING.md              # How to add courses and contribute
 ├── AGENTS.md                    # LLM-agnostic tutor configuration (open standard)
+├── BACKLOG.md                   # Product backlog (milestones + tasks)
 ├── package.json                 # Root — dependencies + npm run scripts
 │
-├── refs/                        # Reference material
-│   ├── UPSTACK-CONCEPT-PAPER.md # Full theoretical foundation
+├── docs/                        # Living design documents
 │   └── UPSTACK-TECH-SPEC.md     # Technical specification (this file)
 │
-├── meta/                        # Framework core — do not modify
-│   ├── PRINCIPLES.md            # Learning theory foundation
-│   ├── TUTOR-CONTRACT.md        # Base tutor behaviour (referenced by AGENTS.md)
-│   ├── TUTOR-CONTRACT-ORG.md    # Organisational variant
-│   ├── LEARNER-CONTEXT.md       # Personal learner profile template
-│   ├── ORG-PROFILE.md           # Org L&D configuration template
-│   ├── LEARNING-LOG.md          # Living learning document template
-│   ├── JOURNAL-TEMPLATE.md      # Learning journal template
-│   └── ANTI-PATTERNS.md         # What Upstack is not
+├── refs/                        # Stable reference material
+│   └── UPSTACK-CONCEPT-PAPER.md # Full theoretical foundation
 │
-├── meta-custom/                 # Your overrides — modify freely
-│   └── .gitkeep                 # Empty by default; add overrides here
+├── core/                        # Upstream-managed — do not modify
+│   ├── meta/                    # Framework core
+│   │   ├── PRINCIPLES.md        # Learning theory foundation
+│   │   ├── TUTOR-CONTRACT.md    # Base tutor behaviour (referenced by AGENTS.md)
+│   │   ├── TUTOR-CONTRACT-ORG.md # Organisational variant
+│   │   ├── ANTI-PATTERNS.md     # What Upstack is not
+│   │   ├── JOURNAL-TEMPLATE.md  # Learning journal template
+│   │   └── LEARNER-CONTEXT.md   # Learner profile template for courses
+│   │
+│   ├── courses/                 # Community-contributed, reviewed courses
+│   │   └── learning-go/         # Featured use case (fully annotated)
+│   │       ├── COURSE.md        # Course definition with YAML frontmatter
+│   │       ├── docs/
+│   │       │   ├── PRIMER.md
+│   │       │   ├── TUTORIAL.md
+│   │       │   └── UPSTACK-NOTES.md
+│   │       └── assignments/
+│   │           ├── 01-hostmanager/
+│   │           └── 02-feedcatcher/
+│   │
+│   └── learning-paths/          # Sequenced course bundles
+│       └── engineering-bootcamp/
+│           └── LEARNING-PATH.md
+│
+├── custom/                      # User-owned — modify freely
+│   ├── courses/                 # Your personal courses — not upstreamed
+│   │   └── .gitkeep
+│   └── learning-paths/          # Your personal learning paths
+│       └── .gitkeep
 │
 ├── skills/                      # Agent Skills (agentskills.io format)
 │   ├── start-course/
@@ -103,6 +123,8 @@ upstack/
 │   │   ├── SKILL.md             # Email report to coordinator(s)
 │   │   └── scripts/
 │   │       └── send-report.js
+│   ├── configure-profile/
+│   │   └── SKILL.md             # Create/update learner profile
 │   └── create-course/
 │       ├── SKILL.md             # Scaffold new course from schema
 │       └── references/
@@ -112,36 +134,22 @@ upstack/
 │   └── utils/
 │       ├── parse-course.js      # COURSE.md parser (curriculum structure)
 │       ├── parse-journal.js     # Journal parser (progress state)
-│       ├── parse-bootcamp.js    # BOOTCAMP.md parser
+│       ├── parse-learning-path.js # LEARNING-PATH.md parser
 │       └── git-utils.js         # Git log timestamp extraction
 │
-├── courses/
-│   ├── curated/                 # Community-contributed, reviewed courses
-│   │   └── learning-go/         # Featured use case (fully annotated)
-│   │       ├── COURSE.md        # Course definition with YAML frontmatter
-│   │       ├── docs/
-│   │       │   ├── PRIMER.md
-│   │       │   ├── TUTORIAL.md
-│   │       │   └── UPSTACK-NOTES.md
-│   │       └── assignments/
-│   │           ├── 01-hostmanager/
-│   │           └── 02-feedcatcher/
-│   │
-│   └── custom/                  # Your personal courses — not upstreamed
-│       └── .gitkeep
-│
-├── bootcamps/
-│   ├── curated/                 # Community bootcamp definitions
-│   └── custom/                  # Your org-specific bootcamps
+├── profile/                     # Learner identity — who you are
+│   └── .gitkeep
 │
 ├── progress/                    # Learner-owned — never upstreamed
 │   └── learning-go/             # One directory per active course
 │       ├── journal.md           # Living learning journal (source of truth)
 │       └── report-20260207.md   # Generated progress reports
 │
-└── site/                        # Static site (replacing embedded React app)
-    └── ...                      # Structure TBD — see future revision
+└── site/                        # Static site (GitHub Pages)
+    └── ...                      # Structure TBD — see M6
 ```
+
+**`core/` vs `custom/` separation.** Everything in `core/` is upstream-managed — learners do not modify these files. Everything in `custom/` is user-owned. This separation guarantees zero merge conflicts when pulling upstream course updates. The `profile/` and `progress/` directories are also user-owned but serve distinct purposes: profile captures who the learner is (static-ish), progress captures what they've done (changes every session).
 
 **Note on tool-specific skill discovery:** AI tools discover skills in tool-specific locations (e.g., `.claude/skills/` for Claude Code, `.gemini/skills/` for Gemini). The canonical location is `skills/` at the repo root. Use symlinks or tool configuration to map from the tool-specific path to the canonical location. For example: `ln -s ../../skills .claude/skills`. The SKILL.md format is the same regardless of discovery path.
 
@@ -194,7 +202,7 @@ ai-tools: # Tested with these tools
   - 'cursor'
   - 'claude-web'
 tutor-contract:
-  'meta/TUTOR-CONTRACT.md' # relative to repo root
+  'core/meta/TUTOR-CONTRACT.md' # relative to repo root
   # override with custom path
 
 # Display
@@ -384,7 +392,7 @@ Reports are never overwritten — each generation creates a new timestamped file
 
 **Location:** `progress/<course-slug>/journal.md`
 
-**Created by:** AI tutor from `meta/JOURNAL-TEMPLATE.md` when the learner starts a course.
+**Created by:** AI tutor from `core/meta/JOURNAL-TEMPLATE.md` when the learner starts a course.
 
 **Updated by:** AI tutor as Scribe during every learning session.
 
@@ -866,10 +874,11 @@ const fs = require('fs');
 const path = require('path');
 const { parseCourse } = require('./utils/parse-course');
 const { parseJournal } = require('./utils/parse-journal');
-const { parseBootcamp } = require('./utils/parse-bootcamp');
+const { parseLearningPath } = require('./utils/parse-learning-path');
 
-const COURSES_DIR = path.join(__dirname, '..', 'courses');
-const BOOTCAMPS_DIR = path.join(__dirname, '..', 'bootcamps');
+const COURSES_DIR = path.join(__dirname, '..', 'core', 'courses');
+const CUSTOM_COURSES_DIR = path.join(__dirname, '..', 'custom', 'courses');
+const LEARNING_PATHS_DIR = path.join(__dirname, '..', 'core', 'learning-paths');
 const PROGRESS_DIR = path.join(__dirname, '..', 'progress');
 const OUTPUT_PATH = path.join(__dirname, '..', 'web', 'src', 'data', 'catalogue.json');
 
@@ -1062,7 +1071,7 @@ Upstack's AI integration is split into two layers aligned with open standards:
 | Trigger Conditions / Workflow When Triggered | `generate-report` skill |
 | Privacy Rules | AGENTS.md (cross-cutting) |
 
-The base `meta/TUTOR-CONTRACT.md` file is retained as the detailed reference for learning theory and tutor behaviour. AGENTS.md references it. Skills reference specific sections as needed.
+The base `core/meta/TUTOR-CONTRACT.md` file is retained as the detailed reference for learning theory and tutor behaviour. AGENTS.md references it. Skills reference specific sections as needed.
 
 ### 6.2 AGENTS.md — Tutor Configuration
 
@@ -1077,8 +1086,8 @@ providing answers.
 
 ## Core Principles
 
-Read `meta/PRINCIPLES.md` for the full learning theory foundation.
-Read `meta/ANTI-PATTERNS.md` for what Upstack is explicitly not.
+Read `core/meta/PRINCIPLES.md` for the full learning theory foundation.
+Read `core/meta/ANTI-PATTERNS.md` for what Upstack is explicitly not.
 
 The short version:
 
@@ -1112,7 +1121,7 @@ of productive struggle. Documented errors teach more than clean examples.
 ## Active Course
 
 Load the active course definition (curriculum reference — do not edit):
-Read `courses/curated/learning-go/COURSE.md`
+Read `core/courses/learning-go/COURSE.md`
 
 Load the learner's journal (create from template if it does not exist):
 Read `progress/learning-go/journal.md`
@@ -1173,7 +1182,7 @@ metadata:
 **Instructions summary:**
 1. Read the active `COURSE.md` — extract the Course Structure and Learner Context sections
 2. Check if `progress/<slug>/journal.md` exists
-3. If not: create it from `meta/JOURNAL-TEMPLATE.md`, populating the Progress Tracker with assignments from COURSE.md
+3. If not: create it from `core/meta/JOURNAL-TEMPLATE.md`, populating the Progress Tracker with assignments from COURSE.md
 4. Commit: `git add progress/<slug>/journal.md && git commit -m "progress: start <slug>"`
 5. Read the Learner Context section and calibrate guidance level
 6. Summarise: what assignments are ahead, where the learner left off (if resuming)
@@ -1297,10 +1306,10 @@ metadata:
 
 **Instructions summary:**
 1. Ask the author for: course title, slug, domain, level, number of modules and assignments
-2. Create `courses/custom/<slug>/` directory
+2. Create `custom/courses/<slug>/` directory
 3. Generate `COURSE.md` from the schema in `references/COURSE-SCHEMA.md`, populating frontmatter and structure
 4. Create `docs/` and `assignments/` subdirectories with stubs
-5. Commit: `git add courses/custom/<slug> && git commit -m "course: scaffold <slug>"`
+5. Commit: `git add custom/courses/<slug> && git commit -m "course: scaffold <slug>"`
 
 **Contains:** `references/COURSE-SCHEMA.md` (the COURSE.md schema from Section 3)
 
@@ -1584,7 +1593,7 @@ export default function CourseDetail({ catalogue }) {
               <li>Open your terminal in the repo root</li>
               <li>
                 Copy the tutor contract:
-                <code>cat meta/TUTOR-CONTRACT.md</code>
+                <code>cat core/meta/TUTOR-CONTRACT.md</code>
               </li>
               <li>Start your AI session, paste the contract first</li>
               <li>Paste your learner context from COURSE.md</li>
@@ -1885,7 +1894,7 @@ cd upstack
 npm install
 
 # 4. Start the featured Go course
-#    Open courses/curated/learning-go/COURSE.md
+#    Open core/courses/learning-go/COURSE.md
 #    Fill in the Learner Context section with YOUR background
 #    Open your AI tool (Claude Code, Cursor, Codex, etc.) in this repository
 #    The tutor configuration loads automatically via AGENTS.md
@@ -1917,8 +1926,8 @@ npm install
 #    github.com/upstack/upstack → Fork → your-org/upstack
 
 # 2. Create a bootcamp definition
-cp -r bootcamps/curated/template bootcamps/custom/se-fundamentals
-# Edit bootcamps/custom/se-fundamentals/BOOTCAMP.md
+cp -r core/learning-paths/template custom/learning-paths/se-fundamentals
+# Edit custom/learning-paths/se-fundamentals/LEARNING-PATH.md
 
 # 3. Share with interns
 #    Tell interns to fork YOUR-ORG/upstack (not upstack/upstack)
