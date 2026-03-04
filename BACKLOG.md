@@ -40,7 +40,7 @@ The operational backbone. Build in dependency order.
 - [x] Skill directory structure — at `.claude/skills/`, one subdirectory per skill, SKILL.md + optional scripts, references, assets, etc.
 - [x] `configure-profile` — create/update learner profile (background, experience level, learning preferences). First skill because tutor calibration depends on it.
 - [x] Move skill templates from `core/meta/` into owning skills' `references/` directories — `PROFILE-TEMPLATE.md` → `configure-profile/references/`, `JOURNAL-TEMPLATE.md` + `LEARNER-CONTEXT.md` → `start-course/references/`. Aligns with agentskills.io spec; `core/meta/` retains only ambient-layer docs (PRINCIPLES, TUTOR-CONTRACT, ANTI-PATTERNS). Update all references in tech spec, AGENTS.md, skills, and docs.
-- [ ] `create-course` — scaffold a new course from COURSE.md schema into `custom/courses/`. Needed for the Java engineer.
+- [x] `create-course` — scaffold a new course from COURSE.md schema. Supports both curated (`core/courses/`) and personal (`custom/courses/`) courses in any domain.
 - [ ] `start-course` — initialise journal from template, load course context, calibrate to learner profile. Core learning flow.
 - [ ] `complete-assignment` — reasoning review gate, verify understanding, mark complete, commit. Core learning flow.
 - [ ] `check-progress` — display current completion state. Includes `collect-progress.js` script.
