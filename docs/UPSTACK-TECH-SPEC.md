@@ -107,29 +107,31 @@ upstack/
 │   └── learning-paths/          # Your personal learning paths
 │       └── .gitkeep
 │
-├── skills/                      # Agent Skills (agentskills.io format)
-│   ├── start-course/
-│   │   └── SKILL.md             # Initialise journal, load course context
-│   ├── complete-assignment/
-│   │   └── SKILL.md             # Reasoning review gate, mark [x], commit
-│   ├── check-progress/
-│   │   ├── SKILL.md             # Display current completion state
-│   │   └── scripts/
-│   │       └── collect-progress.js
-│   ├── generate-report/
-│   │   ├── SKILL.md             # Generate + commit progress report
-│   │   └── scripts/
-│   │       └── generate-report.js
-│   ├── send-report/
-│   │   ├── SKILL.md             # Email report to coordinator(s)
-│   │   └── scripts/
-│   │       └── send-report.js
-│   ├── configure-profile/
-│   │   └── SKILL.md             # Create/update learner profile
-│   └── create-course/
-│       ├── SKILL.md             # Scaffold new course from schema
-│       └── references/
-│           └── COURSE-SCHEMA.md
+├── .claude/                     # Claude Code tool configuration
+│   └── skills/                  # Agent Skills (agentskills.io format)
+│       ├── README.md            # Skill conventions and structure guide
+│       ├── configure-profile/
+│       │   └── SKILL.md         # Create/update learner profile
+│       ├── create-course/
+│       │   ├── SKILL.md         # Scaffold new course from schema
+│       │   └── references/
+│       │       └── COURSE-SCHEMA.md
+│       ├── start-course/
+│       │   └── SKILL.md         # Initialise journal, load course context
+│       ├── complete-assignment/
+│       │   └── SKILL.md         # Reasoning review gate, mark [x], commit
+│       ├── check-progress/
+│       │   ├── SKILL.md         # Display current completion state
+│       │   └── scripts/
+│       │       └── collect-progress.js
+│       ├── generate-report/
+│       │   ├── SKILL.md         # Generate + commit progress report
+│       │   └── scripts/
+│       │       └── generate-report.js
+│       └── send-report/
+│           ├── SKILL.md         # Email report to coordinator(s)
+│           └── scripts/
+│               └── send-report.js
 │
 ├── scripts/                     # Shared utilities (imported by skills)
 │   └── utils/
@@ -155,7 +157,7 @@ upstack/
 
 **Two-layer calibration model.** Upstack calibrates the AI tutor using two complementary layers. The **Learner Profile** (`profile/PROFILE.md`) is the learner's full anatomy — professional background, skills inventory, mental models, Dreyfus self-assessment, and learning preferences across all courses. The **Learner Context** (`progress/<slug>/learner-context.md`) is the body spec for one garment — which parts of the learner's anatomy are relevant to *this specific course*. The profile changes slowly as the learner grows (the anatomy grows — completing courses builds new skills and shifts Dreyfus levels upward); the context is created once per course. The tutor reads both: profile first (who you are), then context (how your background applies to this course). See `core/meta/PROFILE-TEMPLATE.md` and `core/meta/LEARNER-CONTEXT.md` for the measurement checklists.
 
-**Note on tool-specific skill discovery:** AI tools discover skills in tool-specific locations (e.g., `.claude/skills/` for Claude Code, `.gemini/skills/` for Gemini). The canonical location is `skills/` at the repo root. Use symlinks or tool configuration to map from the tool-specific path to the canonical location. For example: `ln -s ../../skills .claude/skills`. The SKILL.md format is the same regardless of discovery path.
+**Note on tool-specific skill discovery:** Skills live in `.claude/skills/` — the native discovery path for Claude Code. Other AI tools discover skills in their own locations (e.g., `.gemini/skills/` for Gemini). Cross-provider discovery (symlinks or copies) can be added when needed. The SKILL.md format is the same regardless of discovery path.
 
 ---
 
@@ -407,14 +409,14 @@ Scripts are Node.js and live inside their owning skill's `scripts/` subdirectory
 
 ### 5.1 `collect-progress.js`
 
-**Location:** `skills/check-progress/scripts/collect-progress.js`
+**Location:** `.claude/skills/check-progress/scripts/collect-progress.js`
 
 Walks the `progress/` directory, parses all `journal.md` files, extracts completion state including git timestamps, and outputs structured JSON.
 
 ```javascript
 #!/usr/bin/env node
-// skills/check-progress/scripts/collect-progress.js
-// Usage: node skills/check-progress/scripts/collect-progress.js [--course <slug>] [--output json|text]
+// .claude/skills/check-progress/scripts/collect-progress.js
+// Usage: node .claude/skills/check-progress/scripts/collect-progress.js [--course <slug>] [--output json|text]
 
 const fs = require('fs');
 const path = require('path');
@@ -482,14 +484,14 @@ module.exports = { collectProgress };
 
 ### 5.2 `generate-report.js`
 
-**Location:** `skills/generate-report/scripts/generate-report.js`
+**Location:** `.claude/skills/generate-report/scripts/generate-report.js`
 
 Calls `collect-progress.js` for completion state, loads `COURSE.md` for module structure, generates a formatted markdown report, and commits it to `progress/<slug>/`.
 
 ```javascript
 #!/usr/bin/env node
-// skills/generate-report/scripts/generate-report.js
-// Usage: node skills/generate-report/scripts/generate-report.js --course <slug> [--learner <name>]
+// .claude/skills/generate-report/scripts/generate-report.js
+// Usage: node .claude/skills/generate-report/scripts/generate-report.js --course <slug> [--learner <name>]
 //   AI agents: invoke this when a module is completed or learner requests a report.
 
 const fs = require('fs');
@@ -707,7 +709,7 @@ const learnerName = args.includes('--learner') ? args[args.indexOf('--learner') 
 const periodDays = args.includes('--days') ? parseInt(args[args.indexOf('--days') + 1]) : 7;
 
 if (!courseSlug) {
-  console.error('Usage: node skills/generate-report/scripts/generate-report.js --course <slug> ' + '[--learner "Name"] [--days 7]');
+  console.error('Usage: node .claude/skills/generate-report/scripts/generate-report.js --course <slug> ' + '[--learner "Name"] [--days 7]');
   process.exit(1);
 }
 
@@ -718,15 +720,15 @@ module.exports = { generateReport };
 
 ### 5.3 `send-report.js`
 
-**Location:** `skills/send-report/scripts/send-report.js`
+**Location:** `.claude/skills/send-report/scripts/send-report.js`
 
 Opens the user's default email client with the report pre-populated, or sends via SMTP if configured.
 
 ```javascript
 #!/usr/bin/env node
-// skills/send-report/scripts/send-report.js
-// Usage: node skills/send-report/scripts/send-report.js --report <path> --to <email>[,<email>]
-//   Or:  node skills/send-report/scripts/send-report.js --course <slug> --to <email> --generate
+// .claude/skills/send-report/scripts/send-report.js
+// Usage: node .claude/skills/send-report/scripts/send-report.js --report <path> --to <email>[,<email>]
+//   Or:  node .claude/skills/send-report/scripts/send-report.js --course <slug> --to <email> --generate
 
 const fs = require('fs');
 const path = require('path');
@@ -781,7 +783,7 @@ const reportArg = args.includes('--report') ? args[args.indexOf('--report') + 1]
 const subjectArg = args.includes('--subject') ? args[args.indexOf('--subject') + 1] : null;
 
 if (!toArg || !reportArg) {
-  console.error('Usage: node skills/send-report/scripts/send-report.js --report <path> --to <email>[,<email>]');
+  console.error('Usage: node .claude/skills/send-report/scripts/send-report.js --report <path> --to <email>[,<email>]');
   process.exit(1);
 }
 
@@ -1112,7 +1114,7 @@ metadata:
 ```
 
 **Instructions summary:**
-1. Run `node skills/check-progress/scripts/collect-progress.js --course <slug> --output text`
+1. Run `node .claude/skills/check-progress/scripts/collect-progress.js --course <slug> --output text`
 2. Display the result to the learner
 
 **Contains:** `scripts/collect-progress.js` (source code in Section 5.1)
@@ -1134,9 +1136,9 @@ metadata:
 ```
 
 **Instructions summary:**
-1. Run `node skills/check-progress/scripts/collect-progress.js --course <slug>` to get current state
+1. Run `node .claude/skills/check-progress/scripts/collect-progress.js --course <slug>` to get current state
 2. Inform the learner: "You've completed [X]. I'll generate a progress report now."
-3. Run `node skills/generate-report/scripts/generate-report.js --course <slug> --learner "Name"`
+3. Run `node .claude/skills/generate-report/scripts/generate-report.js --course <slug> --learner "Name"`
 4. This commits the report to `progress/<slug>/report-YYYYMMDD.md`
 5. Confirm: "Report saved to `progress/<slug>/`."
 
@@ -1163,7 +1165,7 @@ metadata:
 
 **Instructions summary:**
 1. Ask: "Who should I send this to? Please provide email address(es)." (If learner says "just save it", stop here)
-2. Run `node skills/send-report/scripts/send-report.js --report <path> --to <email>`
+2. Run `node .claude/skills/send-report/scripts/send-report.js --report <path> --to <email>`
 3. Confirm: "Report sent to [addresses]."
 4. Do not store email addresses anywhere — ask every time
 
@@ -1234,8 +1236,8 @@ metadata:
     "start": "node scripts/generate-catalogue.js && cd site && npm start",
     "build": "node scripts/generate-catalogue.js && cd site && npm run build",
     "catalogue": "node scripts/generate-catalogue.js",
-    "progress": "node skills/check-progress/scripts/collect-progress.js --output text",
-    "report": "node skills/generate-report/scripts/generate-report.js"
+    "progress": "node .claude/skills/check-progress/scripts/collect-progress.js --output text",
+    "report": "node .claude/skills/generate-report/scripts/generate-report.js"
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
@@ -1617,7 +1619,7 @@ export default function ReportViewer({ courseSlug }) {
       <code className="code-block">npm run report -- --course {courseSlug} --learner "Your Name"</code>
       <p>To send the latest report:</p>
       <code className="code-block">
-        node skills/send-report/scripts/send-report.js \<br />
+        node .claude/skills/send-report/scripts/send-report.js \<br />
         &nbsp;&nbsp;--report progress/{courseSlug}/report-YYYYMMDD.md \<br />
         &nbsp;&nbsp;--to coordinator@yourorg.com
       </code>
@@ -1842,7 +1844,7 @@ cp -r core/learning-paths/template custom/learning-paths/se-fundamentals
 #    echo "COORDINATOR_EMAIL=manager@yourorg.com" > .env
 #    Reports are sent weekly by the AI tutor or manually via:
 #    Use /generate-report then /send-report, or run directly:
-node skills/send-report/scripts/send-report.js \
+node .claude/skills/send-report/scripts/send-report.js \
   --report progress/learning-go/report-YYYYMMDD.md \
   --to manager@yourorg.com
 ```

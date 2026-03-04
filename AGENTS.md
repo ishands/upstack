@@ -145,7 +145,7 @@ No course is currently active. Use the `start-course` skill to begin.
 ## Available Skills
 
 Skills are discrete actions invoked by name. Each skill has its own
-instructions in `skills/<skill-name>/SKILL.md`.
+instructions in `.claude/skills/<skill-name>/SKILL.md`.
 
 | Skill | Purpose | When to use |
 |-------|---------|-------------|
