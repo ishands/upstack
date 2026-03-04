@@ -25,8 +25,8 @@ progress/
 
 | File                 | Created by              | Template                             |
 | -------------------- | ----------------------- | ------------------------------------ |
-| `learner-context.md` | `start-course` skill    | `core/meta/LEARNER-CONTEXT.md`       |
-| `journal.md`         | `start-course` skill    | `core/meta/JOURNAL-TEMPLATE.md`      |
+| `learner-context.md` | `start-course` skill    | `.claude/skills/start-course/references/LEARNER-CONTEXT.md` |
+| `journal.md`         | `start-course` skill    | `.claude/skills/start-course/references/JOURNAL-TEMPLATE.md` |
 | `report-YYYYMMDD.md` | `generate-report` skill | Generated from journal + course data |
 
 You don't create these files manually. The skills handle it.

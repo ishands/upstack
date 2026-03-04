@@ -62,7 +62,7 @@ Always anchor new concepts to something the learner already knows.
 Never introduce a concept cold.
 
 → Full protocol: `core/meta/TUTOR-CONTRACT.md` §3
-→ Measurement checklist: `core/meta/LEARNER-CONTEXT.md`
+→ Measurement checklist: `.claude/skills/start-course/references/LEARNER-CONTEXT.md`
 
 ---
 
@@ -119,7 +119,7 @@ After a learning milestone is reached (not during active struggle):
 6. Commit after every session
 
 → Full protocol: `core/meta/TUTOR-CONTRACT.md` §6
-→ Journal structure: `core/meta/JOURNAL-TEMPLATE.md`
+→ Journal structure: `.claude/skills/start-course/references/JOURNAL-TEMPLATE.md`
 
 ---
 

@@ -77,14 +77,11 @@ upstack/
 │   └── UPSTACK-CONCEPT-PAPER.md # Full theoretical foundation
 │
 ├── core/                        # Upstream-managed — do not modify
-│   ├── meta/                    # Framework core
+│   ├── meta/                    # Framework core (ambient-layer docs)
 │   │   ├── PRINCIPLES.md        # Learning theory foundation
 │   │   ├── TUTOR-CONTRACT.md    # Base tutor behaviour (referenced by AGENTS.md)
 │   │   ├── TUTOR-CONTRACT-ORG.md # Organisational variant
-│   │   ├── ANTI-PATTERNS.md     # What Upstack is not
-│   │   ├── JOURNAL-TEMPLATE.md  # Learning journal template
-│   │   ├── LEARNER-CONTEXT.md   # Per-course learner calibration template
-│   │   └── PROFILE-TEMPLATE.md  # Global learner profile template
+│   │   └── ANTI-PATTERNS.md     # What Upstack is not
 │   │
 │   ├── courses/                 # Community-contributed, reviewed courses
 │   │   └── learning-go/         # Featured use case (fully annotated)
@@ -111,13 +108,18 @@ upstack/
 │   └── skills/                  # Agent Skills (agentskills.io format)
 │       ├── README.md            # Skill conventions and structure guide
 │       ├── configure-profile/
-│       │   └── SKILL.md         # Create/update learner profile
+│       │   ├── SKILL.md         # Create/update learner profile
+│       │   └── references/
+│       │       └── PROFILE-TEMPLATE.md  # Measurement checklist
 │       ├── create-course/
 │       │   ├── SKILL.md         # Scaffold new course from schema
 │       │   └── references/
 │       │       └── COURSE-SCHEMA.md
 │       ├── start-course/
-│       │   └── SKILL.md         # Initialise journal, load course context
+│       │   ├── SKILL.md         # Initialise journal, load course context
+│       │   └── references/
+│       │       ├── JOURNAL-TEMPLATE.md  # Journal scaffold
+│       │       └── LEARNER-CONTEXT.md   # Per-course calibration checklist
 │       ├── complete-assignment/
 │       │   └── SKILL.md         # Reasoning review gate, mark [x], commit
 │       ├── check-progress/
@@ -155,7 +157,7 @@ upstack/
 
 **`core/` vs `custom/` separation.** Everything in `core/` is upstream-managed — learners do not modify these files. Everything in `custom/` is user-owned. This separation guarantees zero merge conflicts when pulling upstream course updates. The `profile/` and `progress/` directories are also user-owned but serve distinct purposes: profile captures who the learner is (static-ish), progress captures what they've done (changes every session).
 
-**Two-layer calibration model.** Upstack calibrates the AI tutor using two complementary layers. The **Learner Profile** (`profile/PROFILE.md`) is the learner's full anatomy — professional background, skills inventory, mental models, Dreyfus self-assessment, and learning preferences across all courses. The **Learner Context** (`progress/<slug>/learner-context.md`) is the body spec for one garment — which parts of the learner's anatomy are relevant to *this specific course*. The profile changes slowly as the learner grows (the anatomy grows — completing courses builds new skills and shifts Dreyfus levels upward); the context is created once per course. The tutor reads both: profile first (who you are), then context (how your background applies to this course). See `core/meta/PROFILE-TEMPLATE.md` and `core/meta/LEARNER-CONTEXT.md` for the measurement checklists.
+**Two-layer calibration model.** Upstack calibrates the AI tutor using two complementary layers. The **Learner Profile** (`profile/PROFILE.md`) is the learner's full anatomy — professional background, skills inventory, mental models, Dreyfus self-assessment, and learning preferences across all courses. The **Learner Context** (`progress/<slug>/learner-context.md`) is the body spec for one garment — which parts of the learner's anatomy are relevant to *this specific course*. The profile changes slowly as the learner grows (the anatomy grows — completing courses builds new skills and shifts Dreyfus levels upward); the context is created once per course. The tutor reads both: profile first (who you are), then context (how your background applies to this course). See `.claude/skills/configure-profile/references/PROFILE-TEMPLATE.md` and `.claude/skills/start-course/references/LEARNER-CONTEXT.md` for the measurement checklists.
 
 **Note on tool-specific skill discovery:** Skills live in `.claude/skills/` — the native discovery path for Claude Code. Other AI tools discover skills in their own locations (e.g., `.gemini/skills/` for Gemini). Cross-provider discovery (symlinks or copies) can be added when needed. The SKILL.md format is the same regardless of discovery path.
 
@@ -195,7 +197,7 @@ tags:
 # Target audience — the "garment spec"
 # These fields define who this course is designed for.
 # The individual learner's background goes in ## Learner Context below,
-# not here. See core/meta/LEARNER-CONTEXT.md for the distinction.
+# not here. See .claude/skills/start-course/references/LEARNER-CONTEXT.md for the distinction.
 level: 'competent'           # Dreyfus level: novice | beginner | competent | proficient | expert
 target-audience: >
   Describe the target learner. Be specific about required background,
@@ -393,13 +395,13 @@ Reports are never overwritten — each generation creates a new timestamped file
 
 **Location:** `progress/<course-slug>/journal.md`
 
-**Created by:** AI tutor from `core/meta/JOURNAL-TEMPLATE.md` when the learner starts a course.
+**Created by:** AI tutor from `.claude/skills/start-course/references/JOURNAL-TEMPLATE.md` when the learner starts a course.
 
 **Updated by:** AI tutor as Scribe during every learning session.
 
 **Purpose:** Not a log, not a diary — a **narrative of productive struggle.** The journal is the real learning artifact. It is private to the learner's fork and is never upstreamed.
 
-For the full journal structure (header format, per-assignment sections, error documentation format, scribe instructions), see `core/meta/JOURNAL-TEMPLATE.md`. For the scribe protocol that governs how the tutor maintains the journal, see `core/meta/TUTOR-CONTRACT.md` §6.
+For the full journal structure (header format, per-assignment sections, error documentation format, scribe instructions), see `.claude/skills/start-course/references/JOURNAL-TEMPLATE.md`. For the scribe protocol that governs how the tutor maintains the journal, see `core/meta/TUTOR-CONTRACT.md` §6.
 
 ---
 
@@ -1022,10 +1024,10 @@ spec and the actual configuration. The file contains:
 
 - **Identity and role** — configures the AI as an Upstack learning tutor with Guide and Scribe modes
 - **Core behaviour** — Socratic protocol summary (core loop, hint escalation, when to answer directly). References `core/meta/TUTOR-CONTRACT.md` §2.
-- **Calibration** — Dreyfus-based adjustment table, profile and course context reading protocol. References `core/meta/TUTOR-CONTRACT.md` §3 and `core/meta/LEARNER-CONTEXT.md`.
+- **Calibration** — Dreyfus-based adjustment table, profile and course context reading protocol. References `core/meta/TUTOR-CONTRACT.md` §3 and `.claude/skills/start-course/references/LEARNER-CONTEXT.md`.
 - **Principles summary** — one-line summary of all eight principles. References `core/meta/PRINCIPLES.md`.
 - **Anti-pattern guardrails** — the seven named anti-patterns as a compact checklist with self-correction protocol. References `core/meta/ANTI-PATTERNS.md`.
-- **Scribe protocol** — when and how to maintain the learning journal. References `core/meta/TUTOR-CONTRACT.md` §6 and `core/meta/JOURNAL-TEMPLATE.md`.
+- **Scribe protocol** — when and how to maintain the learning journal. References `core/meta/TUTOR-CONTRACT.md` §6 and `.claude/skills/start-course/references/JOURNAL-TEMPLATE.md`.
 - **Active course** — populated by the `start-course` skill; blank by default
 - **Privacy rules** — constraints on email, outbound communication, external services
 - **Available skills table** — lists all invocable skills with purpose and trigger conditions
@@ -1065,11 +1067,11 @@ metadata:
 **Instructions summary:**
 1. Read the active `COURSE.md` — extract the Course Structure section
 2. Check if `progress/<slug>/journal.md` exists
-3. If not: create journal from `core/meta/JOURNAL-TEMPLATE.md`, populating the Progress Tracker with assignments from COURSE.md
+3. If not: create journal from `.claude/skills/start-course/references/JOURNAL-TEMPLATE.md`, populating the Progress Tracker with assignments from COURSE.md
 4. Check if `progress/<slug>/learner-context.md` exists
-5. If not: interview the learner using `core/meta/LEARNER-CONTEXT.md` as the measurement checklist, write answers to `progress/<slug>/learner-context.md`
+5. If not: interview the learner using `.claude/skills/start-course/references/LEARNER-CONTEXT.md` as the measurement checklist, write answers to `progress/<slug>/learner-context.md`
 6. Commit: `git add progress/<slug>/ && git commit -m "progress: start <slug>"`
-7. Calibrate: read `profile/PROFILE.md` (if it exists) for the learner's full background, then `progress/<slug>/learner-context.md` for course-specific context. Profile first (who you are), then context (how your background applies to this course). See `core/meta/PROFILE-TEMPLATE.md` §"How the Tutor Reads the Profile" for per-section guidance.
+7. Calibrate: read `profile/PROFILE.md` (if it exists) for the learner's full background, then `progress/<slug>/learner-context.md` for course-specific context. Profile first (who you are), then context (how your background applies to this course). See `.claude/skills/configure-profile/references/PROFILE-TEMPLATE.md` §"How the Tutor Reads the Profile" for per-section guidance.
 8. Summarise: what assignments are ahead, where the learner left off (if resuming)
 
 #### 6.3.2 `complete-assignment`
@@ -1202,7 +1204,7 @@ metadata:
 name: configure-profile
 description: >
   Create or update the global learner profile. Interviews the learner
-  using the measurement checklist in core/meta/PROFILE-TEMPLATE.md and
+  using the measurement checklist in .claude/skills/configure-profile/references/PROFILE-TEMPLATE.md and
   writes the structured result to profile/PROFILE.md. Use when a new
   learner sets up Upstack for the first time, or after completing a
   course to update skills and Dreyfus levels.
@@ -1212,7 +1214,7 @@ metadata:
 ```
 
 **Instructions summary:**
-1. Read `core/meta/PROFILE-TEMPLATE.md` — the measurement checklist
+1. Read `.claude/skills/configure-profile/references/PROFILE-TEMPLATE.md` — the measurement checklist
 2. Check if `profile/PROFILE.md` exists
 3. If new profile: interview the learner through all 7 measurement fields (Name, Professional Background, Skills Inventory, Mental Models, Dreyfus Self-Assessment, Learning Preferences, Completed Courses). Use the Ask/Probe guidance in the template. Do not rush — the profile interview is the learner's first experience with Upstack's conversational calibration.
 4. If updating: read the existing profile, ask what has changed rather than starting from scratch. Natural update triggers: after completing a course (new skills, shifted Dreyfus levels), after a career change, when starting a course in a new domain.

@@ -2,7 +2,7 @@
 name: configure-profile
 description: >
   Create or update the global learner profile. Interviews the learner
-  using the measurement checklist in core/meta/PROFILE-TEMPLATE.md and
+  using the measurement checklist in references/PROFILE-TEMPLATE.md and
   writes the structured result to profile/PROFILE.md. Use when a new
   learner sets up Upstack for the first time, or after completing a
   course to update skills and Dreyfus levels.
@@ -26,7 +26,7 @@ tone: thoughtful, personal, unhurried.
 
 ## Before You Start
 
-Read `core/meta/PROFILE-TEMPLATE.md` — the measurement checklist with
+Read `references/PROFILE-TEMPLATE.md` — the measurement checklist with
 all 7 fields, probe guidance, example answers, output format, and
 recording rules. This must be in your context before the conversation
 begins.
@@ -135,7 +135,7 @@ sections discussed. Always update the "Updated" date.
 
 ## Reference
 
-- Measurement checklist and output format: `core/meta/PROFILE-TEMPLATE.md`
-- Two-layer calibration model: `core/meta/PROFILE-TEMPLATE.md` §Relationship to Learner Context
-- How the tutor reads the profile: `core/meta/PROFILE-TEMPLATE.md` §How the Tutor Reads the Profile
-- Tutor interview tips: `core/meta/PROFILE-TEMPLATE.md` §Tips for the Tutor During Measurement
+- Measurement checklist and output format: `references/PROFILE-TEMPLATE.md`
+- Two-layer calibration model: `references/PROFILE-TEMPLATE.md` §Relationship to Learner Context
+- How the tutor reads the profile: `references/PROFILE-TEMPLATE.md` §How the Tutor Reads the Profile
+- Tutor interview tips: `references/PROFILE-TEMPLATE.md` §Tips for the Tutor During Measurement
