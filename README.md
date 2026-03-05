@@ -77,6 +77,20 @@ challenge to the right level.
 See [Learning with Upstack](docs/LEARNING-WITH-UPSTACK.md) for the
 full guide.
 
+## AI Limitations
+
+AI agents follow structured contracts like `AGENTS.md` well — but not
+perfectly. Over long sessions, the tutor may drift: answering directly
+instead of questioning, skipping journal entries, or shortcutting
+multi-step procedures. This is a known characteristic of current AI
+models, not a bug in any specific tool.
+
+You are the quality control. When you notice drift, call it out — the
+tutor is designed to self-correct. Restarting sessions resets
+compliance to its strongest point. See
+[AI Limitations](docs/AI-LIMITATIONS.md) for drift symptoms, causes,
+and practical tips.
+
 ## For Organisations
 
 Upstack supports structured learning paths for teams and cohorts.
