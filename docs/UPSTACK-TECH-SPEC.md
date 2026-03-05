@@ -300,10 +300,10 @@ Walks the `progress/` directory, parses all `journal.md` files, extracts complet
 
 const fs = require('fs');
 const path = require('path');
-const { parseJournal } = require('../../../scripts/utils/parse-journal');
-const { getCompletionTimestamp } = require('../../../scripts/utils/git-utils');
+const { parseJournal } = require('../../../../scripts/utils/parse-journal');
+const { getCompletionTimestamp } = require('../../../../scripts/utils/git-utils');
 
-const PROGRESS_DIR = path.join(__dirname, '..', '..', '..', 'progress');
+const PROGRESS_DIR = path.join(__dirname, '..', '..', '..', '..', 'progress');
 
 async function collectProgress(courseSlug = null) {
   const results = [];
@@ -378,7 +378,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const { collectProgress } = require('../../check-progress/scripts/collect-progress');
-const { parseCourse } = require('../../../scripts/utils/parse-course');
+const { parseCourse } = require('../../../../scripts/utils/parse-course');
 
 function formatDate(date = new Date()) {
   return date.toISOString().slice(0, 10).replace(/-/g, '');

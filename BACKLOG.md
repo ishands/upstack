@@ -44,7 +44,7 @@ The operational backbone. Build in dependency order.
 - [x] `start-course` — initialise journal from template, load course context, calibrate to learner profile. Core learning flow.
 - [x] `docs/AI-LIMITATIONS.md` — honest guide to AI agent compliance patterns, drift symptoms, and what learners can do to keep the tutor on track. User-facing, not referenced by AGENTS.md or skills.
 - [x] `complete-assignment` — reasoning review gate, verify understanding, mark complete, commit. Core learning flow.
-- [ ] `check-progress` — display current completion state. Includes `collect-progress.js` script.
+- [x] `check-progress` — display current completion state. Includes `collect-progress.js` script.
 
 ---
 

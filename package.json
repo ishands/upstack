@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.1.0",
   "description": "AI-native learning framework — structured courses with an AI tutor",
+  "scripts": {
+    "progress": "node .claude/skills/check-progress/scripts/collect-progress.js --output text"
+  },
   "dependencies": {
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0"
