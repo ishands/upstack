@@ -34,7 +34,9 @@ The tutor does not:
 - Do the work for you (write code, build solutions, complete tasks)
 
 If you catch the tutor doing any of these, call it out. The tutor is
-designed to self-correct when you point out a violation.
+designed to self-correct when you point out a violation. For a deeper
+look at how AI agents follow (and drift from) structured contracts,
+and what you can do about it, see [AI Limitations](AI-LIMITATIONS.md).
 
 ---
 
