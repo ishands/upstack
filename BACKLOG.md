@@ -43,7 +43,7 @@ The operational backbone. Build in dependency order.
 - [x] `create-course` — scaffold a new course from COURSE.md schema. Supports both curated (`core/courses/`) and personal (`custom/courses/`) courses in any domain.
 - [x] `start-course` — initialise journal from template, load course context, calibrate to learner profile. Core learning flow.
 - [x] `docs/AI-LIMITATIONS.md` — honest guide to AI agent compliance patterns, drift symptoms, and what learners can do to keep the tutor on track. User-facing, not referenced by AGENTS.md or skills.
-- [ ] `complete-assignment` — reasoning review gate, verify understanding, mark complete, commit. Core learning flow.
+- [x] `complete-assignment` — reasoning review gate, verify understanding, mark complete, commit. Core learning flow.
 - [ ] `check-progress` — display current completion state. Includes `collect-progress.js` script.
 
 ---
