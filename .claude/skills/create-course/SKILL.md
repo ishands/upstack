@@ -68,10 +68,25 @@ possible (e.g., derive slug from title).
    per module? Give me a brief title for each assignment."
 8. **Prerequisites** — "Does this course assume prior courses or
    knowledge? If none, that's fine."
+9. **Milestones** — "For each assignment, what's the natural build
+   order? What would you build first, second, third?" These become
+   suggested milestones in the COURSE.md.
+10. **Design questions** — "What decisions should the learner think
+    through before they start building? What trade-offs or architectural
+    choices will they face?" These are posed by the tutor before
+    execution (see TUTOR-CONTRACT.md §10.3).
+11. **Paradigm shifts** — "Does the learner come from a different
+    paradigm? Which topics will conflict with their existing instincts?"
+    If yes, flag those topics with paradigm shift annotations.
+12. **Scope boundaries** — "Is there domain knowledge the learner needs
+    but isn't here to learn? (e.g., an API, a data format, a business
+    process)" If yes, add scope notes telling the tutor to scaffold
+    that knowledge so struggle stays focused on the course subject.
 
 Move through the questions conversationally. If the author has a clear
 vision, this can be quick. If they're exploring, help them think through
-the structure.
+the structure. Items 9–12 can be deferred to a refinement pass if the
+author wants to scaffold first and refine later.
 
 ### Step 2 — Create directory structure
 
@@ -81,17 +96,13 @@ Create the course directory under the chosen location
 ```
 <location>/<slug>/
 ├── COURSE.md
-├── docs/
-│   └── .gitkeep
-└── assignments/
-    ├── 01-<name>/
-    │   └── .gitkeep
-    └── 02-<name>/
-        └── .gitkeep
+└── references/
+    └── .gitkeep
 ```
 
-Number assignments sequentially across the course (not per module).
-Derive directory names from assignment titles in kebab-case.
+The course directory contains curriculum and reference material only.
+Learner code lives in the learner's own separate project — each
+assignment is a self-contained project, not a subdirectory of the course.
 
 ### Step 3 — Generate COURSE.md
 
@@ -106,10 +117,12 @@ Populate using the schema from `references/COURSE-SCHEMA.md`:
   based on the assignment titles. Mark them as TODO for the author to
   refine.
 - **Course Structure** — create module headings, assignment headings,
-  and topic placeholders (`- [ ] Topic — TODO: describe`).
+  suggested milestone placeholders, design question placeholders,
+  and topic placeholders (`- [ ] Topic — TODO: describe`). Add
+  paradigm shift annotations if identified in Step 1. Add scope
+  notes if domain scaffolding boundaries were identified.
 - **Reasoning Review Prompts** — add placeholder prompts per assignment.
   These should be refined by the author before the course is used.
-- **Learning Log** — standard section pointing to docs/ and progress/.
 
 ### Step 4 — Confirm
 
@@ -138,6 +151,21 @@ git add <location>/<slug> && git commit -m "course: scaffold <slug>"
 - **Topics are learnable concepts, not task steps.** "Understand
   goroutine scheduling" or "Master double-entry bookkeeping" are topics.
   "Create a file" or "Run the tests" are tasks.
+- **Milestones are a build order, not rigid steps.** Each milestone
+  names one thing to produce and one concept that emerges. The tutor
+  adapts them to the learner's pace. Milestones help the tutor sequence
+  the assignment and give the learner a sense of progression.
+- **Design questions drive struggle before execution.** Pose decisions
+  the learner must resolve before building. Target trade-offs and
+  responsibility placement, especially where prior instincts mislead.
+- **Paradigm shift flags help the tutor bridge.** When the learner's
+  prior knowledge will actively conflict with a topic, flag it. The
+  tutor can then anticipate the conflict and apply bridging rather
+  than teaching from scratch.
+- **Scope notes separate learning from scaffolding.** If an assignment
+  requires domain knowledge that isn't the course subject, tell the
+  tutor to help with it. The learner's struggle should stay on the
+  course topic, not on deciphering an API or a business rule.
 - **Reasoning review prompts test understanding, not recall.** "Explain
   why you chose this approach over the alternative" — not "What function
   did you use?"
