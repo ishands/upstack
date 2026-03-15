@@ -86,13 +86,7 @@ upstack/
 │   ├── courses/                 # Community-contributed, reviewed courses
 │   │   └── go-lang-for-developers/ # Featured use case (fully annotated)
 │   │       ├── COURSE.md        # Course definition with YAML frontmatter
-│   │       ├── docs/
-│   │       │   ├── PRIMER.md
-│   │       │   ├── TUTORIAL.md
-│   │       │   └── UPSTACK-NOTES.md
-│   │       └── assignments/
-│   │           ├── 01-hostmanager/
-│   │           └── 02-feedcatcher/
+│   │       └── references/      # Sample progress, scribe calibration material
 │   │
 │   └── learning-paths/          # Sequenced course bundles
 │       └── engineering-bootcamp/
