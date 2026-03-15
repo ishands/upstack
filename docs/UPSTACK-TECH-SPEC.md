@@ -84,7 +84,7 @@ upstack/
 │   │   └── ANTI-PATTERNS.md     # What Upstack is not
 │   │
 │   ├── courses/                 # Community-contributed, reviewed courses
-│   │   └── learning-go/         # Featured use case (fully annotated)
+│   │   └── go-lang-for-developers/ # Featured use case (fully annotated)
 │   │       ├── COURSE.md        # Course definition with YAML frontmatter
 │   │       ├── docs/
 │   │       │   ├── PRIMER.md
@@ -146,7 +146,7 @@ upstack/
 │   └── PROFILE.md               # Created by configure-profile skill
 │
 ├── progress/                    # Learner-owned — never upstreamed
-│   └── learning-go/             # One directory per active course
+│   └── go-lang-for-developers/  # One directory per active course
 │       ├── learner-context.md   # This learner's calibration for this course
 │       ├── journal.md           # Living learning journal (source of truth)
 │       └── report-20260207.md   # Generated progress reports
@@ -246,7 +246,7 @@ Because the journal is committed to git, `git log` provides a complete, tamper-e
 
 ```bash
 # When was Assignment 1 completed?
-git log -p --follow progress/learning-go/journal.md \
+git log -p --follow progress/go-lang-for-developers/journal.md \
   | grep -B5 '\+- \[x\] \*\*Assignment 1'
 ```
 
@@ -258,7 +258,7 @@ Generated reports are committed alongside the journal in the course's progress s
 
 ```
 progress/
-  learning-go/
+  go-lang-for-developers/
     journal.md
     report-20260207.md
     report-20260211.md
@@ -1605,7 +1605,7 @@ domain: 'engineering-practices'
 featured: false
 
 courses:
-  - slug: 'learning-go'
+  - slug: 'go-lang-for-developers'
     required: true
     order: 1
     unlock-after: null
@@ -1614,7 +1614,7 @@ courses:
   - slug: 'learning-design-patterns'
     required: true
     order: 2
-    unlock-after: 'learning-go'
+    unlock-after: 'go-lang-for-developers'
     milestone: 'Design Thinking'
 
   - slug: 'learning-system-design'
@@ -1680,7 +1680,7 @@ cd upstack
 npm install
 
 # 4. Start the featured Go course
-#    Open core/courses/learning-go/COURSE.md
+#    Open core/courses/go-lang-for-developers/COURSE.md
 #    The tutor will interview you for your learner context on first session
 #    Open your AI tool (Claude Code, Cursor, Codex, etc.) in this repository
 #    The tutor configuration loads automatically via AGENTS.md
@@ -1697,7 +1697,7 @@ npm install
 #    git fetch upstream
 #    git merge upstream/main
 #    # COURSE.md merges cleanly (you never edited it)
-#    # progress/learning-go/journal.md is untouched
+#    # progress/go-lang-for-developers/journal.md is untouched
 
 # For plain chat interfaces (no AGENTS.md support):
 #    Copy the contents of AGENTS.md and paste it as your first message
@@ -1725,7 +1725,7 @@ cp -r core/learning-paths/template custom/learning-paths/se-fundamentals
 #    Reports are sent weekly by the AI tutor or manually via:
 #    Use /generate-report then /send-report, or run directly:
 node .claude/skills/send-report/scripts/send-report.js \
-  --report progress/learning-go/report-YYYYMMDD.md \
+  --report progress/go-lang-for-developers/report-YYYYMMDD.md \
   --to manager@yourorg.com
 ```
 

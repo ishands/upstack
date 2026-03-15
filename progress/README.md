@@ -11,7 +11,7 @@ progress.
 
 ```
 progress/
-  learning-go/
+  go-lang-for-developers/
     learner-context.md   # Your calibration for this course
     journal.md           # Living learning journal (source of truth)
     report-20260207.md   # Generated progress reports (timestamped)
