@@ -1,6 +1,6 @@
 # Upstack — Product Backlog
 
-**Last updated:** 2026-03-01
+**Last updated:** 2026-03-15
 **Status key:** `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` descoped
 
 ---
@@ -9,7 +9,7 @@
 
 Two real users can learn with Upstack:
 
-1. **Individual learner** — starts the curated Learning Go course, works through assignments with the AI tutor, tracks progress
+1. **Individual learner** — starts a curated course (Go Lang for Developers, Git-101, OOP-101, or DS&A-101), works through assignments with the AI tutor, tracks progress
 2. **Self-directed engineer** — configures their profile, creates their own course (Java Spring Boot), learns with the AI tutor
 
 ---
@@ -48,20 +48,31 @@ The operational backbone. Build in dependency order.
 
 ---
 
-## M3: Learning Go Course
+## M3: Go Lang for Developers Course
 
-Repackage the existing learning-go project as the first curated Upstack course.
+The fully-worked showcase course. Repackage the existing `learning-go` project as the first curated Upstack course (`go-lang-for-developers`) with broadened learner context and a sample progress block for AI scribe calibration.
 
-- [ ] `core/courses/learning-go/COURSE.md` — full course definition with YAML frontmatter, two assignments (hostmanager, feedcatcher), reasoning review prompts, learner context section
-- [ ] Assignment 1: HostManager — reference material, learning objectives, topic checklist
-- [ ] Assignment 2: FeedCatcher — reference material, learning objectives, topic checklist
+- [ ] `core/courses/go-lang-for-developers/COURSE.md` — full course definition with YAML frontmatter, two assignments (HostManager, FeedCatcher), reasoning review prompts. Learner context: developer with experience in at least one general-purpose language (Java, C#, Python, C++) — Novice in Go, Competent+ in general programming. Broaden from the original C++/Python-specific framing. Source: `learning-go/` repo (tutor protocols, journey docs, assignment code). Once re-packaged, the course should stand independent inside Upstack without any reference to the `learning-go/` repo. Assignments are separate self-contained projects (each with own `cmd/` and `internal/`, own `go.mod`) — not a shared `cmd/` multi-binary layout. This pattern generalises to other language courses.
+- [ ] Assignment 1: HostManager — reference material, learning objectives, topic checklist. Source: `learning-go/meta/ASSIGNMENT1-JOURNEY.md` + code.
+- [ ] Assignment 2: FeedCatcher — reference material, learning objectives, topic checklist. Source: `learning-go/meta/ASSIGNMENT2-JOURNEY.md` + code.
+- [ ] Sample progress block — curate `learning-go/meta/ASSIGNMENT2-JOURNEY.md` into `core/courses/go-lang-for-developers/references/SAMPLE-PROGRESS.md`. Concrete calibration example for the AI scribe: milestone structure, error→fix→concept rhythm, "Got It Right" pattern, summary tables. Lightly edited for broadened learner context. Raw chats stay private in `upstack-the-making/`. The sample should not carry any personal details of the learner from the `learning-go/` repo — content should be generalized and abstracted.
 - [ ] Verify end-to-end: configure profile → start course → work through assignment 1 → complete assignment → check progress
 
 ---
 
-## M4: Progress Reporting
+## M4: Starter Courses
 
-Needed for org-ready use cases and the self-directed engineer to track his own learning.
+`COURSE.md` definitions only — no reference material or sample progress. Proves the framework generalises beyond Go and gives M6's engineering bootcamp real courses to bundle. AI tutor draws on its own knowledge for these fundamentals.
+
+- [ ] `core/courses/git-101/COURSE.md` — version control fundamentals. Assignments TBD during build (likely: repo basics, branching & merging, collaboration workflows). Target: Novice in git, any background.
+- [ ] `core/courses/oop-101/COURSE.md` — core OOP concepts (encapsulation, inheritance, polymorphism, composition). Language-agnostic framing with examples in Java/Python. Target: Novice in OOP, has basic programming.
+- [ ] `core/courses/dsa-101/COURSE.md` — fundamental data structures (arrays, linked lists, stacks, queues, trees, hash maps) and algorithms (sorting, searching, recursion, basic complexity analysis). Target: Novice in DS&A, has basic programming.
+
+---
+
+## M5: Progress Reporting
+
+Needed for org-ready use cases and the self-directed engineer to track learning.
 
 - [ ] `generate-report` skill — generate + commit a timestamped progress report. Includes `generate-report.js` script.
 - [ ] `send-report` skill — email report to coordinator(s). Includes `send-report.js` script.
@@ -69,18 +80,18 @@ Needed for org-ready use cases and the self-directed engineer to track his own l
 
 ---
 
-## M5: Learning Paths
+## M6: Learning Paths
 
 The sequenced course bundle concept. Enables the engineering bootcamp and similar curated paths.
 
 - [ ] `LEARNING-PATH.md` schema — YAML frontmatter (title, slug, courses with order/unlock dependencies, milestones) + markdown body
 - [ ] `core/learning-paths/` directory structure
-- [ ] `engineering-bootcamp/LEARNING-PATH.md` — fresh grad learning path (Learning Go + future courses: basic OOP, git basics, data structures)
-- [ ] `start-learning-path` skill — initialise journals for all courses in sequence, show roadmap (defer if `start-course` per course is sufficient for now)
+- [ ] `engineering-bootcamp/LEARNING-PATH.md` — fresh grad learning path bundling Go Lang for Developers (M3), git-101, oop-101, dsa-101 (M4), with sequencing and prerequisites
+- [ ] `start-learning-path` skill — initialise journals for all courses in sequence, show roadmap (defer if `start-course` per course is sufficient)
 
 ---
 
-## M6: Static Site
+## M7: Static Site
 
 Course discovery and progress visualisation for users who prefer a browser over the terminal.
 
@@ -96,7 +107,6 @@ Course discovery and progress visualisation for users who prefer a browser over 
 
 - [ ] `TUTOR-CONTRACT-ORG.md` — organisational variant with reporting cadence and coordinator config
 - [ ] `ORG-PROFILE.md` — organisation L&D configuration template
-- [ ] Bootcamp-101 course content (basic OOP, git basics, data structures) — content authoring, not framework
 - [ ] Tool-specific skill discovery symlinks (`.claude/skills/` etc.) — document when providers converge
 - [ ] CI validation for SKILL.md frontmatter
 - [ ] Course contribution workflow (CONTRIBUTING.md, PR templates)
