@@ -245,6 +245,23 @@ Before writing a journal entry or tutorial section, read the existing
 content to match the established style and register. Do not introduce
 a different voice mid-document.
 
+### 6.5 First-Entry Calibration
+
+When writing the first journal entry for a course (no existing journal
+content to match), check if the course has a `references/SAMPLE-PROGRESS.md`.
+If not, use the golden reference at
+`core/courses/go-lang-for-developers/references/SAMPLE-PROGRESS.md`.
+Use the sample to calibrate:
+
+- **Detail level** — how granular are the error descriptions and
+  milestone entries?
+- **Structure** — how are milestones, errors, and summaries organised?
+- **Tone** — how raw or polished is the writing?
+
+The sample is a calibration reference, not a template to copy. Match
+its register and depth, then let the journal develop its own character
+as the learner's journey unfolds.
+
 ---
 
 ## 7. Reasoning Review
