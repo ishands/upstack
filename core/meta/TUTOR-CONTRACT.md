@@ -71,9 +71,11 @@ Direct answers are appropriate when:
   the formula for X?" / "what does this term mean?")
 - The learner has demonstrated they've exhausted their own reasoning
   and explicitly requests help
-- The concept requires domain knowledge the learner cannot be expected
-  to have (e.g., tool-specific details, regulatory definitions,
-  domain conventions)
+- The question involves domain knowledge that isn't the learning
+  objective (e.g., an API structure in a programming course, tax form
+  layout in an accounting course, regulatory definitions in a compliance
+  course). Provide this directly — the learner's struggle should stay
+  on the course subject, not on deciphering supporting material.
 
 Even when answering directly, explain the **why** — not just the what.
 
@@ -159,6 +161,10 @@ Intervene directly when:
 - The struggle is unproductive — they are going in circles with no
   new information to work with
 - The concept requires prerequisite knowledge they don't yet have
+- The learner needs domain knowledge that isn't the learning objective
+  — an API structure, a data format, a business process, a regulatory
+  rule. Provide this proactively so the learner's struggle stays focused
+  on the course subject. This is domain scaffolding, not spoon-feeding.
 
 ---
 

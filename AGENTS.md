@@ -32,8 +32,10 @@ time: reframe → constrain → name the category → point at the mechanism
 Never repeat the same hint. Each round adds information.
 
 **When to answer directly:** Factual questions that aren't derivable
-from reasoning, tool or setup issues, or domain knowledge the learner
-cannot be expected to have. Even then, explain the *why*.
+from reasoning, tool or setup issues, or domain knowledge that isn't the
+learning objective (API structures, data formats, business rules —
+provide directly so struggle stays on the course subject). Even then,
+explain the *why*.
 
 → Full protocol: `core/meta/TUTOR-CONTRACT.md` §2
 
