@@ -24,7 +24,7 @@ or `custom/courses/` (user-owned):
 ```
 
 The course directory contains curriculum and reference material only.
-Learner code lives in the learner's own separate project — each
+Learner work lives in the learner's own separate workspace — each
 assignment is a self-contained project, not a subdirectory of the course.
 
 ---
@@ -103,8 +103,8 @@ The body follows the frontmatter and contains human-readable course content.
 ```markdown
 # Course Title
 
-A concise description of the course — what you will build/learn and why
-it matters to the target learner.
+A concise description of the course — what you will learn and produce,
+and why it matters to the target learner.
 
 ## What You Will Learn
 
@@ -125,7 +125,7 @@ Brief description of what this module covers and why it is sequenced first.
 
 #### Assignment 1: Title
 
-Brief description of what this assignment builds and why.
+Brief description of what this assignment produces and why.
 
 > **Note for learners and tutors:** (Optional) Clarify what is and isn't
 > the learning objective. If the assignment uses a domain the learner
@@ -136,20 +136,20 @@ Brief description of what this assignment builds and why.
 
 **Suggested milestones:**
 
-1. **Milestone name** — what to build and what concept emerges
-2. **Milestone name** — what to build and what concept emerges
-3. **Milestone name** — what to build and what concept emerges
+1. **Milestone name** — what to produce and what concept emerges
+2. **Milestone name** — what to produce and what concept emerges
+3. **Milestone name** — what to produce and what concept emerges
 
-**Design questions to surface before building:**
+**Design questions to surface before starting:**
 
 - Question that forces a design decision where prior instincts may mislead?
-- Question about architectural trade-offs the learner must resolve?
-- Question about responsibility placement or data flow?
+- Question about structural/design trade-offs the learner must resolve?
+- Question about how to organise or what depends on what?
 
 **Topics:**
 
 - [ ] Topic 1 — brief description
-- [ ] Topic 2 — brief description. *Paradigm shift: old instinct vs new idiom.*
+- [ ] Topic 2 — brief description. *Paradigm shift: old instinct vs new approach.*
 - [ ] Topic 3 — brief description
 
 #### Assignment 2: Title
@@ -158,9 +158,9 @@ Brief description.
 
 **Suggested milestones:**
 
-1. **Milestone name** — what to build and what concept emerges
+1. **Milestone name** — what to produce and what concept emerges
 
-**Design questions to surface before building:**
+**Design questions to surface before starting:**
 
 - Design question?
 
@@ -201,38 +201,38 @@ These patterns are used by `parse-course.js` and must be followed exactly:
 - **Assignment numbering:** Sequential within the course (not within each module)
 
 Topics are the learnable concepts — what the learner will understand, not
-task steps they will complete. "Understand goroutine scheduling" is a topic.
-"Write a function that spawns workers" is a task.
+task steps they will complete. "Understand goroutine scheduling" or
+"Master the accounting equation" are topics. "Write a function that
+spawns workers" or "Fill in column B" are tasks.
 
 ### Milestones
 
-Suggested milestones are a build order the tutor can adapt — not rigid
-steps. Each milestone names one thing to produce and one concept that
-emerges. They help the tutor sequence the assignment and give the learner
-a sense of progression.
+Suggested milestones are a suggested order the tutor can adapt — not
+rigid steps. Each milestone names one thing to produce and one concept
+that emerges. They help the tutor sequence the assignment and give the
+learner a sense of progression.
 
 ### Design Questions
 
-Design questions are posed before the learner starts building. They
-target decisions where the learner must think architecturally —
-responsibility placement, data flow, trade-offs. These drive productive
-struggle at the design level before any code/work is produced. See
-TUTOR-CONTRACT.md §10.3.
+Design questions are posed before the learner starts working. They
+target decisions where the learner must think structurally — how to
+organise, what depends on what, what trade-offs exist. These drive
+productive struggle at the design level before any work is produced.
+See TUTOR-CONTRACT.md §10.3.
 
 ### Paradigm Shift Flags
 
 When the course targets learners who come from a different paradigm
 (e.g., OOP developers learning Go, accountants learning data science),
 some topics involve active unlearning. Flag these with an italic
-annotation naming the old instinct and the new idiom:
+annotation naming the old instinct and the new approach:
 
 ```
 - [ ] Topic — description. *Paradigm shift: old instinct vs new approach.*
 ```
 
-This helps the tutor anticipate where prior mental models will mislead
-and apply bridging (TUTOR-CONTRACT.md §3.3) rather than teaching from
-scratch.
+This helps the tutor anticipate where prior mental models will mislead and
+apply bridging (TUTOR-CONTRACT.md §3.3) rather than teaching from scratch.
 
 ### Scope Notes
 

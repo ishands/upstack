@@ -68,11 +68,11 @@ possible (e.g., derive slug from title).
    per module? Give me a brief title for each assignment."
 8. **Prerequisites** — "Does this course assume prior courses or
    knowledge? If none, that's fine."
-9. **Milestones** — "For each assignment, what's the natural build
-   order? What would you build first, second, third?" These become
+9. **Milestones** — "For each assignment, what's the natural order of
+   work? What would you tackle first, second, third?" These become
    suggested milestones in the COURSE.md.
 10. **Design questions** — "What decisions should the learner think
-    through before they start building? What trade-offs or architectural
+    through before they start working? What trade-offs or structural/design
     choices will they face?" These are posed by the tutor before
     execution (see TUTOR-CONTRACT.md §10.3).
 11. **Paradigm shifts** — "Does the learner come from a different
@@ -101,7 +101,7 @@ Create the course directory under the chosen location
 ```
 
 The course directory contains curriculum and reference material only.
-Learner code lives in the learner's own separate project — each
+Learner work lives in the learner's own separate workspace — each
 assignment is a self-contained project, not a subdirectory of the course.
 
 ### Step 3 — Generate COURSE.md
@@ -146,18 +146,20 @@ git add <location>/<slug> && git commit -m "course: scaffold <slug>"
 ## Authoring Guidelines
 
 - **Assignments are projects, not exercises.** Each assignment should
-  build something meaningful — a system, a workflow, a model. "Build a
-  REST API client" is an assignment. "Write a for loop" is not.
+  produce something meaningful — a system, a workflow, a model, an
+  analysis. "Build a REST API client" or "Create a quarterly budget
+  forecast" is an assignment. "Write a for loop" or "Add two cells"
+  is not.
 - **Topics are learnable concepts, not task steps.** "Understand
   goroutine scheduling" or "Master double-entry bookkeeping" are topics.
   "Create a file" or "Run the tests" are tasks.
-- **Milestones are a build order, not rigid steps.** Each milestone
+- **Milestones are a suggested order, not rigid steps.** Each milestone
   names one thing to produce and one concept that emerges. The tutor
   adapts them to the learner's pace. Milestones help the tutor sequence
   the assignment and give the learner a sense of progression.
 - **Design questions drive struggle before execution.** Pose decisions
-  the learner must resolve before building. Target trade-offs and
-  responsibility placement, especially where prior instincts mislead.
+  the learner must resolve before starting work. Target trade-offs and
+  structural decisions, especially where prior instincts mislead.
 - **Paradigm shift flags help the tutor bridge.** When the learner's
   prior knowledge will actively conflict with a topic, flag it. The
   tutor can then anticipate the conflict and apply bridging rather
