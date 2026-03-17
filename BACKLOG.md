@@ -65,7 +65,7 @@ The fully-worked showcase course. Repackage the existing `learning-go` project a
 
 Open-source readiness. Everything needed to flip the repo from private to public.
 
-- [ ] Skill directory separation — move all skills from `.claude/skills/<name>/` to `.claude/skills/core/<name>/`. Create `.claude/skills/custom/` with `.gitkeep`. Update all references across AGENTS.md, skill cross-references, tech spec, docs, and scripts. This eliminates the main merge-conflict surface for forked repos.
+- [x] Skill directory separation — move all skills from `.claude/skills/<name>/` to `.claude/skills/core/<name>/`. Create `.claude/skills/custom/` with `.gitkeep`. Update all references across AGENTS.md, skill cross-references, tech spec, docs, and scripts. This eliminates the main merge-conflict surface for forked repos.
 - [ ] `CLAUDE.md` — root-level import hub. Uses `@path` syntax to import `AGENTS.md` and `AGENTS-CUSTOM.md`. Upstream-managed, stable.
 - [ ] `AGENTS-CUSTOM.md` — user-owned tutor extension file. Move the "Active Course" section from `AGENTS.md` here so `start-course` skill writes to the user-owned file. Ship with placeholder instructions for customisation (org-specific tutor rules, additional behaviour, custom skill references). Update `start-course` skill to write to `AGENTS-CUSTOM.md` instead of `AGENTS.md`. Upstream never touches this file.
 - [ ] LICENSE file — dual license: MIT for code (`scripts/`, `*.js`), CC-BY-SA 4.0 for content (everything else). Single file at repo root with both licenses clearly delineated.
