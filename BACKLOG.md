@@ -1,6 +1,6 @@
 # Upstack — Product Backlog
 
-**Last updated:** 2026-03-15
+**Last updated:** 2026-03-17
 **Status key:** `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` descoped
 
 ---
@@ -61,9 +61,32 @@ The fully-worked showcase course. Repackage the existing `learning-go` project a
 
 ---
 
-## M4: Starter Courses
+## M4: Prepare for Publishing
 
-`COURSE.md` definitions only — no reference material or sample progress. Proves the framework generalises beyond Go and gives M6's engineering bootcamp real courses to bundle. AI tutor draws on its own knowledge for these fundamentals.
+Open-source readiness. Everything needed to flip the repo from private to public.
+
+- [ ] Skill directory separation — move all skills from `.claude/skills/<name>/` to `.claude/skills/core/<name>/`. Create `.claude/skills/custom/` with `.gitkeep`. Update all references across AGENTS.md, skill cross-references, tech spec, docs, and scripts. This eliminates the main merge-conflict surface for forked repos.
+- [ ] `CLAUDE.md` — root-level import hub. Uses `@path` syntax to import `AGENTS.md` and `AGENTS-CUSTOM.md`. Upstream-managed, stable.
+- [ ] `AGENTS-CUSTOM.md` — user-owned tutor extension file. Move the "Active Course" section from `AGENTS.md` here so `start-course` skill writes to the user-owned file. Ship with placeholder instructions for customisation (org-specific tutor rules, additional behaviour, custom skill references). Update `start-course` skill to write to `AGENTS-CUSTOM.md` instead of `AGENTS.md`. Upstream never touches this file.
+- [ ] LICENSE file — dual license: MIT for code (`scripts/`, `*.js`), CC-BY-SA 4.0 for content (everything else). Single file at repo root with both licenses clearly delineated.
+- [ ] .gitignore — `node_modules/`, `.DS_Store`, `Thumbs.db`, `*.log`
+- [ ] package.json — remove `private: true`, add `license: "MIT AND CC-BY-SA-4.0"`, repository (`ishands/upstack`), homepage, bugs, `author: "Ishan De Silva"`, keywords
+- [ ] Independence & cost disclaimer — add "Independence & Costs" section to README (not sponsored, not funded, pro subscription required). Also update `docs/LEARNING-WITH-UPSTACK.md` setup section with subscription requirements.
+- [ ] Cross-provider documentation — add "AI Tool Compatibility" section to README and learning guide. Honest: built and tested with Claude Code, content layer works with any tool, skills require Claude Code or manual invocation. Community contributions for other providers welcome.
+- [ ] CONTRIBUTING.md — fork-and-own guide, course contribution process (use create-course, PR to core/courses/), framework contribution process (higher bar, open issue first), quality bar, commit conventions, cross-provider contribution welcome
+- [ ] CODE_OF_CONDUCT.md — adopt Contributor Covenant v2.1
+- [ ] GitHub issue templates — bug report, course proposal, framework improvement (`.github/ISSUE_TEMPLATE/`)
+- [ ] GitHub PR template (`.github/PULL_REQUEST_TEMPLATE.md`)
+- [ ] README additions — license section, contributing section, courses available section, badges (license, version, contributions welcome)
+- [ ] Set up `main` + `develop` branch model — create `develop` branch, set `main` as default for forks, branch protection
+- [ ] Final review — read every file as a stranger would. Check for internal references, unclear jargon, missing context.
+- [ ] Flip to public — change repo visibility, add description and topics, tag `v0.1.0`
+
+---
+
+## M5: Starter Courses
+
+`COURSE.md` definitions only — no reference material or sample progress. Proves the framework generalises beyond Go and gives M7's engineering bootcamp real courses to bundle. AI tutor draws on its own knowledge for these fundamentals. Build using the `create-course` skill as a community user would — this tests the skill chain end-to-end.
 
 - [ ] `core/courses/git-101/COURSE.md` — version control fundamentals. Assignments TBD during build (likely: repo basics, branching & merging, collaboration workflows). Target: Novice in git, any background.
 - [ ] `core/courses/oop-101/COURSE.md` — core OOP concepts (encapsulation, inheritance, polymorphism, composition). Language-agnostic framing with examples in Java/Python. Target: Novice in OOP, has basic programming.
@@ -71,7 +94,7 @@ The fully-worked showcase course. Repackage the existing `learning-go` project a
 
 ---
 
-## M5: Progress Reporting
+## M6: Progress Reporting
 
 Needed for org-ready use cases and the self-directed engineer to track learning.
 
@@ -81,20 +104,20 @@ Needed for org-ready use cases and the self-directed engineer to track learning.
 
 ---
 
-## M6: Learning Paths
+## M7: Learning Paths
 
 The sequenced course bundle concept. Enables the engineering bootcamp and similar curated paths.
 
 - [ ] `LEARNING-PATH.md` schema — YAML frontmatter (title, slug, courses with order/unlock dependencies, milestones) + markdown body
 - [ ] `core/learning-paths/` directory structure
-- [ ] `engineering-bootcamp/LEARNING-PATH.md` — fresh grad learning path bundling Go Lang for Developers (M3), git-101, oop-101, dsa-101 (M4), with sequencing and prerequisites
+- [ ] `engineering-bootcamp/LEARNING-PATH.md` — fresh grad learning path bundling Go Lang for Developers (M3), git-101, oop-101, dsa-101 (M5), with sequencing and prerequisites
 - [ ] `start-learning-path` skill — initialise journals for all courses in sequence, show roadmap (defer if `start-course` per course is sufficient)
 
 ---
 
-## M7: Static Site
+## M8: Static Site
 
-Course discovery and progress visualisation for users who prefer a browser over the terminal.
+Course discovery and progress visualisation for users who prefer a browser over the terminal. Target deployment: GitHub Pages at `upstacklearning.org`.
 
 - [ ] Site framework choice (static site generator TBD)
 - [ ] Course catalogue page — list all courses from `core/courses/` and `custom/courses/`
@@ -108,6 +131,5 @@ Course discovery and progress visualisation for users who prefer a browser over 
 
 - [ ] `TUTOR-CONTRACT-ORG.md` — organisational variant with reporting cadence and coordinator config
 - [ ] `ORG-PROFILE.md` — organisation L&D configuration template
-- [ ] Tool-specific skill discovery symlinks (`.claude/skills/` etc.) — document when providers converge
+- [ ] Cross-provider skill adapters — symlinks or setup script for Cursor, Gemini CLI, etc. Community-driven when demand emerges.
 - [ ] CI validation for SKILL.md frontmatter
-- [ ] Course contribution workflow (CONTRIBUTING.md, PR templates)
