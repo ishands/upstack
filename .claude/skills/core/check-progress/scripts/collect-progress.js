@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-// .claude/skills/check-progress/scripts/collect-progress.js
-// Usage: node .claude/skills/check-progress/scripts/collect-progress.js [--course <slug>] [--output json|text]
+// .claude/skills/core/check-progress/scripts/collect-progress.js
+// Usage: node .claude/skills/core/check-progress/scripts/collect-progress.js [--course <slug>] [--output json|text]
 
 const fs = require('fs');
 const path = require('path');
-const { parseJournal } = require('../../../../scripts/utils/parse-journal');
-const { getCompletionTimestamp } = require('../../../../scripts/utils/git-utils');
+const { parseJournal } = require('../../../../../scripts/utils/parse-journal');
+const { getCompletionTimestamp } = require('../../../../../scripts/utils/git-utils');
 
-const PROGRESS_DIR = path.join(__dirname, '..', '..', '..', '..', 'progress');
+const PROGRESS_DIR = path.join(__dirname, '..', '..', '..', '..', '..', 'progress');
 
 async function collectProgress(courseSlug = null) {
   const results = [];

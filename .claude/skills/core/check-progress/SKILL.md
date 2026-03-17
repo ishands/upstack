@@ -30,11 +30,11 @@ the output.
 
 - **Specific course requested** — use `--course <slug>`:
   ```
-  node .claude/skills/check-progress/scripts/collect-progress.js --course <slug> --output text
+  node .claude/skills/core/check-progress/scripts/collect-progress.js --course <slug> --output text
   ```
 - **All active courses** — omit `--course`:
   ```
-  node .claude/skills/check-progress/scripts/collect-progress.js --output text
+  node .claude/skills/core/check-progress/scripts/collect-progress.js --output text
   ```
 
 If the learner didn't specify, check the Active Course section in
@@ -69,7 +69,7 @@ found), tell the learner: "No progress found. Start a course with
 
 ## Reference
 
-- Script source: `.claude/skills/check-progress/scripts/collect-progress.js`
+- Script source: `.claude/skills/core/check-progress/scripts/collect-progress.js`
 - Journal parser: `scripts/utils/parse-journal.js`
 - Git utilities: `scripts/utils/git-utils.js`
 - Tech spec §6.3.3: full skill specification

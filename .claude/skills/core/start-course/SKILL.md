@@ -173,7 +173,7 @@ Read calibration sources in this order:
 
 1. `profile/PROFILE.md` (if it exists) — the learner's full
    background across all courses. See
-   `.claude/skills/configure-profile/references/PROFILE-TEMPLATE.md`
+   `.claude/skills/core/configure-profile/references/PROFILE-TEMPLATE.md`
    §"How the Tutor Reads the Profile" for per-section guidance.
 2. `progress/<slug>/learner-context.md` — course-specific context.
    How this learner's background applies to this particular course.
@@ -230,5 +230,5 @@ End with an invitation to begin: "Ready to start Assignment 1?" or
 
 - Journal template and scribe instructions: `references/JOURNAL-TEMPLATE.md`
 - Learner context measurement checklist: `references/LEARNER-CONTEXT.md`
-- Profile reading guidance: `.claude/skills/configure-profile/references/PROFILE-TEMPLATE.md`
+- Profile reading guidance: `.claude/skills/core/configure-profile/references/PROFILE-TEMPLATE.md`
 - Tech spec §6.3.1: full skill specification

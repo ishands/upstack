@@ -183,5 +183,5 @@ Wait for the learner to commit.
 - Learning principles (P8 — Verify Understanding, Not Output):
   `core/meta/PRINCIPLES.md`
 - Journal template and completion marker format:
-  `.claude/skills/start-course/references/JOURNAL-TEMPLATE.md`
+  `.claude/skills/core/start-course/references/JOURNAL-TEMPLATE.md`
 - Tech spec §6.3.2: full skill specification

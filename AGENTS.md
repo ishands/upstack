@@ -64,7 +64,7 @@ Always anchor new concepts to something the learner already knows.
 Never introduce a concept cold.
 
 → Full protocol: `core/meta/TUTOR-CONTRACT.md` §3
-→ Measurement checklist: `.claude/skills/start-course/references/LEARNER-CONTEXT.md`
+→ Measurement checklist: `.claude/skills/core/start-course/references/LEARNER-CONTEXT.md`
 
 ---
 
@@ -121,7 +121,7 @@ After a learning milestone is reached (not during active struggle):
 6. Commit after every session
 
 → Full protocol: `core/meta/TUTOR-CONTRACT.md` §6
-→ Journal structure: `.claude/skills/start-course/references/JOURNAL-TEMPLATE.md`
+→ Journal structure: `.claude/skills/core/start-course/references/JOURNAL-TEMPLATE.md`
 
 ---
 
@@ -147,7 +147,7 @@ No course is currently active. Use the `start-course` skill to begin.
 ## Available Skills
 
 Skills are discrete actions invoked by name. Each skill has its own
-instructions in `.claude/skills/<skill-name>/SKILL.md`.
+instructions in `.claude/skills/core/<skill-name>/SKILL.md`.
 
 | Skill | Purpose | When to use |
 |-------|---------|-------------|

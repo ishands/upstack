@@ -4,20 +4,24 @@ Agent Skills for Upstack, following the [agentskills.io](https://agentskills.io)
 
 ## Structure
 
-Each skill is a self-contained subdirectory named `{verb}-{object}`:
+Each skill is a self-contained subdirectory named `{verb}-{object}`,
+organised into `core/` (upstream-managed) and `custom/` (user-owned):
 
 ```
 .claude/skills/
-├── configure-profile/
-│   └── SKILL.md
-├── start-course/
-│   ├── SKILL.md
-│   └── references/
-│       └── ...
-└── check-progress/
-    ├── SKILL.md
-    └── scripts/
-        └── collect-progress.js
+├── core/                    # Upstream skills — don't modify
+│   ├── configure-profile/
+│   │   └── SKILL.md
+│   ├── start-course/
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       └── ...
+│   └── check-progress/
+│       ├── SKILL.md
+│       └── scripts/
+│           └── collect-progress.js
+└── custom/                  # Your skills — never upstreamed
+    └── .gitkeep
 ```
 
 - **`SKILL.md`** (required) — skill definition with YAML frontmatter and instructions

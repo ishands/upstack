@@ -25,7 +25,7 @@ one suit.
 
 | File | Location | Created by | Purpose |
 |------|----------|------------|---------|
-| `PROFILE-TEMPLATE.md` | `.claude/skills/configure-profile/references/` (this file) | Framework author | Measurement checklist — what questions to ask |
+| `PROFILE-TEMPLATE.md` | `.claude/skills/core/configure-profile/references/` (this file) | Framework author | Measurement checklist — what questions to ask |
 | `PROFILE.md` | `profile/` | `configure-profile` skill | The actual anatomy — this learner's answers |
 
 The output file lives in `profile/` — learner-owned and never
