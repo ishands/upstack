@@ -3,7 +3,7 @@
 **Version:** 2.1
 **Author:** Ishan De Silva
 **Date:** 1 March 2026
-**Status:** Pre-build specification
+**Status:** Living specification — through M4 (open-source readiness)
 **Major Revision:** Skills-based architecture; AGENTS.md + Agent Skills open standards
 
 ---
@@ -64,14 +64,28 @@ Upstack is a local-first, open-source learning framework that configures AI as a
 ```
 upstack/
 │
+├── CLAUDE.md                    # Import hub — loads AGENTS.md + AGENTS-CUSTOM.md
+├── AGENTS.md                    # LLM-agnostic tutor configuration (open standard)
+├── AGENTS-CUSTOM.md             # User-owned tutor extensions + active course
 ├── README.md                    # Manifesto and quick start
 ├── CONTRIBUTING.md              # How to add courses and contribute
-├── AGENTS.md                    # LLM-agnostic tutor configuration (open standard)
+├── CODE_OF_CONDUCT.md           # Contributor Covenant v2.1
+├── LICENSE                      # Dual: MIT (code) + CC-BY-SA 4.0 (content)
 ├── BACKLOG.md                   # Product backlog (milestones + tasks)
 ├── package.json                 # Root — dependencies + npm run scripts
+├── .gitignore
+│
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug-report.md
+│   │   ├── course-proposal.md
+│   │   └── framework-improvement.md
+│   └── PULL_REQUEST_TEMPLATE.md
 │
 ├── docs/                        # Living design documents
-│   └── UPSTACK-TECH-SPEC.md     # Technical specification (this file)
+│   ├── UPSTACK-TECH-SPEC.md     # Technical specification (this file)
+│   ├── LEARNING-WITH-UPSTACK.md # Full learner guide
+│   └── AI-LIMITATIONS.md        # Honest guide to AI tutor drift
 │
 ├── refs/                        # Stable reference material
 │   └── UPSTACK-CONCEPT-PAPER.md # Full theoretical foundation
@@ -80,17 +94,12 @@ upstack/
 │   ├── meta/                    # Framework core (ambient-layer docs)
 │   │   ├── PRINCIPLES.md        # Learning theory foundation
 │   │   ├── TUTOR-CONTRACT.md    # Base tutor behaviour (referenced by AGENTS.md)
-│   │   ├── TUTOR-CONTRACT-ORG.md # Organisational variant
 │   │   └── ANTI-PATTERNS.md     # What Upstack is not
 │   │
-│   ├── courses/                 # Community-contributed, reviewed courses
-│   │   └── go-lang-for-developers/ # Featured use case (fully annotated)
-│   │       ├── COURSE.md        # Course definition with YAML frontmatter
-│   │       └── references/      # Sample progress, scribe calibration material
-│   │
-│   └── learning-paths/          # Sequenced course bundles
-│       └── engineering-bootcamp/
-│           └── LEARNING-PATH.md
+│   └── courses/                 # Community-contributed, reviewed courses
+│       └── go-lang-for-developers/ # Featured use case (fully annotated)
+│           ├── COURSE.md        # Course definition with YAML frontmatter
+│           └── references/      # Sample progress, scribe calibration material
 │
 ├── custom/                      # User-owned — modify freely
 │   ├── courses/                 # Your personal courses — not upstreamed
@@ -101,52 +110,45 @@ upstack/
 ├── .claude/                     # Claude Code tool configuration
 │   └── skills/                  # Agent Skills (agentskills.io format)
 │       ├── README.md            # Skill conventions and structure guide
-│       ├── configure-profile/
-│       │   ├── SKILL.md         # Create/update learner profile
-│       │   └── references/
-│       │       └── PROFILE-TEMPLATE.md  # Measurement checklist
-│       ├── create-course/
-│       │   ├── SKILL.md         # Scaffold new course from schema
-│       │   └── references/
-│       │       └── COURSE-SCHEMA.md
-│       ├── start-course/
-│       │   ├── SKILL.md         # Initialise journal, load course context
-│       │   └── references/
-│       │       ├── JOURNAL-TEMPLATE.md  # Journal scaffold
-│       │       └── LEARNER-CONTEXT.md   # Per-course calibration checklist
-│       ├── complete-assignment/
-│       │   └── SKILL.md         # Reasoning review gate, mark [x], commit
-│       ├── check-progress/
-│       │   ├── SKILL.md         # Display current completion state
-│       │   └── scripts/
-│       │       └── collect-progress.js
-│       ├── generate-report/
-│       │   ├── SKILL.md         # Generate + commit progress report
-│       │   └── scripts/
-│       │       └── generate-report.js
-│       └── send-report/
-│           ├── SKILL.md         # Email report to coordinator(s)
-│           └── scripts/
-│               └── send-report.js
+│       ├── core/                # Upstream skills — don't modify
+│       │   ├── configure-profile/
+│       │   │   ├── SKILL.md     # Create/update learner profile
+│       │   │   └── references/
+│       │   │       └── PROFILE-TEMPLATE.md  # Measurement checklist
+│       │   ├── create-course/
+│       │   │   ├── SKILL.md     # Scaffold new course from schema
+│       │   │   └── references/
+│       │   │       └── COURSE-SCHEMA.md
+│       │   ├── start-course/
+│       │   │   ├── SKILL.md     # Initialise journal, load course context
+│       │   │   └── references/
+│       │   │       ├── JOURNAL-TEMPLATE.md  # Journal scaffold
+│       │   │       └── LEARNER-CONTEXT.md   # Per-course calibration checklist
+│       │   ├── complete-assignment/
+│       │   │   └── SKILL.md     # Reasoning review gate, mark [x], commit
+│       │   └── check-progress/
+│       │       ├── SKILL.md     # Display current completion state
+│       │       └── scripts/
+│       │           └── collect-progress.js
+│       └── custom/              # Your skills — never upstreamed
+│           └── .gitkeep
 │
 ├── scripts/                     # Shared utilities (imported by skills)
 │   └── utils/
-│       ├── parse-course.js      # COURSE.md parser (curriculum structure)
 │       ├── parse-journal.js     # Journal parser (progress state)
-│       ├── parse-learning-path.js # LEARNING-PATH.md parser
 │       └── git-utils.js         # Git log timestamp extraction
 │
 ├── profile/                     # Learner identity — who you are
 │   └── PROFILE.md               # Created by configure-profile skill
 │
 ├── progress/                    # Learner-owned — never upstreamed
-│   └── go-lang-for-developers/  # One directory per active course
+│   └── <course-slug>/           # One directory per active course
 │       ├── learner-context.md   # This learner's calibration for this course
 │       ├── journal.md           # Living learning journal (source of truth)
-│       └── report-20260207.md   # Generated progress reports
+│       └── report-YYYYMMDD.md   # Generated progress reports
 │
-└── site/                        # Static site (GitHub Pages)
-    └── ...                      # Structure TBD — see M6
+└── site/                        # Static site (GitHub Pages) — TBD
+    └── .gitkeep
 ```
 
 **`core/` vs `custom/` separation.** Everything in `core/` is upstream-managed — learners do not modify these files. Everything in `custom/` is user-owned. This separation guarantees zero merge conflicts when pulling upstream course updates. The `profile/` and `progress/` directories are also user-owned but serve distinct purposes: profile captures who the learner is (static-ish), progress captures what they've done (changes every session).
@@ -281,6 +283,8 @@ For the full journal structure (header format, per-assignment sections, error do
 
 Scripts are Node.js and live inside their owning skill's `scripts/` subdirectory (see Section 2). Shared parsing utilities live in `scripts/utils/` at the repo root and are imported by skills. Scripts are invoked by the AI agent as tool calls, by `npm run` commands, or directly from the terminal.
 
+> **Implementation status:** Sections 5.1 and 5.5 are implemented and match the repository. Sections 5.2–5.4 are forward-looking specifications for M6 (Progress Reporting) and M8 (Static Site). The inline code in those sections is the intended implementation, not yet built.
+
 ### 5.1 `collect-progress.js`
 
 **Location:** `.claude/skills/core/check-progress/scripts/collect-progress.js`
@@ -294,10 +298,10 @@ Walks the `progress/` directory, parses all `journal.md` files, extracts complet
 
 const fs = require('fs');
 const path = require('path');
-const { parseJournal } = require('../../../../scripts/utils/parse-journal');
-const { getCompletionTimestamp } = require('../../../../scripts/utils/git-utils');
+const { parseJournal } = require('../../../../../scripts/utils/parse-journal');
+const { getCompletionTimestamp } = require('../../../../../scripts/utils/git-utils');
 
-const PROGRESS_DIR = path.join(__dirname, '..', '..', '..', '..', 'progress');
+const PROGRESS_DIR = path.join(__dirname, '..', '..', '..', '..', '..', 'progress');
 
 async function collectProgress(courseSlug = null) {
   const results = [];
