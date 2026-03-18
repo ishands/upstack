@@ -79,7 +79,7 @@ Open-source readiness. Everything needed to flip the repo from private to public
 - [x] GitHub issue templates — bug report, course proposal, framework improvement (`.github/ISSUE_TEMPLATE/`)
 - [x] GitHub PR template (`.github/PULL_REQUEST_TEMPLATE.md`)
 - [x] README additions — license section, contributing section, courses available section, badges (license, version, contributions welcome)
-- [ ] Set up `main` + `develop` branch model — create `develop` branch, set `main` as default for forks, branch protection
+- [x] Set up `main` + `develop` branch model — create `develop` branch, set `main` as default for forks, branch protection
 - [ ] Final review — read every file as a stranger would. Check for internal references, unclear jargon, missing context.
 - [ ] Flip to public — change repo visibility, add description and topics, tag `v0.1.0`
 
