@@ -84,6 +84,17 @@ contents of `AGENTS.md` and paste it as your first message. The tutor
 behaviour works the same — you just load it manually instead of
 automatically.
 
+Upstack's tutor configuration uses the open
+[AGENTS.md](https://agents.md/) standard, and its skills follow the
+[Agent Skills](https://agentskills.io/) specification. As AI providers
+deepen their support for these standards, the tutor experience improves
+automatically.
+
+Most AI tools require a paid subscription for sustained use. Free tiers
+may work for short sessions but typically hit usage limits, reduced
+context windows, or restricted features during extended learning. A
+pro-tier subscription to your chosen tool is recommended.
+
 **What matters is not which tool you use. What matters is that the
 tutor configuration is loaded.** Without it, the AI defaults to its
 natural behaviour: answering questions directly, optimising for your

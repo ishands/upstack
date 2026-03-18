@@ -11,7 +11,7 @@
 
 AI has broken the link between producing an output and understanding
 how to produce it. You can generate working code, correct answers, and
-polished analysis without building the mental model of *why* it works.
+polished analysis without building the mental model of _why_ it works.
 The output is there. The understanding is not.
 
 Upstack redirects AI from oracle to tutor:
@@ -99,12 +99,32 @@ genuine understanding — not just completion. See the
 [concept paper](refs/UPSTACK-CONCEPT-PAPER.md) for the full
 theoretical foundation.
 
-## Disclaimer
+## Independence & Costs
 
 Upstack is an independent open-source project. It is not sponsored by,
-affiliated with, or endorsed by any AI company. The framework is
-AI-tool-agnostic by design — it works with any tool that supports the
-AGENTS.md standard, and with plain chat interfaces via copy-paste.
+affiliated with, or endorsed by any AI company.
+
+The framework builds on two open standards:
+
+- [**AGENTS.md**](https://agents.md/) — the open standard for
+  configuring ambient AI agent behaviour in a repository. Stewarded by the
+  Agentic AI Foundation under the Linux Foundation. Supported by
+  Claude Code, OpenAI Codex, Google Jules, Cursor, VS Code, GitHub
+  Copilot, and others.
+- [**Agent Skills**](https://agentskills.io/) — the open specification
+  for discoverable, portable AI skill definitions. Skills are
+  structured actions that any compliant AI tool can find and invoke.
+
+Because Upstack builds on open standards rather than proprietary APIs,
+the tutor experience improves as AI providers deepen their support for
+these specifications — without any changes to Upstack itself.
+
+**Upstack is free. The AI tools it runs on are not.** Most AI coding
+tools require a paid subscription for the sustained, context-heavy
+sessions that real learning demands. Free tiers typically have usage
+limits, reduced context windows, or restricted features that will
+interrupt the learning flow. Budget for a pro-tier subscription to
+whichever AI tool you choose.
 
 ## Links
 
@@ -117,4 +137,4 @@ AGENTS.md standard, and with plain chat interfaces via copy-paste.
 
 ---
 
-*Knowledge is a commodity. Upstack is how you build insight.*
+_Knowledge is a commodity. Upstack is how you build insight._
