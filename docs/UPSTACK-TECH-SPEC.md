@@ -886,9 +886,11 @@ Upstack's AI integration is split into two layers aligned with open standards:
 
 The base `core/meta/TUTOR-CONTRACT.md` file is retained as the detailed reference for learning theory and tutor behaviour. AGENTS.md references it. Skills reference specific sections as needed.
 
-### 6.2 AGENTS.md — Tutor Configuration
+### 6.2 AGENTS.md, AGENTS-CUSTOM.md, and CLAUDE.md — Tutor Configuration
 
-The `AGENTS.md` file at the repository root is the LLM-agnostic agent configuration. It is read automatically by tools that support the AGENTS.md standard (Claude Code, Codex, Cursor, Gemini, and others). For tools that do not yet read AGENTS.md natively, use a symlink: `ln -s AGENTS.md CLAUDE.md` or `ln -s AGENTS.md .cursorrules`.
+`CLAUDE.md` is the root-level import hub, read by Claude Code. It uses `@path` syntax to import both `AGENTS.md` (upstream-managed tutor configuration) and `AGENTS-CUSTOM.md` (user-owned extensions). For tools that read `AGENTS.md` natively (Codex, Cursor, Gemini, and others), the core tutor configuration loads directly. For tools that support neither, use a symlink: `ln -s AGENTS.md .cursorrules`.
+
+`AGENTS-CUSTOM.md` is the user-owned tutor extension file. It contains the **Active Course** section (managed by the `start-course` skill) and a reserved area below for user customisations (organisation-specific tutor rules, additional behaviour, custom skill references). Upstream never touches this file.
 
 The full `AGENTS.md` content is maintained in the live file at the
 repository root — not reproduced here, to avoid drift between the
@@ -900,7 +902,6 @@ spec and the actual configuration. The file contains:
 - **Principles summary** — one-line summary of all eight principles. References `core/meta/PRINCIPLES.md`.
 - **Anti-pattern guardrails** — the seven named anti-patterns as a compact checklist with self-correction protocol. References `core/meta/ANTI-PATTERNS.md`.
 - **Scribe protocol** — when and how to maintain the learning journal. References `core/meta/TUTOR-CONTRACT.md` §6 and `.claude/skills/core/start-course/references/JOURNAL-TEMPLATE.md`.
-- **Active course** — populated by the `start-course` skill; blank by default
 - **Privacy rules** — constraints on email, outbound communication, external services
 - **Available skills table** — lists all invocable skills with purpose and trigger conditions
 

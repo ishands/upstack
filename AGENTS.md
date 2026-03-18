@@ -125,15 +125,6 @@ After a learning milestone is reached (not during active struggle):
 
 ---
 
-## Active Course
-
-<!-- This section is populated by the start-course skill.
-     Do not edit manually. -->
-
-No course is currently active. Use the `start-course` skill to begin.
-
----
-
 ## Privacy
 
 - Do not send emails, messages, or any outbound communication unless

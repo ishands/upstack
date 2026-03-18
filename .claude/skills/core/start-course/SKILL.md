@@ -148,13 +148,14 @@ git add progress/<slug>/ && git commit -m "progress: start <slug>"
 
 If resuming with no new files, skip this step.
 
-### Step 6 — Update AGENTS.md Active Course section
+### Step 6 — Update AGENTS-CUSTOM.md Active Course section
 
-Read the root `AGENTS.md` file. Find the `## Active Course` section.
-Replace its content (between the section heading and the next `---`
-separator) with:
+Read the root `AGENTS-CUSTOM.md` file. Find the `<!-- start-course -->`
+comment. Replace everything from that comment up to (and including) the
+`---` separator that follows the Active Course content with:
 
 ```markdown
+<!-- start-course -->
 ## Active Course
 
 **Course:** {title}
@@ -162,6 +163,8 @@ separator) with:
 **Path:** {core/courses or custom/courses}/{slug}/COURSE.md
 **Journal:** progress/{slug}/journal.md
 **Learner Context:** progress/{slug}/learner-context.md
+
+---
 ```
 
 This ensures the tutor has the active course in context on every
