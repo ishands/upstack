@@ -28,8 +28,16 @@ struggle.
 
 ## Before You Start
 
-Read `references/COURSE-SCHEMA.md` — the full COURSE.md schema with
-YAML frontmatter fields, markdown body structure, and formatting rules.
+Read these files — they must be in your context before continuing:
+
+1. `references/COURSE-SCHEMA.md` — the full COURSE.md schema with
+   YAML frontmatter fields, markdown body structure, and formatting rules
+2. `core/courses/go-lang-for-developers/COURSE.md` — the reference
+   course. Read this to calibrate what a well-structured COURSE.md looks
+   like: YAML frontmatter, assignment descriptions, suggested milestones,
+   design questions, paradigm shift flags, scope notes, topic checklists,
+   and reasoning review prompts. Match its register and depth when
+   generating the new course scaffold.
 
 ---
 
