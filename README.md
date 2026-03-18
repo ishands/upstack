@@ -77,6 +77,23 @@ challenge to the right level.
 See [Learning with Upstack](docs/LEARNING-WITH-UPSTACK.md) for the
 full guide.
 
+## AI Tool Compatibility
+
+Upstack has two layers, each with different tool requirements:
+
+| Layer                             | What it does                                                                           | Works with                                                                                                                                                       |
+| --------------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Tutor behaviour** (`AGENTS.md`) | Ambient configuration — Socratic protocol, calibration, anti-patterns, scribe protocol | Any tool that reads AGENTS.md: Claude Code, OpenAI Codex, Google Jules, Cursor, VS Code + Copilot, Gemini CLI, and others. Plain chat interfaces via copy-paste. |
+| **Skills** (`.claude/skills/`)    | Discrete actions — `/start-course`, `/configure-profile`, `/check-progress`, etc.      | Claude Code natively. Other tools: `@`-mention the skill's `SKILL.md`, or follow the steps manually.                                                             |
+
+Upstack is built and tested with **Claude Code**. The tutor behaviour
+layer works well across any AGENTS.md-compatible tool. Skill support
+depends on each tool's implementation of the
+[Agent Skills](https://agentskills.io/) specification — as providers
+adopt the standard, skills will work natively in more tools.
+
+Community contributions for other providers are welcome.
+
 ## AI Limitations
 
 AI agents follow structured contracts like `AGENTS.md` well — but not
@@ -88,16 +105,10 @@ models, not a bug in any specific tool.
 You are the quality control. When you notice drift, call it out — the
 tutor is designed to self-correct. Restarting sessions resets
 compliance to its strongest point. See
-[AI Limitations](docs/AI-LIMITATIONS.md) for drift symptoms, causes,
+[AI Tutor Limitations](docs/AI-LIMITATIONS.md) for drift symptoms, causes,
 and practical tips.
 
-## For Organisations
-
-Upstack supports structured learning paths for teams and cohorts.
-Progress reports with reasoning review prompts help managers probe for
-genuine understanding — not just completion. See the
-[concept paper](refs/UPSTACK-CONCEPT-PAPER.md) for the full
-theoretical foundation.
+---
 
 ## Independence & Costs
 
@@ -125,6 +136,14 @@ sessions that real learning demands. Free tiers typically have usage
 limits, reduced context windows, or restricted features that will
 interrupt the learning flow. Budget for a pro-tier subscription to
 whichever AI tool you choose.
+
+## For Organisations
+
+Upstack supports structured learning paths for teams and cohorts.
+Progress reports with reasoning review prompts help managers probe for
+genuine understanding — not just completion. See the
+[concept paper](refs/UPSTACK-CONCEPT-PAPER.md) for the full
+theoretical foundation.
 
 ## Links
 

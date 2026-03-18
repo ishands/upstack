@@ -71,7 +71,12 @@ or when your professional context changes.
 
 ## 3. Pick Your AI Tool
 
-Upstack works with any AI tool that reads `AGENTS.md`:
+Upstack has two layers, and they have different tool requirements:
+
+**Tutor behaviour** (`AGENTS.md`) — the ambient layer. This is the
+Socratic protocol, calibration, anti-patterns, and scribe protocol.
+It works with any tool that reads the
+[AGENTS.md](https://agents.md/) standard:
 
 - **Claude Code** (recommended) — reads AGENTS.md natively, supports
   agent skills for `/start-course`, `/check-progress`, etc.
@@ -83,6 +88,18 @@ For plain chat interfaces (ChatGPT, Claude web, etc.): copy the
 contents of `AGENTS.md` and paste it as your first message. The tutor
 behaviour works the same — you just load it manually instead of
 automatically.
+
+**Skills** (`.claude/skills/`) — the discrete action layer. Skills
+like `/start-course` and `/configure-profile` follow the
+[Agent Skills](https://agentskills.io/) specification. Currently,
+only Claude Code discovers and invokes skills natively. With other
+tools, try `@`-mentioning the skill file (e.g.
+`@.claude/skills/core/start-course/SKILL.md`) — most tools that
+support file references will load the skill instructions into context.
+If that isn't supported either, you can read the `SKILL.md` and follow
+the steps manually — the instructions are written for both AI and
+human readability. As more providers adopt the Agent Skills standard,
+native support will follow.
 
 Upstack's tutor configuration uses the open
 [AGENTS.md](https://agents.md/) standard, and its skills follow the
