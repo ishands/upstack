@@ -69,7 +69,7 @@ Open-source readiness. Everything needed to flip the repo from private to public
 - [x] `CLAUDE.md` — root-level import hub. Uses `@path` syntax to import `AGENTS.md` and `AGENTS-CUSTOM.md`. Upstream-managed, stable.
 - [x] `AGENTS-CUSTOM.md` — user-owned tutor extension file. Move the "Active Course" section from `AGENTS.md` here so `start-course` skill writes to the user-owned file. Ship with placeholder instructions for customisation (org-specific tutor rules, additional behaviour, custom skill references). Update `start-course` skill to write to `AGENTS-CUSTOM.md` instead of `AGENTS.md`. Upstream never touches this file.
 - [x] LICENSE file — dual license: MIT for code (`scripts/`, `*.js`), CC-BY-SA 4.0 for content (everything else). Single file at repo root with both licenses clearly delineated.
-- [ ] .gitignore — `node_modules/`, `.DS_Store`, `Thumbs.db`, `*.log`
+- [x] .gitignore — `node_modules/`, `.DS_Store`, `Thumbs.db`, `*.log`
 - [ ] package.json — remove `private: true`, add `license: "MIT AND CC-BY-SA-4.0"`, repository (`ishands/upstack`), homepage, bugs, `author: "Ishan De Silva"`, keywords
 - [ ] Framework-managed vs custom files — document the managed section pattern (`<!-- Managed by the Upstack framework -->` / `<!-- END managed section -->`) in README and `docs/LEARNING-WITH-UPSTACK.md`. Explain which files are upstream-managed (`CLAUDE.md`, `AGENTS.md`), which have managed sections (`AGENTS-CUSTOM.md`), and where users put their own customisations.
 - [ ] Independence & cost disclaimer — add "Independence & Costs" section to README (not sponsored, not funded, pro subscription required). Also update `docs/LEARNING-WITH-UPSTACK.md` setup section with subscription requirements.
