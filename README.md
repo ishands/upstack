@@ -78,8 +78,11 @@ courses) and your **learner context** (how your background applies to
 this specific course) to calibrate every explanation, analogy, and
 challenge to the right level.
 
+Upstack separates framework-managed files (updated by upstream and
+skills) from user-owned files (your profile, progress, customisations).
 See [Learning with Upstack](docs/LEARNING-WITH-UPSTACK.md) for the
-full guide.
+full guide, including the
+[file structure](docs/LEARNING-WITH-UPSTACK.md#understanding-the-file-structure).
 
 ## AI Tool Compatibility
 

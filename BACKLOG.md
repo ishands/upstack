@@ -53,7 +53,7 @@ The operational backbone. Build in dependency order.
 The fully-worked showcase course. Repackage the existing `learning-go` project as the first curated Upstack course (`go-lang-for-developers`) with broadened learner context and a sample progress block for AI scribe calibration.
 
 - [x] `core/courses/go-lang-for-developers/COURSE.md` — full course definition with YAML frontmatter, two assignments (HostManager, FeedCatcher), suggested milestones, design questions, paradigm shift flags, reasoning review prompts, and Market Data Gateway capstone. Includes learning objectives and topic checklists for both assignments. Learner context: developer with experience in at least one general-purpose language (Java, C#, Python, C++) — Novice in Go, Competent+ in general programming. Source: `learning-go/` repo. Course stands independent inside Upstack. Also updated `create-course` skill and COURSE-SCHEMA.md with lessons learned (milestones, design questions, paradigm shifts, scope notes, simplified directory structure).
-- [x] Sample progress block — curate `learning-go/meta/ASSIGNMENT2-JOURNEY.md` into `core/courses/go-lang-for-developers/references/SAMPLE-PROGRESS.md`. Concrete calibration example for the AI scribe: milestone structure, error→fix→concept rhythm, "Got It Right" pattern, summary tables. Lightly edited for broadened learner context. Raw chats stay private in `upstack-the-making/`. The sample should not carry any personal details of the learner from the `learning-go/` repo — content should be generalized and abstracted.
+- [x] Sample progress block — curate a worked example into `core/courses/go-lang-for-developers/references/SAMPLE-PROGRESS.md`. Concrete calibration example for the AI scribe: milestone structure, error→fix→concept rhythm, "Got It Right" pattern, summary tables. Lightly edited for broadened learner context. The sample should not carry any personal details of the learner — content should be generalized and abstracted.
 - [x] Domain-neutrality pass on framework artefacts. The go-lang course build introduced programming-flavored language into two framework-level files. Fix `COURSE-SCHEMA.md` and `create-course/SKILL.md`: "build" → "produce/create", "code" → "work", "architectural" → "structural/design", "idiom" → "approach". Add non-CS examples alongside CS ones (accounting, Excel, project management) per AGENTS.md architecture decision. Also reframe "Learner code lives in the learner's own separate project" to be domain-neutral — not all courses produce code.
 - [x] Add domain scaffolding to `TUTOR-CONTRACT.md` §4.3 or §2.3 — the tutor should proactively help with domain knowledge that isn't the learning objective (e.g., API docs in a Go course, tax form structure in an accounting course) so struggle stays focused on the course subject. Also add a one-liner to `AGENTS.md` "When to answer directly" block.
 - [x] Add scribe calibration reference to `TUTOR-CONTRACT.md` §6 (Scribe Protocol) — the scribe should check if the course has a `references/SAMPLE-PROGRESS.md` and use it to calibrate detail level, structure, and tone before writing the first journal entry. Currently §6.4 says "read before writing" for style continuity but doesn't mention the sample progress concept.
@@ -71,7 +71,7 @@ Open-source readiness. Everything needed to flip the repo from private to public
 - [x] LICENSE file — dual license: MIT for code (`scripts/`, `*.js`), CC-BY-SA 4.0 for content (everything else). Single file at repo root with both licenses clearly delineated.
 - [x] .gitignore — `node_modules/`, `.DS_Store`, `Thumbs.db`, `*.log`
 - [x] package.json — remove `private: true`, add `license: "MIT AND CC-BY-SA-4.0"`, repository (`ishands/upstack`), homepage, bugs, `author: "Ishan De Silva"`, keywords
-- [ ] Framework-managed vs custom files — document the managed section pattern (`<!-- Managed by the Upstack framework -->` / `<!-- END managed section -->`) in README and `docs/LEARNING-WITH-UPSTACK.md`. Explain which files are upstream-managed (`CLAUDE.md`, `AGENTS.md`), which have managed sections (`AGENTS-CUSTOM.md`), and where users put their own customisations.
+- [x] Framework-managed vs custom files — document the managed section pattern (`<!-- Managed by the Upstack framework -->` / `<!-- END managed section -->`) in README and `docs/LEARNING-WITH-UPSTACK.md`. Explain which files are upstream-managed (`CLAUDE.md`, `AGENTS.md`), which have managed sections (`AGENTS-CUSTOM.md`), and where users put their own customisations.
 - [x] Independence & cost disclaimer — add "Independence & Costs" section to README (not sponsored, not funded, pro subscription required). Also update `docs/LEARNING-WITH-UPSTACK.md` setup section with subscription requirements.
 - [x] Cross-provider documentation — add "AI Tool Compatibility" section to README and learning guide. Honest: built and tested with Claude Code, content layer works with any tool, skills require Claude Code or manual invocation. Community contributions for other providers welcome.
 - [x] CONTRIBUTING.md — fork-and-own guide, course contribution process (use create-course, PR to core/courses/), framework contribution process (higher bar, open issue first), quality bar, commit conventions, cross-provider contribution welcome
@@ -79,9 +79,9 @@ Open-source readiness. Everything needed to flip the repo from private to public
 - [x] GitHub issue templates — bug report, course proposal, framework improvement (`.github/ISSUE_TEMPLATE/`)
 - [x] GitHub PR template (`.github/PULL_REQUEST_TEMPLATE.md`)
 - [x] README additions — license section, contributing section, courses available section, badges (license, version, contributions welcome)
-- [ ] Set up `main` + `develop` branch model — create `develop` branch, set `main` as default for forks, branch protection
-- [ ] Final review — read every file as a stranger would. Check for internal references, unclear jargon, missing context.
-- [ ] Flip to public — change repo visibility, add description and topics, tag `v0.1.0`
+- [x] Set up `main` + `develop` branch model — create `develop` branch, set `main` as default for forks, branch protection
+- [x] Final review — read every file as a stranger would. Check for internal references, unclear jargon, missing context.
+- [x] Flip to public — change repo visibility, add description and topics, tag `v0.1.0`
 
 ---
 
@@ -102,6 +102,7 @@ Needed for org-ready use cases and the self-directed engineer to track learning.
 - [ ] `generate-report` skill — generate + commit a timestamped progress report. Includes `generate-report.js` script.
 - [ ] `send-report` skill — email report to coordinator(s). Includes `send-report.js` script.
 - [ ] Shared `scripts/utils/` — parse-journal.js, parse-course.js, git-utils.js (extracted during M2 skill builds)
+- [ ] Tech spec §5 path cleanup — forward-looking script code blocks (§5.2–5.4) use old `curated/custom` directory naming and stale relative paths from before the `core/` skill nesting. Update inline code to match actual directory structure when implementing these scripts.
 
 ---
 

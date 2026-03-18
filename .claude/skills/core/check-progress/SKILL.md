@@ -38,7 +38,7 @@ the output.
   ```
 
 If the learner didn't specify, check the Active Course section in
-`AGENTS.md`. If a course is active, scope to that course. If no
+`AGENTS-CUSTOM.md`. If a course is active, scope to that course. If no
 course is active, run for all.
 
 ### Step 2 — Run the script

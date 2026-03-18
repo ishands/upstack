@@ -119,6 +119,44 @@ immediate comfort, and removing the friction that builds understanding.
 
 ---
 
+## Understanding the File Structure
+
+Upstack files fall into two categories:
+
+**Framework-managed** — maintained by Upstack upstream. These files
+have a comment marker at the top:
+
+```
+<!-- Managed by the Upstack framework. Do not edit manually. -->
+```
+
+Some files are entirely framework-managed (`CLAUDE.md`, `AGENTS.md`).
+Others have a managed section at the top and a user-owned section
+below (`AGENTS-CUSTOM.md`). The managed section ends with:
+
+```
+<!-- END managed section -->
+```
+
+Everything below that marker is yours. Skills like `start-course`
+write to the managed section only — your customisations below the
+marker are never touched.
+
+**User-owned** — yours to create and modify freely:
+
+| What | Where |
+|------|-------|
+| Your profile | `profile/PROFILE.md` |
+| Your journals and progress | `progress/<course-slug>/` |
+| Your custom courses | `custom/courses/` |
+| Your custom skills | `.claude/skills/custom/` |
+| Your tutor customisations | `AGENTS-CUSTOM.md` (below the managed section) |
+
+When Upstack updates upstream, framework-managed files update cleanly.
+Your files and customisations stay untouched.
+
+---
+
 ## 4. Start a Course
 
 Browse the available courses in `core/courses/` (community-curated) or

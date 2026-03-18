@@ -193,7 +193,7 @@ Brief description.
 
 ## Structure Rules
 
-These patterns are used by `parse-course.js` and must be followed exactly:
+These patterns must be followed exactly for consistent parsing:
 
 - **Modules:** `### Module N: Name` (H3 heading)
 - **Assignments:** `#### Assignment N: Title` (H4 heading, nested under a module)
