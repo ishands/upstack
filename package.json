@@ -1,8 +1,25 @@
 {
   "name": "upstack",
-  "private": true,
   "version": "0.1.0",
   "description": "AI-native learning framework — structured courses with an AI tutor",
+  "license": "MIT AND CC-BY-SA-4.0",
+  "author": "Ishan De Silva",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ishands/upstack.git"
+  },
+  "homepage": "https://github.com/ishands/upstack",
+  "bugs": {
+    "url": "https://github.com/ishands/upstack/issues"
+  },
+  "keywords": [
+    "learning",
+    "ai-tutor",
+    "education",
+    "courses",
+    "socratic-method",
+    "productive-struggle"
+  ],
   "scripts": {
     "progress": "node .claude/skills/core/check-progress/scripts/collect-progress.js --output text"
   },
