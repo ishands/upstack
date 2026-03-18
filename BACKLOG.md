@@ -77,7 +77,7 @@ Open-source readiness. Everything needed to flip the repo from private to public
 - [x] CONTRIBUTING.md — fork-and-own guide, course contribution process (use create-course, PR to core/courses/), framework contribution process (higher bar, open issue first), quality bar, commit conventions, cross-provider contribution welcome
 - [x] CODE_OF_CONDUCT.md — adopt Contributor Covenant v2.1
 - [x] GitHub issue templates — bug report, course proposal, framework improvement (`.github/ISSUE_TEMPLATE/`)
-- [ ] GitHub PR template (`.github/PULL_REQUEST_TEMPLATE.md`)
+- [x] GitHub PR template (`.github/PULL_REQUEST_TEMPLATE.md`)
 - [ ] README additions — license section, contributing section, courses available section, badges (license, version, contributions welcome)
 - [ ] Set up `main` + `develop` branch model — create `develop` branch, set `main` as default for forks, branch protection
 - [ ] Final review — read every file as a stranger would. Check for internal references, unclear jargon, missing context.
