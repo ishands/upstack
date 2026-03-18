@@ -75,7 +75,7 @@ Open-source readiness. Everything needed to flip the repo from private to public
 - [x] Independence & cost disclaimer — add "Independence & Costs" section to README (not sponsored, not funded, pro subscription required). Also update `docs/LEARNING-WITH-UPSTACK.md` setup section with subscription requirements.
 - [x] Cross-provider documentation — add "AI Tool Compatibility" section to README and learning guide. Honest: built and tested with Claude Code, content layer works with any tool, skills require Claude Code or manual invocation. Community contributions for other providers welcome.
 - [x] CONTRIBUTING.md — fork-and-own guide, course contribution process (use create-course, PR to core/courses/), framework contribution process (higher bar, open issue first), quality bar, commit conventions, cross-provider contribution welcome
-- [ ] CODE_OF_CONDUCT.md — adopt Contributor Covenant v2.1
+- [x] CODE_OF_CONDUCT.md — adopt Contributor Covenant v2.1
 - [ ] GitHub issue templates — bug report, course proposal, framework improvement (`.github/ISSUE_TEMPLATE/`)
 - [ ] GitHub PR template (`.github/PULL_REQUEST_TEMPLATE.md`)
 - [ ] README additions — license section, contributing section, courses available section, badges (license, version, contributions welcome)
