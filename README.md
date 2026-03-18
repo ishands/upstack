@@ -1,5 +1,9 @@
 # Upstack
 
+[![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/content-CC--BY--SA--4.0-lightgrey.svg)](LICENSE)
+[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
 **An open-source framework that configures AI as a genuine tutor — not an answer machine.**
 
 > Knowledge is a commodity. Everyone will give you answers. What they
@@ -137,13 +141,38 @@ limits, reduced context windows, or restricted features that will
 interrupt the learning flow. Budget for a pro-tier subscription to
 whichever AI tool you choose.
 
+## Courses
+
+| Course                                                                  | Domain      | Target Audience                                                                   |
+| ----------------------------------------------------------------------- | ----------- | --------------------------------------------------------------------------------- |
+| [Go Lang for Developers](core/courses/go-lang-for-developers/COURSE.md) | Programming | Developer with experience in at least one general-purpose language — Novice in Go |
+
+More courses are planned (git, OOP, data structures & algorithms).
+You can also [create your own](CONTRIBUTING.md#contributing-a-course)
+in any domain using the `create-course` skill.
+
 ## For Organisations
 
 Upstack supports structured learning paths for teams and cohorts.
+
 Progress reports with reasoning review prompts help managers probe for
 genuine understanding — not just completion. See the
 [concept paper](refs/UPSTACK-CONCEPT-PAPER.md) for the full
 theoretical foundation.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to contribute courses,
+framework improvements, and cross-provider support.
+
+## License
+
+Dual licensed:
+
+- [MIT](LICENSE) for code (`scripts/`, `*.js`)
+- [CC-BY-SA 4.0](LICENSE) for content (courses, skills, documentation, everything else).
+
+See [LICENSE](LICENSE) for full terms.
 
 ## Links
 
