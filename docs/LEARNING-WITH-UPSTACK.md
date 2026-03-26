@@ -15,7 +15,7 @@ When you open this repository with an AI tool, `AGENTS.md` configures
 the AI as two things:
 
 **A tutor** that guides rather than answers. When you ask "how does
-this work?", the tutor's first instinct is to ask you what *you* think
+this work?", the tutor's first instinct is to ask you what _you_ think
 is happening. It provides hints, asks probing questions, and escalates
 toward the answer only after you've genuinely attempted the problem.
 This is not the AI being unhelpful — it is the AI preserving the
@@ -28,6 +28,7 @@ the moments where something clicked. This record becomes your learning
 journal.
 
 The tutor does not:
+
 - Give you the answer before you've tried
 - Let incorrect reasoning pass without surfacing it
 - Accept "I understand" without asking you to demonstrate it
@@ -48,6 +49,7 @@ a form to fill out. The tutor interviews you conversationally and
 captures the answers.
 
 **First time:** Use `/configure-profile`. The tutor asks about:
+
 - Your professional background and domain
 - Your strongest skills (technical, domain, or otherwise)
 - How you naturally think about problems (OOP? process-oriented?
@@ -144,13 +146,13 @@ marker are never touched.
 
 **User-owned** — yours to create and modify freely:
 
-| What | Where |
-|------|-------|
-| Your profile | `profile/PROFILE.md` |
-| Your journals and progress | `progress/<course-slug>/` |
-| Your custom courses | `custom/courses/` |
-| Your custom skills | `.claude/skills/custom/` |
-| Your tutor customisations | `AGENTS-CUSTOM.md` (below the managed section) |
+| What                       | Where                                          |
+| -------------------------- | ---------------------------------------------- |
+| Your profile               | `profile/PROFILE.md`                           |
+| Your journals and progress | `progress/<course-slug>/`                      |
+| Your custom courses        | `custom/courses/`                              |
+| Your custom skills         | `.claude/skills/custom/`                       |
+| Your tutor customisations  | `AGENTS-CUSTOM.md` (below the managed section) |
 
 When Upstack updates upstream, framework-managed files update cleanly.
 Your files and customisations stay untouched.
@@ -163,10 +165,11 @@ Browse the available courses in `core/courses/` (community-curated) or
 create your own in `custom/courses/`.
 
 Use `/start-course` to begin. The tutor:
+
 1. Reads the course definition
 2. Creates your learning journal from the template
 3. Interviews you for your **learner context** — how your background
-   (from your profile) applies to *this specific course*
+   (from your profile) applies to _this specific course_
 4. Calibrates to your level and summarises what's ahead
 
 If you're resuming a course after a break, just open the repo with
@@ -186,14 +189,14 @@ genuine understanding.
 
 1. You read the assignment and start working on it
 2. When you get stuck, you ask the tutor for help
-3. The tutor does *not* give you the answer — it asks you questions,
+3. The tutor does _not_ give you the answer — it asks you questions,
    offers hints, and guides you toward the solution
 4. You struggle. You try things. Some work, some don't.
 5. The tutor watches for incorrect reasoning and surfaces it —
    not to embarrass you, but because **mistakes you don't catch become
    misconceptions you carry forward**
-6. When you reach a solution, the tutor may ask you to explain *why*
-   it works — not just *that* it works
+6. When you reach a solution, the tutor may ask you to explain _why_
+   it works — not just _that_ it works
 
 **This is productive struggle.** It feels slower than asking AI for the
 answer. It is. That slowness is the learning happening. Neuroscience
@@ -260,7 +263,7 @@ When you've worked through all the topics in an assignment, use
 It runs a **reasoning review** — asking you questions that probe
 for genuine understanding:
 
-- Can you explain *why* your solution works, not just that it does?
+- Can you explain _why_ your solution works, not just that it does?
 - What would happen if this constraint changed?
 - Where does this approach break down?
 - What alternatives did you consider, and why did you reject them?
@@ -281,9 +284,11 @@ Use `/check-progress` to see where you stand — completion
 percentages, timestamps, and what's ahead.
 
 Your progress lives entirely in your fork:
+
 - `progress/<course>/journal.md` — your learning journal
-- `progress/<course>/report-YYYYMMDD.md` — generated progress reports
 - `profile/PROFILE.md` — your evolving learner profile
+- `progress/<course>/report-YYYYMMDD.md` — generated progress reports
+  **_(coming soon — `/generate-report` skill is planned)_**
 
 Everything is version-controlled markdown. Push to your GitHub and
 your progress travels with you. Pull upstream course updates at any
@@ -294,7 +299,8 @@ content never touch the same files.
 
 ## 9. For Organisations
 
-If you're using Upstack as part of a team or cohort:
+If you're using Upstack as part of a team or cohort **_(planned features
+— not yet available)_**:
 
 - Progress reports can be generated and sent to L&D coordinators
 - Reports include **reasoning review prompts** — questions designed
@@ -325,4 +331,4 @@ Choose the tool that works for you. The framework does the rest.
 
 ---
 
-*Knowledge is a commodity. Upstack is how you build insight.*
+_Knowledge is a commodity. Upstack is how you build insight._
