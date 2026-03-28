@@ -98,9 +98,11 @@ upstack/
 │   │   └── ANTI-PATTERNS.md     # What Upstack is not
 │   │
 │   └── courses/                 # Community-contributed, reviewed courses
-│       └── go-lang-for-developers/ # Featured use case (fully annotated)
-│           ├── COURSE.md        # Course definition with YAML frontmatter
-│           └── references/      # Sample progress, scribe calibration material
+│       ├── go-lang-for-developers/ # Featured use case (fully annotated)
+│       │   ├── COURSE.md        # Course definition with YAML frontmatter
+│       │   └── references/      # Sample progress, scribe calibration material
+│       └── java-web-programming/   # Web development course
+│           └── COURSE.md
 │
 ├── custom/                      # User-owned — modify freely
 │   ├── courses/                 # Your personal courses — not upstreamed
