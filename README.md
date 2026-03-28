@@ -149,6 +149,7 @@ whichever AI tool you choose.
 | Course                                                                  | Domain      | Target Audience                                                                   |
 | ----------------------------------------------------------------------- | ----------- | --------------------------------------------------------------------------------- |
 | [Go Lang for Developers](core/courses/go-lang-for-developers/COURSE.md) | Programming | Developer with experience in at least one general-purpose language — Novice in Go |
+| [Java Web Programming](core/courses/java-web-programming/COURSE.md) | Programming | Experienced developer (C++, C#, Python) — new to Java and web development |
 
 More courses are planned (git, OOP, data structures & algorithms).
 You can also [create your own](CONTRIBUTING.md#contributing-a-course)
@@ -179,6 +180,7 @@ See [LICENSE](LICENSE) for full terms.
 
 ## Links
 
+- [Quick Reference](refs/assets/upstack-quick-reference-v1.jpg) — one-page cheat sheet
 - [Learning with Upstack](docs/LEARNING-WITH-UPSTACK.md) — the full
   guide to learning effectively with the framework
 - [Concept Paper](docs/UPSTACK-CONCEPT-PAPER.md) — the theoretical
