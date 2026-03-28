@@ -160,7 +160,7 @@ Upstack supports structured learning paths for teams and cohorts.
 
 Progress reports with reasoning review prompts help managers probe for
 genuine understanding — not just completion. See the
-[concept paper](refs/UPSTACK-CONCEPT-PAPER.md) for the full
+[concept paper](docs/UPSTACK-CONCEPT-PAPER.md) for the full
 theoretical foundation.
 
 ## Contributing
@@ -181,7 +181,7 @@ See [LICENSE](LICENSE) for full terms.
 
 - [Learning with Upstack](docs/LEARNING-WITH-UPSTACK.md) — the full
   guide to learning effectively with the framework
-- [Concept Paper](refs/UPSTACK-CONCEPT-PAPER.md) — the theoretical
+- [Concept Paper](docs/UPSTACK-CONCEPT-PAPER.md) — the theoretical
   foundation (learning stack, productive struggle, Dreyfus model)
 - [Technical Specification](docs/UPSTACK-TECH-SPEC.md) — architecture,
   schemas, and skill definitions

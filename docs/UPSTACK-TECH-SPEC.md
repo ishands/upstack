@@ -85,10 +85,11 @@ upstack/
 ├── docs/                        # Living design documents
 │   ├── UPSTACK-TECH-SPEC.md     # Technical specification (this file)
 │   ├── LEARNING-WITH-UPSTACK.md # Full learner guide
-│   └── AI-LIMITATIONS.md        # Honest guide to AI tutor drift
-│
-├── refs/                        # Stable reference material
+│   ├── AI-LIMITATIONS.md        # Honest guide to AI tutor drift
 │   └── UPSTACK-CONCEPT-PAPER.md # Full theoretical foundation
+│
+├── refs/                        # Internal assets (brand, media — not for learners)
+│
 │
 ├── core/                        # Upstream-managed — do not modify
 │   ├── meta/                    # Framework core (ambient-layer docs)

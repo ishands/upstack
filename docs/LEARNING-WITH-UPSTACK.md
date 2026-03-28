@@ -308,7 +308,7 @@ If you're using Upstack as part of a team or cohort **_(planned features
   completion
 - Learning paths sequence multiple courses into structured programmes
 
-See the [concept paper](../refs/UPSTACK-CONCEPT-PAPER.md) §4.4 for
+See the [concept paper](UPSTACK-CONCEPT-PAPER.md) §4.4 for
 the Reasoning Visibility Principle — why "walk me through your
 thinking" is the most important question a manager can ask.
 
