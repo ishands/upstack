@@ -5,6 +5,21 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
+## [0.2.0] — 2026-03-28
+
+### Added
+
+- **Java Web Programming course** — `core/courses/java-web-programming/COURSE.md`. Four modules (Java foundations, Spring Boot, JPA persistence, production concerns), four assignments, multi-tenant booking system capstone. Targets experienced developers from C++, C#, or Python — new to Java web development. Includes paradigm shift annotations bridging from multiple source languages.
+- **Quick reference cheat sheet** — one-page visual summary of the Upstack workflow, key commands, tutor behaviour, and file ownership (`refs/assets/upstack-quick-reference-v1.jpg`).
+
+### Changed
+
+- **Concept paper moved** — `refs/UPSTACK-CONCEPT-PAPER.md` → `docs/UPSTACK-CONCEPT-PAPER.md`. Learner-facing content belongs in `docs/`.
+- **Learning guide** — marked unbuilt features (learning paths, progress reports) to set accurate expectations.
+- **README** — added Java Web Programming to courses table, added quick reference link.
+
+---
+
 ## [0.1.0] — 2026-03-18
 
 First public release.

@@ -85,10 +85,11 @@ upstack/
 ├── docs/                        # Living design documents
 │   ├── UPSTACK-TECH-SPEC.md     # Technical specification (this file)
 │   ├── LEARNING-WITH-UPSTACK.md # Full learner guide
-│   └── AI-LIMITATIONS.md        # Honest guide to AI tutor drift
-│
-├── refs/                        # Stable reference material
+│   ├── AI-LIMITATIONS.md        # Honest guide to AI tutor drift
 │   └── UPSTACK-CONCEPT-PAPER.md # Full theoretical foundation
+│
+├── refs/                        # Internal assets (brand, media — not for learners)
+│
 │
 ├── core/                        # Upstream-managed — do not modify
 │   ├── meta/                    # Framework core (ambient-layer docs)
@@ -97,9 +98,11 @@ upstack/
 │   │   └── ANTI-PATTERNS.md     # What Upstack is not
 │   │
 │   └── courses/                 # Community-contributed, reviewed courses
-│       └── go-lang-for-developers/ # Featured use case (fully annotated)
-│           ├── COURSE.md        # Course definition with YAML frontmatter
-│           └── references/      # Sample progress, scribe calibration material
+│       ├── go-lang-for-developers/ # Featured use case (fully annotated)
+│       │   ├── COURSE.md        # Course definition with YAML frontmatter
+│       │   └── references/      # Sample progress, scribe calibration material
+│       └── java-web-programming/   # Web development course
+│           └── COURSE.md
 │
 ├── custom/                      # User-owned — modify freely
 │   ├── courses/                 # Your personal courses — not upstreamed
