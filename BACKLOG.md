@@ -1,6 +1,6 @@
 # Upstack — Product Backlog
 
-**Last updated:** 2026-03-17
+**Last updated:** 2026-04-18
 **Status key:** `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` descoped
 
 ---
@@ -14,7 +14,11 @@ Two real users can learn with Upstack:
 
 ---
 
-## M1: Framework Core
+## v0.1.0
+
+Tagged on `main`. Open-sourced.
+
+### Framework Core
 
 The skeleton that everything else depends on.
 
@@ -27,11 +31,9 @@ The skeleton that everything else depends on.
 - [x] `AGENTS.md` — root-level tutor configuration (ambient behaviour layer)
 - [x] `profile/` structure — learner identity, background, preferences (`core/meta/PROFILE-TEMPLATE.md` + `profile/PROFILE.md` output)
 - [x] `progress/` structure — one subdirectory per active course with journal + reports
-- [x] `package.json` — root manifest (scripts added as M2/M3 items are built)
+- [x] `package.json` — root manifest (scripts added as later items are built)
 
----
-
-## M2: First Skills
+### First Skills
 
 The operational backbone. Build in dependency order.
 
@@ -46,11 +48,9 @@ The operational backbone. Build in dependency order.
 - [x] `complete-assignment` — reasoning review gate, verify understanding, mark complete, commit. Core learning flow.
 - [x] `check-progress` — display current completion state. Includes `collect-progress.js` script.
 
----
+### Go Lang for Developers Course
 
-## M3: Go Lang for Developers Course
-
-The fully-worked showcase course. Repackage the existing `learning-go` project as the first curated Upstack course (`go-lang-for-developers`) with broadened learner context and a sample progress block for AI scribe calibration.
+The fully-worked showcase course. Repackage the existing `learning-go` project as the first curated Upstack course.
 
 - [x] `core/courses/go-lang-for-developers/COURSE.md` — full course definition with YAML frontmatter, two assignments (HostManager, FeedCatcher), suggested milestones, design questions, paradigm shift flags, reasoning review prompts, and Market Data Gateway capstone. Includes learning objectives and topic checklists for both assignments. Learner context: developer with experience in at least one general-purpose language (Java, C#, Python, C++) — Novice in Go, Competent+ in general programming. Source: `learning-go/` repo. Course stands independent inside Upstack. Also updated `create-course` skill and COURSE-SCHEMA.md with lessons learned (milestones, design questions, paradigm shifts, scope notes, simplified directory structure).
 - [x] Sample progress block — curate a worked example into `core/courses/go-lang-for-developers/references/SAMPLE-PROGRESS.md`. Concrete calibration example for the AI scribe: milestone structure, error→fix→concept rhythm, "Got It Right" pattern, summary tables. Lightly edited for broadened learner context. The sample should not carry any personal details of the learner — content should be generalized and abstracted.
@@ -59,9 +59,7 @@ The fully-worked showcase course. Repackage the existing `learning-go` project a
 - [x] Add scribe calibration reference to `TUTOR-CONTRACT.md` §6 (Scribe Protocol) — the scribe should check if the course has a `references/SAMPLE-PROGRESS.md` and use it to calibrate detail level, structure, and tone before writing the first journal entry. Currently §6.4 says "read before writing" for style continuity but doesn't mention the sample progress concept.
 - [x] Verify end-to-end: smoke test the skill chain with `go-lang-for-developers`. Run `parse-course.js` against the new COURSE.md (highest risk — schema changed with `**Topics:**` label, milestones, design questions). Then: configure-profile → start-course → check-progress. Full assignment completion is out of scope — that's using the product, not verifying it.
 
----
-
-## M4: Prepare for Publishing
+### Prepare for Publishing
 
 Open-source readiness. Everything needed to flip the repo from private to public.
 
@@ -85,9 +83,39 @@ Open-source readiness. Everything needed to flip the repo from private to public
 
 ---
 
-## M5: Starter Courses
+## v0.2.0
 
-`COURSE.md` definitions only — no reference material or sample progress. Proves the framework generalises beyond Go and gives M7's engineering bootcamp real courses to bundle. AI tutor draws on its own knowledge for these fundamentals. Build using the `create-course` skill as a community user would — this tests the skill chain end-to-end.
+Tagged on `main`. Retroactively documented.
+
+### Java Web Programming Course
+
+- [x] `core/courses/java-web-programming/COURSE.md` — self-directed course for an engineer moving from Java SE into Spring Boot, REST APIs, and web application patterns. Target: Competent in Java, Novice in web/Spring.
+
+### Brand & Reference Assets
+
+- [x] Quick-reference card — `refs/assets/upstack-quick-reference-v1.jpg`, source prompt in `refs/media/QUICK-REFERENCE-PROMPT.md`, markdown version in `refs/media/QUICK-REFERENCE.md`. One-page visual summary of the Upstack workflow for learners.
+- [x] `refs/media/BRAND-BRIEF.md` — voice, tone, visual identity, and messaging guidelines for Upstack.
+- [x] `refs/README.md` — explains the `refs/` directory structure and purpose.
+
+---
+
+## v0.3.0
+
+In progress on `feature/v0.3.0-implementation`.
+
+### Beta Testing Fixes
+
+UX improvements surfaced from real user testing sessions. Targets the first-run experience and the `configure-profile` interview flow.
+
+- [ ] First-session gate in `AGENTS.md` — if no `profile/PROFILE.md` exists, the tutor must invoke `configure-profile` before any learning work (course creation, assignment start, etc.). Currently absent; AI tools proceed directly to course work.
+- [ ] Orientation block in `AGENTS.md` — define how the tutor responds to "What is Upstack?" / "What can I learn here?" queries. Warm, non-technical welcome that invites the learner into `configure-profile` as the natural next step.
+- [ ] CV/LinkedIn fast path in `configure-profile` — open the interview by offering to parse an existing CV or LinkedIn profile. Parse it, present a draft summary for confirmation, then ask only for what's missing. Removes the serial 7-field interview for experienced learners.
+- [ ] Plain-language skill-level framing in `configure-profile` — introduce the five skill levels (Novice → Expert) in plain terms without assuming the learner knows the Dreyfus framework by name. The level names are intuitive and can be retained; the framework name should not appear in learner-facing language.
+- [ ] No-technical-language rule in `configure-profile` — never surface filenames (`profile/PROFILE.md`), internal framework terms, or git commands in learner-facing language during the interview. Tutor handles these silently.
+
+### Starter Courses
+
+`COURSE.md` definitions only — no reference material or sample progress. Proves the framework generalises beyond Go and Java. AI tutor draws on its own knowledge for these fundamentals. Build using the `create-course` skill as a community user would — this tests the skill chain end-to-end.
 
 - [ ] `core/courses/git-101/COURSE.md` — version control fundamentals. Assignments TBD during build (likely: repo basics, branching & merging, collaboration workflows). Target: Novice in git, any background.
 - [ ] `core/courses/oop-101/COURSE.md` — core OOP concepts (encapsulation, inheritance, polymorphism, composition). Language-agnostic framing with examples in Java/Python. Target: Novice in OOP, has basic programming.
@@ -95,29 +123,27 @@ Open-source readiness. Everything needed to flip the repo from private to public
 
 ---
 
-## M6: Progress Reporting
+## Unplanned
+
+### Progress Reporting
 
 Needed for org-ready use cases and the self-directed engineer to track learning.
 
 - [ ] `generate-report` skill — generate + commit a timestamped progress report. Includes `generate-report.js` script.
 - [ ] `send-report` skill — email report to coordinator(s). Includes `send-report.js` script.
-- [ ] Shared `scripts/utils/` — parse-journal.js, parse-course.js, git-utils.js (extracted during M2 skill builds)
+- [ ] Shared `scripts/utils/` — parse-journal.js, parse-course.js, git-utils.js (extracted during earlier skill builds)
 - [ ] Tech spec §5 path cleanup — forward-looking script code blocks (§5.2–5.4) use old `curated/custom` directory naming and stale relative paths from before the `core/` skill nesting. Update inline code to match actual directory structure when implementing these scripts.
 
----
-
-## M7: Learning Paths
+### Learning Paths
 
 The sequenced course bundle concept. Enables the engineering bootcamp and similar curated paths.
 
 - [ ] `LEARNING-PATH.md` schema — YAML frontmatter (title, slug, courses with order/unlock dependencies, milestones) + markdown body
 - [ ] `core/learning-paths/` directory structure
-- [ ] `engineering-bootcamp/LEARNING-PATH.md` — fresh grad learning path bundling Go Lang for Developers (M3), git-101, oop-101, dsa-101 (M5), with sequencing and prerequisites
+- [ ] `engineering-bootcamp/LEARNING-PATH.md` — fresh grad learning path bundling Go Lang for Developers, git-101, oop-101, dsa-101, with sequencing and prerequisites
 - [ ] `start-learning-path` skill — initialise journals for all courses in sequence, show roadmap (defer if `start-course` per course is sufficient)
 
----
-
-## M8: Static Site
+### Static Site
 
 Course discovery and progress visualisation for users who prefer a browser over the terminal. Target deployment: GitHub Pages at `upstacklearning.org`.
 
@@ -127,9 +153,7 @@ Course discovery and progress visualisation for users who prefer a browser over 
 - [ ] Learning path view — show sequenced courses with progress
 - [ ] `scripts/generate-catalogue.js` — build catalogue data for the site
 
----
-
-## Deferred / Future
+### Deferred / Future
 
 - [ ] `TUTOR-CONTRACT-ORG.md` — organisational variant with reporting cadence and coordinator config
 - [ ] `ORG-PROFILE.md` — organisation L&D configuration template
