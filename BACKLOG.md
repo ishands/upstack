@@ -103,6 +103,20 @@ Tagged on `main`. Retroactively documented.
 
 In progress on `feature/v0.3.0-implementation`.
 
+### Skills Migration
+
+**Why:** Claude Code's `/` slash invocation only discovers skills at `.claude/commands/<name>.md`. The current `.claude/skills/core/<name>/` nesting breaks slash invocation — `/configure-profile`, `/start-course`, etc. do not work. The cross-provider standard (agentskills.io) settles on `.agents/skills/` as the canonical provider-neutral location. Moving there future-proofs the repo for Cursor, Gemini CLI, and other providers. Claude Code gets thin `.claude/commands/` stubs that redirect to the canonical path.
+
+**Build order: complete this section before Beta Testing Fixes** — Beta Testing Fixes edit skill files that will move in this section.
+
+- [ ] Move all skill directories from `.claude/skills/core/<name>/` → `.agents/skills/core/<name>/`. Move `.claude/skills/custom/` → `.agents/skills/custom/` (preserve `.gitkeep`). Remove the now-empty `.claude/skills/` tree. Skills to move: `configure-profile`, `create-course`, `start-course`, `complete-assignment`, `check-progress`, `generate-report`, `send-report`.
+
+- [ ] Create `.claude/commands/<name>.md` stub for each skill. Each stub is a single instruction line: `Load and follow the skill at .agents/skills/core/<name>/SKILL.md.` — no content duplication. This enables `/configure-profile`, `/start-course`, `/create-course`, `/complete-assignment`, `/check-progress` slash invocation in Claude Code. Also create stubs for `generate-report` and `send-report` as placeholders (skills not yet implemented). Seven stubs total.
+
+- [ ] Update `AGENTS.md` — change all `.claude/skills/core/<name>/` path references to `.agents/skills/core/<name>/`. Sections to check: Calibration (two path refs), Scribe Protocol (one path ref), Available Skills table (all rows).
+
+- [ ] Update remaining path references across all docs and skill files: `docs/LEARNING-WITH-UPSTACK.md` (setup and skills invocation sections), `docs/UPSTACK-TECH-SPEC.md` (Section 6 skill directory structure), `CONTRIBUTING.md` (skill contribution process, directory layout), `README.md` (AI Tool Compatibility section). Also grep for `.claude/skills` inside `.agents/skills/core/*/SKILL.md` files — skill cross-references and `core/meta/` paths will need updating too.
+
 ### Beta Testing Fixes
 
 UX improvements surfaced from real user testing sessions. Targets the first-run experience and the `configure-profile` interview flow.
