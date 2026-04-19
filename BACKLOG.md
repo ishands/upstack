@@ -123,8 +123,8 @@ In progress on `feature/v0.3.0-implementation`.
 
 UX improvements surfaced from real user testing sessions. Targets the first-run experience and the `configure-profile` interview flow.
 
-- [ ] First-session gate in `AGENTS.md` — if no `profile/PROFILE.md` exists, the tutor must invoke `configure-profile` before any learning work (course creation, assignment start, etc.). Currently absent; AI tools proceed directly to course work.
-- [ ] Orientation block in `AGENTS.md` — define how the tutor responds to "What is Upstack?" / "What can I learn here?" queries. Warm, non-technical welcome that invites the learner into `configure-profile` as the natural next step.
+- [x] First-session gate in `AGENTS.md` — if no `profile/PROFILE.md` exists, the tutor must invoke `configure-profile` before any learning work (course creation, assignment start, etc.). Currently absent; AI tools proceed directly to course work.
+- [x] Orientation block in `AGENTS.md` — define how the tutor responds to "What is Upstack?" / "What can I learn here?" queries. Warm, non-technical welcome that invites the learner into `configure-profile` as the natural next step.
 - [ ] CV/LinkedIn fast path in `configure-profile` — open the interview by offering to parse an existing CV or LinkedIn profile. Parse it, present a draft summary for confirmation, then ask only for what's missing. Removes the serial 7-field interview for experienced learners.
 - [ ] Plain-language skill-level framing in `configure-profile` — introduce the five skill levels (Novice → Expert) in plain terms without assuming the learner knows the Dreyfus framework by name. The level names are intuitive and can be retained; the framework name should not appear in learner-facing language.
 - [ ] No-technical-language rule in `configure-profile` — never surface filenames (`profile/PROFILE.md`), internal framework terms, or git commands in learner-facing language during the interview. Tutor handles these silently.
