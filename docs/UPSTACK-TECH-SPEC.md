@@ -156,9 +156,9 @@ upstack/
 
 **`core/` vs `custom/` separation.** Everything in `core/` is upstream-managed — learners do not modify these files. Everything in `custom/` is user-owned. This separation guarantees zero merge conflicts when pulling upstream course updates. The `profile/` and `progress/` directories are also user-owned but serve distinct purposes: profile captures who the learner is (static-ish), progress captures what they've done (changes every session).
 
-**Two-layer calibration model.** Upstack calibrates the AI tutor using two complementary layers. The **Learner Profile** (`profile/PROFILE.md`) is the learner's full anatomy — professional background, skills inventory, mental models, Dreyfus self-assessment, and learning preferences across all courses. The **Learner Context** (`progress/<slug>/learner-context.md`) is the body spec for one garment — which parts of the learner's anatomy are relevant to *this specific course*. The profile changes slowly as the learner grows (the anatomy grows — completing courses builds new skills and shifts Dreyfus levels upward); the context is created once per course. The tutor reads both: profile first (who you are), then context (how your background applies to this course). See `.claude/skills/core/configure-profile/references/PROFILE-TEMPLATE.md` and `.claude/skills/core/start-course/references/LEARNER-CONTEXT.md` for the measurement checklists.
+**Two-layer calibration model.** Upstack calibrates the AI tutor using two complementary layers. The **Learner Profile** (`profile/PROFILE.md`) is the learner's full anatomy — professional background, skills inventory, mental models, Dreyfus self-assessment, and learning preferences across all courses. The **Learner Context** (`progress/<slug>/learner-context.md`) is the body spec for one garment — which parts of the learner's anatomy are relevant to *this specific course*. The profile changes slowly as the learner grows (the anatomy grows — completing courses builds new skills and shifts Dreyfus levels upward); the context is created once per course. The tutor reads both: profile first (who you are), then context (how your background applies to this course). See `.agents/skills/core/configure-profile/references/PROFILE-TEMPLATE.md` and `.agents/skills/core/start-course/references/LEARNER-CONTEXT.md` for the measurement checklists.
 
-**Note on tool-specific skill discovery:** Upstream skills live in `.claude/skills/core/`, user-created skills in `.claude/skills/custom/`. This is the native discovery path for Claude Code. Other AI tools discover skills in their own locations (e.g., `.gemini/skills/` for Gemini). Cross-provider discovery (symlinks or copies) can be added when needed. The SKILL.md format is the same regardless of discovery path.
+**Note on tool-specific skill discovery:** Upstream skills live in `.agents/skills/core/`, user-created skills in `.agents/skills/custom/`. Claude Code discovers skills via `.claude/commands/` stubs that redirect to the canonical `.agents/skills/` path. Other AI tools discover skills in their own locations (e.g., `.gemini/skills/` for Gemini). Cross-provider discovery (symlinks or copies) can be added when needed. The SKILL.md format is the same regardless of discovery path.
 
 ---
 
@@ -170,7 +170,7 @@ Every course is defined by a `COURSE.md` file at the root of its directory. The 
 
 **Key principle:** `COURSE.md` is the curriculum definition. Learners never edit it. All progress and completion state lives in `progress/<slug>/journal.md`. This separation guarantees zero merge conflicts when learners pull upstream course updates.
 
-**Full schema reference:** `.claude/skills/core/create-course/references/COURSE-SCHEMA.md` — contains YAML frontmatter fields, markdown body template, directory structure, and structure rules (module/assignment/topic heading patterns).
+**Full schema reference:** `.agents/skills/core/create-course/references/COURSE-SCHEMA.md` — contains YAML frontmatter fields, markdown body template, directory structure, and structure rules (module/assignment/topic heading patterns).
 
 ### 3.2 COURSE.md Parsing Rules
 
@@ -272,13 +272,13 @@ Reports are never overwritten — each generation creates a new timestamped file
 
 **Location:** `progress/<course-slug>/journal.md`
 
-**Created by:** AI tutor from `.claude/skills/core/start-course/references/JOURNAL-TEMPLATE.md` when the learner starts a course.
+**Created by:** AI tutor from `.agents/skills/core/start-course/references/JOURNAL-TEMPLATE.md` when the learner starts a course.
 
 **Updated by:** AI tutor as Scribe during every learning session.
 
 **Purpose:** Not a log, not a diary — a **narrative of productive struggle.** The journal is the real learning artifact. It is private to the learner's fork and is never upstreamed.
 
-For the full journal structure (header format, per-assignment sections, error documentation format, scribe instructions), see `.claude/skills/core/start-course/references/JOURNAL-TEMPLATE.md`. For the scribe protocol that governs how the tutor maintains the journal, see `core/meta/TUTOR-CONTRACT.md` §6.
+For the full journal structure (header format, per-assignment sections, error documentation format, scribe instructions), see `.agents/skills/core/start-course/references/JOURNAL-TEMPLATE.md`. For the scribe protocol that governs how the tutor maintains the journal, see `core/meta/TUTOR-CONTRACT.md` §6.
 
 ---
 
@@ -290,14 +290,14 @@ Scripts are Node.js and live inside their owning skill's `scripts/` subdirectory
 
 ### 5.1 `collect-progress.js`
 
-**Location:** `.claude/skills/core/check-progress/scripts/collect-progress.js`
+**Location:** `.agents/skills/core/check-progress/scripts/collect-progress.js`
 
 Walks the `progress/` directory, parses all `journal.md` files, extracts completion state including git timestamps, and outputs structured JSON.
 
 ```javascript
 #!/usr/bin/env node
-// .claude/skills/core/check-progress/scripts/collect-progress.js
-// Usage: node .claude/skills/core/check-progress/scripts/collect-progress.js [--course <slug>] [--output json|text]
+// .agents/skills/core/check-progress/scripts/collect-progress.js
+// Usage: node .agents/skills/core/check-progress/scripts/collect-progress.js [--course <slug>] [--output json|text]
 
 const fs = require('fs');
 const path = require('path');
@@ -365,14 +365,14 @@ module.exports = { collectProgress };
 
 ### 5.2 `generate-report.js`
 
-**Location:** `.claude/skills/core/generate-report/scripts/generate-report.js`
+**Location:** `.agents/skills/core/generate-report/scripts/generate-report.js`
 
 Calls `collect-progress.js` for completion state, loads `COURSE.md` for module structure, generates a formatted markdown report, and commits it to `progress/<slug>/`.
 
 ```javascript
 #!/usr/bin/env node
-// .claude/skills/core/generate-report/scripts/generate-report.js
-// Usage: node .claude/skills/core/generate-report/scripts/generate-report.js --course <slug> [--learner <name>]
+// .agents/skills/core/generate-report/scripts/generate-report.js
+// Usage: node .agents/skills/core/generate-report/scripts/generate-report.js --course <slug> [--learner <name>]
 //   AI agents: invoke this when a module is completed or learner requests a report.
 
 const fs = require('fs');
@@ -590,7 +590,7 @@ const learnerName = args.includes('--learner') ? args[args.indexOf('--learner') 
 const periodDays = args.includes('--days') ? parseInt(args[args.indexOf('--days') + 1]) : 7;
 
 if (!courseSlug) {
-  console.error('Usage: node .claude/skills/core/generate-report/scripts/generate-report.js --course <slug> ' + '[--learner "Name"] [--days 7]');
+  console.error('Usage: node .agents/skills/core/generate-report/scripts/generate-report.js --course <slug> ' + '[--learner "Name"] [--days 7]');
   process.exit(1);
 }
 
@@ -601,15 +601,15 @@ module.exports = { generateReport };
 
 ### 5.3 `send-report.js`
 
-**Location:** `.claude/skills/core/send-report/scripts/send-report.js`
+**Location:** `.agents/skills/core/send-report/scripts/send-report.js`
 
 Opens the user's default email client with the report pre-populated, or sends via SMTP if configured.
 
 ```javascript
 #!/usr/bin/env node
-// .claude/skills/core/send-report/scripts/send-report.js
-// Usage: node .claude/skills/core/send-report/scripts/send-report.js --report <path> --to <email>[,<email>]
-//   Or:  node .claude/skills/core/send-report/scripts/send-report.js --course <slug> --to <email> --generate
+// .agents/skills/core/send-report/scripts/send-report.js
+// Usage: node .agents/skills/core/send-report/scripts/send-report.js --report <path> --to <email>[,<email>]
+//   Or:  node .agents/skills/core/send-report/scripts/send-report.js --course <slug> --to <email> --generate
 
 const fs = require('fs');
 const path = require('path');
@@ -664,7 +664,7 @@ const reportArg = args.includes('--report') ? args[args.indexOf('--report') + 1]
 const subjectArg = args.includes('--subject') ? args[args.indexOf('--subject') + 1] : null;
 
 if (!toArg || !reportArg) {
-  console.error('Usage: node .claude/skills/core/send-report/scripts/send-report.js --report <path> --to <email>[,<email>]');
+  console.error('Usage: node .agents/skills/core/send-report/scripts/send-report.js --report <path> --to <email>[,<email>]');
   process.exit(1);
 }
 
@@ -905,10 +905,10 @@ spec and the actual configuration. The file contains:
 
 - **Identity and role** — configures the AI as an Upstack learning tutor with Guide and Scribe modes
 - **Core behaviour** — Socratic protocol summary (core loop, hint escalation, when to answer directly). References `core/meta/TUTOR-CONTRACT.md` §2.
-- **Calibration** — Dreyfus-based adjustment table, profile and course context reading protocol. References `core/meta/TUTOR-CONTRACT.md` §3 and `.claude/skills/core/start-course/references/LEARNER-CONTEXT.md`.
+- **Calibration** — Dreyfus-based adjustment table, profile and course context reading protocol. References `core/meta/TUTOR-CONTRACT.md` §3 and `.agents/skills/core/start-course/references/LEARNER-CONTEXT.md`.
 - **Principles summary** — one-line summary of all eight principles. References `core/meta/PRINCIPLES.md`.
 - **Anti-pattern guardrails** — the seven named anti-patterns as a compact checklist with self-correction protocol. References `core/meta/ANTI-PATTERNS.md`.
-- **Scribe protocol** — when and how to maintain the learning journal. References `core/meta/TUTOR-CONTRACT.md` §6 and `.claude/skills/core/start-course/references/JOURNAL-TEMPLATE.md`.
+- **Scribe protocol** — when and how to maintain the learning journal. References `core/meta/TUTOR-CONTRACT.md` §6 and `.agents/skills/core/start-course/references/JOURNAL-TEMPLATE.md`.
 - **Privacy rules** — constraints on email, outbound communication, external services
 - **Available skills table** — lists all invocable skills with purpose and trigger conditions
 
@@ -947,11 +947,11 @@ metadata:
 **Instructions summary:**
 1. Read the active `COURSE.md` — extract the Course Structure section
 2. Check if `progress/<slug>/journal.md` exists
-3. If not: create journal from `.claude/skills/core/start-course/references/JOURNAL-TEMPLATE.md`, populating the Progress Tracker with assignments from COURSE.md
+3. If not: create journal from `.agents/skills/core/start-course/references/JOURNAL-TEMPLATE.md`, populating the Progress Tracker with assignments from COURSE.md
 4. Check if `progress/<slug>/learner-context.md` exists
-5. If not: interview the learner using `.claude/skills/core/start-course/references/LEARNER-CONTEXT.md` as the measurement checklist, write answers to `progress/<slug>/learner-context.md`
+5. If not: interview the learner using `.agents/skills/core/start-course/references/LEARNER-CONTEXT.md` as the measurement checklist, write answers to `progress/<slug>/learner-context.md`
 6. Commit: `git add progress/<slug>/ && git commit -m "progress: start <slug>"`
-7. Calibrate: read `profile/PROFILE.md` (if it exists) for the learner's full background, then `progress/<slug>/learner-context.md` for course-specific context. Profile first (who you are), then context (how your background applies to this course). See `.claude/skills/core/configure-profile/references/PROFILE-TEMPLATE.md` §"How the Tutor Reads the Profile" for per-section guidance.
+7. Calibrate: read `profile/PROFILE.md` (if it exists) for the learner's full background, then `progress/<slug>/learner-context.md` for course-specific context. Profile first (who you are), then context (how your background applies to this course). See `.agents/skills/core/configure-profile/references/PROFILE-TEMPLATE.md` §"How the Tutor Reads the Profile" for per-section guidance.
 8. Summarise: what assignments are ahead, where the learner left off (if resuming)
 
 #### 6.3.2 `complete-assignment`
@@ -996,7 +996,7 @@ metadata:
 ```
 
 **Instructions summary:**
-1. Run `node .claude/skills/core/check-progress/scripts/collect-progress.js --course <slug> --output text`
+1. Run `node .agents/skills/core/check-progress/scripts/collect-progress.js --course <slug> --output text`
 2. Display the result to the learner
 
 **Contains:** `scripts/collect-progress.js` (source code in Section 5.1)
@@ -1018,9 +1018,9 @@ metadata:
 ```
 
 **Instructions summary:**
-1. Run `node .claude/skills/core/check-progress/scripts/collect-progress.js --course <slug>` to get current state
+1. Run `node .agents/skills/core/check-progress/scripts/collect-progress.js --course <slug>` to get current state
 2. Inform the learner: "You've completed [X]. I'll generate a progress report now."
-3. Run `node .claude/skills/core/generate-report/scripts/generate-report.js --course <slug> --learner "Name"`
+3. Run `node .agents/skills/core/generate-report/scripts/generate-report.js --course <slug> --learner "Name"`
 4. This commits the report to `progress/<slug>/report-YYYYMMDD.md`
 5. Confirm: "Report saved to `progress/<slug>/`."
 
@@ -1047,7 +1047,7 @@ metadata:
 
 **Instructions summary:**
 1. Ask: "Who should I send this to? Please provide email address(es)." (If learner says "just save it", stop here)
-2. Run `node .claude/skills/core/send-report/scripts/send-report.js --report <path> --to <email>`
+2. Run `node .agents/skills/core/send-report/scripts/send-report.js --report <path> --to <email>`
 3. Confirm: "Report sent to [addresses]."
 4. Do not store email addresses anywhere — ask every time
 
@@ -1084,7 +1084,7 @@ metadata:
 name: configure-profile
 description: >
   Create or update the global learner profile. Interviews the learner
-  using the measurement checklist in .claude/skills/core/configure-profile/references/PROFILE-TEMPLATE.md and
+  using the measurement checklist in .agents/skills/core/configure-profile/references/PROFILE-TEMPLATE.md and
   writes the structured result to profile/PROFILE.md. Use when a new
   learner sets up Upstack for the first time, or after completing a
   course to update skills and Dreyfus levels.
@@ -1094,7 +1094,7 @@ metadata:
 ```
 
 **Instructions summary:**
-1. Read `.claude/skills/core/configure-profile/references/PROFILE-TEMPLATE.md` — the measurement checklist
+1. Read `.agents/skills/core/configure-profile/references/PROFILE-TEMPLATE.md` — the measurement checklist
 2. Check if `profile/PROFILE.md` exists
 3. If new profile: interview the learner through all 7 measurement fields (Name, Professional Background, Skills Inventory, Mental Models, Dreyfus Self-Assessment, Learning Preferences, Completed Courses). Use the Ask/Probe guidance in the template. Do not rush — the profile interview is the learner's first experience with Upstack's conversational calibration.
 4. If updating: read the existing profile, ask what has changed rather than starting from scratch. Natural update triggers: after completing a course (new skills, shifted Dreyfus levels), after a career change, when starting a course in a new domain.
@@ -1118,8 +1118,8 @@ metadata:
     "start": "node scripts/generate-catalogue.js && cd site && npm start",
     "build": "node scripts/generate-catalogue.js && cd site && npm run build",
     "catalogue": "node scripts/generate-catalogue.js",
-    "progress": "node .claude/skills/core/check-progress/scripts/collect-progress.js --output text",
-    "report": "node .claude/skills/core/generate-report/scripts/generate-report.js"
+    "progress": "node .agents/skills/core/check-progress/scripts/collect-progress.js --output text",
+    "report": "node .agents/skills/core/generate-report/scripts/generate-report.js"
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
@@ -1501,7 +1501,7 @@ export default function ReportViewer({ courseSlug }) {
       <code className="code-block">npm run report -- --course {courseSlug} --learner "Your Name"</code>
       <p>To send the latest report:</p>
       <code className="code-block">
-        node .claude/skills/core/send-report/scripts/send-report.js \<br />
+        node .agents/skills/core/send-report/scripts/send-report.js \<br />
         &nbsp;&nbsp;--report progress/{courseSlug}/report-YYYYMMDD.md \<br />
         &nbsp;&nbsp;--to coordinator@yourorg.com
       </code>
@@ -1726,7 +1726,7 @@ cp -r core/learning-paths/template custom/learning-paths/se-fundamentals
 #    echo "COORDINATOR_EMAIL=manager@yourorg.com" > .env
 #    Reports are sent weekly by the AI tutor or manually via:
 #    Use /generate-report then /send-report, or run directly:
-node .claude/skills/core/send-report/scripts/send-report.js \
+node .agents/skills/core/send-report/scripts/send-report.js \
   --report progress/go-lang-for-developers/report-YYYYMMDD.md \
   --to manager@yourorg.com
 ```

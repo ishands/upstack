@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// .claude/skills/core/check-progress/scripts/collect-progress.js
-// Usage: node .claude/skills/core/check-progress/scripts/collect-progress.js [--course <slug>] [--output json|text]
+// .agents/skills/core/check-progress/scripts/collect-progress.js
+// Usage: node .agents/skills/core/check-progress/scripts/collect-progress.js [--course <slug>] [--output json|text]
 
 const fs = require('fs');
 const path = require('path');

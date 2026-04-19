@@ -28,7 +28,7 @@ analogies, different bridges, and different emphasis for each.
 
 | File | Location | Created by | Purpose |
 |------|----------|------------|---------|
-| `LEARNER-CONTEXT.md` | `.claude/skills/core/start-course/references/` (this file) | Framework author | Measurement checklist — what questions to ask |
+| `LEARNER-CONTEXT.md` | `.agents/skills/core/start-course/references/` (this file) | Framework author | Measurement checklist — what questions to ask |
 | `learner-context.md` | `progress/<slug>/` | `start-course` skill | The actual measurements — this learner's answers for this course |
 
 The output file lives in `progress/` alongside the journal — both are

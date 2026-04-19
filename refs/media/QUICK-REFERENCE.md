@@ -36,7 +36,7 @@ upstack/
 ├── custom/
 │   └── courses/                 ← your own courses
 │
-└── .claude/skills/core/         ← skill definitions
+└── .agents/skills/core/         ← skill definitions
 ```
 
 ---
@@ -112,12 +112,12 @@ Restarting a session resets compliance to its strongest point.
 
 ```
 ┌─ Framework-managed (upstream) ──────────────────────────────┐
-│ AGENTS.md · CLAUDE.md · core/ · .claude/skills/core/        │
+│ AGENTS.md · CLAUDE.md · core/ · .agents/skills/core/        │
 │ Do not edit — updated by upstream and skills                │
 └─────────────────────────────────────────────────────────────┘
 
 ┌─ Yours ─────────────────────────────────────────────────────┐
-│ profile/ · progress/ · custom/ · .claude/skills/custom/     │
+│ profile/ · progress/ · custom/ · .agents/skills/custom/     │
 │ AGENTS-CUSTOM.md (below the managed section marker)         │
 │ Your data. Never touched by upstream.                       │
 └─────────────────────────────────────────────────────────────┘

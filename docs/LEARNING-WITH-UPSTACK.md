@@ -91,12 +91,12 @@ contents of `AGENTS.md` and paste it as your first message. The tutor
 behaviour works the same — you just load it manually instead of
 automatically.
 
-**Skills** (`.claude/skills/`) — the discrete action layer. Skills
+**Skills** (`.agents/skills/`) — the discrete action layer. Skills
 like `/start-course` and `/configure-profile` follow the
 [Agent Skills](https://agentskills.io/) specification. Currently,
 only Claude Code discovers and invokes skills natively. With other
 tools, try `@`-mentioning the skill file (e.g.
-`@.claude/skills/core/start-course/SKILL.md`) — most tools that
+`@.agents/skills/core/start-course/SKILL.md`) — most tools that
 support file references will load the skill instructions into context.
 If that isn't supported either, you can read the `SKILL.md` and follow
 the steps manually — the instructions are written for both AI and
@@ -151,7 +151,7 @@ marker are never touched.
 | Your profile               | `profile/PROFILE.md`                           |
 | Your journals and progress | `progress/<course-slug>/`                      |
 | Your custom courses        | `custom/courses/`                              |
-| Your custom skills         | `.claude/skills/custom/`                       |
+| Your custom skills         | `.agents/skills/custom/`                       |
 | Your tutor customisations  | `AGENTS-CUSTOM.md` (below the managed section) |
 
 When Upstack updates upstream, framework-managed files update cleanly.

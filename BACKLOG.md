@@ -111,13 +111,13 @@ In progress on `feature/v0.3.0-implementation`.
 
 **Build order: complete this section before UX Improvements** — UX Improvements edit skill files that will move in this section.
 
-- [ ] Move all skill directories from `.claude/skills/core/<name>/` → `.agents/skills/core/<name>/`. Move `.claude/skills/custom/` → `.agents/skills/custom/` (preserve `.gitkeep`). Remove the now-empty `.claude/skills/` tree. Skills to move: `configure-profile`, `create-course`, `start-course`, `complete-assignment`, `check-progress`, `generate-report`, `send-report`.
+- [x] Move all skill directories from `.claude/skills/core/<name>/` → `.agents/skills/core/<name>/`. Move `.claude/skills/custom/` → `.agents/skills/custom/` (preserve `.gitkeep`). Remove the now-empty `.claude/skills/` tree. Skills to move: `configure-profile`, `create-course`, `start-course`, `complete-assignment`, `check-progress`, `generate-report`, `send-report`.
 
-- [ ] Create `.claude/commands/<name>.md` stub for each skill. Each stub is a single instruction line: `Load and follow the skill at .agents/skills/core/<name>/SKILL.md.` — no content duplication. This enables `/configure-profile`, `/start-course`, `/create-course`, `/complete-assignment`, `/check-progress` slash invocation in Claude Code. Also create stubs for `generate-report` and `send-report` as placeholders (skills not yet implemented — their canonical SKILL.md files do not exist yet; the stubs are forward declarations). Seven stubs total.
+- [x] Create `.claude/commands/<name>.md` stub for each skill. Each stub is a single instruction line: `Load and follow the skill at .agents/skills/core/<name>/SKILL.md.` — no content duplication. This enables `/configure-profile`, `/start-course`, `/create-course`, `/complete-assignment`, `/check-progress` slash invocation in Claude Code. Also create stubs for `generate-report` and `send-report` as placeholders (skills not yet implemented — their canonical SKILL.md files do not exist yet; the stubs are forward declarations). Seven stubs total.
 
-- [ ] Update `AGENTS.md` — change all `.claude/skills/core/<name>/` path references to `.agents/skills/core/<name>/`. Sections to check: Calibration (two path refs), Scribe Protocol (one path ref), Available Skills table (all rows).
+- [x] Update `AGENTS.md` — change all `.claude/skills/core/<name>/` path references to `.agents/skills/core/<name>/`. Sections to check: Calibration (two path refs), Scribe Protocol (one path ref), Available Skills table (all rows).
 
-- [ ] Update remaining path references across all docs and skill files: `docs/LEARNING-WITH-UPSTACK.md` (setup and skills invocation sections), `docs/UPSTACK-TECH-SPEC.md` (Section 6 skill directory structure), `CONTRIBUTING.md` (skill contribution process, directory layout), `README.md` (AI Tool Compatibility section). Also grep for `.claude/skills` inside `.agents/skills/core/*/SKILL.md` files — skill cross-references and `core/meta/` paths will need updating too.
+- [x] Update remaining path references across all docs and skill files: `docs/LEARNING-WITH-UPSTACK.md` (setup and skills invocation sections), `docs/UPSTACK-TECH-SPEC.md` (Section 6 skill directory structure), `CONTRIBUTING.md` (skill contribution process, directory layout), `README.md` (AI Tool Compatibility section). Also grep for `.claude/skills` inside `.agents/skills/core/*/SKILL.md` files — skill cross-references and `core/meta/` paths will need updating too.
 
 ### UX Improvements
 

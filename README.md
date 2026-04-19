@@ -91,7 +91,7 @@ Upstack has two layers, each with different tool requirements:
 | Layer                             | What it does                                                                           | Works with                                                                                                                                                       |
 | --------------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Tutor behaviour** (`AGENTS.md`) | Ambient configuration — Socratic protocol, calibration, anti-patterns, scribe protocol | Any tool that reads AGENTS.md: Claude Code, OpenAI Codex, Google Jules, Cursor, VS Code + Copilot, Gemini CLI, and others. Plain chat interfaces via copy-paste. |
-| **Skills** (`.claude/skills/`)    | Discrete actions — `/start-course`, `/configure-profile`, `/check-progress`, etc.      | Claude Code natively. Other tools: `@`-mention the skill's `SKILL.md`, or follow the steps manually.                                                             |
+| **Skills** (`.agents/skills/`)    | Discrete actions — `/start-course`, `/configure-profile`, `/check-progress`, etc.      | Claude Code natively. Other tools: `@`-mention the skill's `SKILL.md`, or follow the steps manually.                                                             |
 
 Upstack is built and tested with **Claude Code**. The tutor behaviour
 layer works well across any AGENTS.md-compatible tool. Skill support

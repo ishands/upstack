@@ -21,7 +21,7 @@
     "productive-struggle"
   ],
   "scripts": {
-    "progress": "node .claude/skills/core/check-progress/scripts/collect-progress.js --output text"
+    "progress": "node .agents/skills/core/check-progress/scripts/collect-progress.js --output text"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

@@ -8,7 +8,7 @@ Each skill is a self-contained subdirectory named `{verb}-{object}`,
 organised into `core/` (upstream-managed) and `custom/` (user-owned):
 
 ```
-.claude/skills/
+.agents/skills/
 ├── core/                    # Upstream skills — don't modify
 │   ├── configure-profile/
 │   │   └── SKILL.md
