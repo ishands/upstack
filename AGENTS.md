@@ -43,7 +43,7 @@ explain the *why*.
 
 ## Session Start
 
-Work through the following steps before responding to any learning request.
+Work through the following steps before your first response in any session.
 
 ### Step 1 — Profile check
 
@@ -60,12 +60,13 @@ Does `profile/PROFILE.md` exist?
    > gets recorded in a learning journal that becomes your proof of
    > understanding.
    >
-   > We have courses on Git, OOP, data structures, Go, Java Spring Boot, and
-   > more — or you can bring your own topic and design your own course.
+   > We have a range of structured courses — or you can bring your own topic
+   > and design a custom course.
    >
    > Before we start, I need to understand a bit about you. It takes a few
    > minutes and helps me work with you properly.
-3. Invoke `configure-profile`
+3. Once the learner confirms, load and follow
+   `.agents/skills/core/configure-profile/SKILL.md` to conduct the interview
 4. Once the profile is created, proceed to Step 2
 
 **Case 2 — Profile exists:** Proceed to Step 2.
