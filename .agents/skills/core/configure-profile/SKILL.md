@@ -45,6 +45,13 @@ whether you are creating a new profile or updating an existing one.
 
 ### Step 2a — New Profile: Interview
 
+Open by asking if the learner has a professional bio or CV to share:
+"Do you have a professional bio, CV, or LinkedIn summary you'd like to
+paste to the chat? I can use it as a starting point and only ask for
+what's missing."
+
+**Path A — No bio or CV:**
+
 Walk the learner through all 7 measurement fields in order. Use the
 primary Ask prompt for each field. Probe if the answer is sparse — see
 the template for probe questions and examples.
@@ -57,13 +64,23 @@ the template for probe questions and examples.
    things up?"
 4. **Mental Models** — "How do you naturally think about problems? What
    paradigms, frameworks, or habits shape your default approach?"
-5. **Dreyfus Self-Assessment** — "Looking at your main areas of
-   expertise, where do you sit on the skill spectrum?" Offer the scale:
-   - **Novice** — No prior exposure. Need rules and step-by-step guidance.
-   - **Beginner** — Some exposure, can follow instructions but can't improvise.
-   - **Competent** — Can work independently on routine tasks. Understand *why*, not just *how*.
-   - **Proficient** — Strong working knowledge. See the big picture, handle exceptions.
-   - **Expert** — Deep expertise. Intuitive grasp, can teach others.
+5. **Skill Level Self-Assessment** — "Looking at your main areas of
+   expertise, where do you sit on the skill spectrum? Rate yourself
+   honestly — not where you want to be, but where you are now."
+   Offer the five levels as a guide (do not name the framework to the
+   learner):
+   > Here's a five-level scale, from first exposure to deep expertise:
+   >
+   > 1. **Novice** — No prior exposure. You need step-by-step guidance.
+   > 2. **Beginner** — Some exposure. You can follow instructions but
+   >    can't improvise yet.
+   > 3. **Competent** — You can work independently on routine tasks and
+   >    understand the *why*, not just the *how*.
+   > 4. **Proficient** — You see the big picture and handle exceptions well.
+   > 5. **Expert** — Intuitive grasp. You can teach others and spot edge
+   >    cases instinctively.
+   >
+   > Most people land in the middle for most areas — that's normal.
 6. **Learning Preferences** — "How do you learn best? Do you prefer to
    struggle with a problem first or understand the theory first? Do you
    like analogies or formal definitions? Do you want to be pushed hard
@@ -75,6 +92,33 @@ Move through the fields conversationally. If the learner's answer to one
 field naturally covers another, acknowledge what you heard and confirm
 rather than re-asking. Do not present all 7 questions as a numbered list
 — ask one at a time, respond to the answer, then move on.
+
+**Path B — Bio or CV provided:**
+
+1. Parse the pasted text. Extract what you can for each measurement
+   field. Note which are fully covered, partially covered, or missing.
+   - Name, Background, and Skills Inventory are usually well-covered.
+   - Mental Models can often be inferred (e.g. 15 years of Java → likely
+     OOP-oriented thinking) — flag these as inferences for confirmation.
+   - Skill levels can be estimated from years of experience and roles,
+     but flag these as estimates.
+   - Learning Preferences are rarely in a bio — these will almost always
+     need a direct question.
+   - Completed Courses: note any Upstack courses mentioned.
+2. Present what you extracted in conversational form — not as a formatted
+   profile. When presenting skill level estimates, briefly show the
+   five-level scale before stating the estimate — the learner has not
+   yet seen it. Example:
+   "From what you've shared, it sounds like you're a senior engineer
+   with strong C++ and Python background, probably thinking in OOP terms
+   — is that right? And for skill level — five levels from first exposure
+   to deep expertise: Novice → Beginner → Competent → Proficient →
+   Expert. I'd put you around Proficient in systems programming — does
+   that fit?"
+3. Confirm the covered fields, correct any misreadings.
+4. Ask targeted questions only for fields that are missing or uncertain.
+   Learning Preferences will almost always need a direct question.
+5. Once all measurement fields are covered, proceed to Step 3.
 
 ### Step 2b — Update Profile: Targeted conversation
 
@@ -130,6 +174,10 @@ sections discussed. Always update the "Updated" date.
   about why you are asking these questions: "I'm taking your full
   measurements now — this helps me tailor every future course to fit
   you specifically."
+- **No internal language.** Never surface filenames, internal framework
+  terms, or git commands in learner-facing language during the interview.
+  Handle file writes and commits silently — the learner never needs to
+  know these happen.
 
 ---
 

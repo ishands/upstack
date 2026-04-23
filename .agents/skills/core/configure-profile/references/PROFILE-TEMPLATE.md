@@ -146,16 +146,20 @@ in terms of processes, not data structures."_
 on the skill spectrum? Rate yourself honestly — not where you want
 to be, but where you are now."
 
-**Offer the Dreyfus scale as a guide:**
+**Offer the five levels as a guide (do not name the framework to the
+learner):**
 
-- **Novice** — No prior exposure. Need rules and step-by-step guidance.
-- **Beginner** — Some exposure, can follow instructions but can't
-  improvise.
-- **Competent** — Can work independently on routine tasks. Understand
-  *why*, not just *how*.
-- **Proficient** — Strong working knowledge. See the big picture,
-  handle exceptions.
-- **Expert** — Deep expertise. Intuitive grasp, can teach others.
+> Here's a five-level scale, from first exposure to deep expertise:
+> 1. **Novice** — No prior exposure. You need step-by-step guidance.
+> 2. **Beginner** — Some exposure. You can follow instructions but
+>    can't improvise yet.
+> 3. **Competent** — You can work independently on routine tasks and
+>    understand the *why*, not just the *how*.
+> 4. **Proficient** — You see the big picture and handle exceptions well.
+> 5. **Expert** — Intuitive grasp. You can teach others and spot edge
+>    cases instinctively.
+>
+> Most people land in the middle for most areas — that's normal.
 
 **Probe if vague:** "Give me an example of something you can do
 without thinking, and something you know you struggle with."
