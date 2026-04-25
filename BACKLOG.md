@@ -1,16 +1,17 @@
 # Upstack — Product Backlog
 
-**Last updated:** 2026-04-23
+**Last updated:** 2026-04-25
 **Status key:** `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` descoped
 
 ---
 
 ## MVP Goal
 
-Two real users can learn with Upstack:
+Three users can learn with Upstack:
 
-1. **Individual learner** — starts a curated course (Go Lang for Developers, Git-101, OOP-101, or DS&A-101), works through assignments with the AI tutor, tracks progress
+1. **Individual learner** — starts a curated course (Go Lang for Developers, or any of the seven engineering fundamentals courses), works through assignments with the AI tutor, tracks progress
 2. **Self-directed engineer** — configures their profile, creates their own course (Java Spring Boot), learns with the AI tutor
+3. **Bootcamp participant** — enrols in the engineering bootcamp learning path, picks a capstone project (Fact Checker, Research Assistant, or Job Application Tracker), works through seven fundamentals courses with integration tasks that accumulate into a working application
 
 ---
 
@@ -133,13 +134,28 @@ UX improvements surfaced from real user testing sessions. Targets the first-run 
 - [x] Sharpen "The Work Doer" anti-pattern in `core/meta/ANTI-PATTERNS.md` — added "The distinction" section separating reference knowledge (always permitted) from composing the learner's work (never permitted, even with vocabulary just provided); added edge-case examples showing legitimate reference followed by illegitimate composition; revised "What to do instead" with the skeleton rule (pattern, not solution) and coding/non-coding examples; cross-referenced TUTOR-CONTRACT.md §2.3 and §4.4. Added the skeleton rule to TUTOR-CONTRACT.md §2.3.
 - [x] Add learner pushback handling to `core/meta/TUTOR-CONTRACT.md` — new §4.4 in Productive Struggle: assess legitimate frustration (blocked on reference → give pattern directly) vs. premature frustration (hasn't attempted → hold Socratic); never treat pushback as authorisation to provide the composed answer; cross-referenced Anti-Patterns §2 and §7.
 
-### Starter Courses
+### Engineering Fundamentals Courses
 
-`COURSE.md` definitions only — no reference material or sample progress. Proves the framework generalises beyond Go and Java. AI tutor draws on its own knowledge for these fundamentals. Build using the `create-course` skill as a community user would — this tests the skill chain end-to-end.
+Seven standalone `COURSE.md` definitions for the engineering bootcamp series. Each course is self-contained — assignments are framed generically ("design a domain model for your project") with a built-in standalone example that gives a standalone learner a concrete project to work with. When a learning path is active, the tutor reads the learner's project choice from `progress/<learning-path-slug>/learner-context.md` and uses that as the assignment context instead of the standalone example. The course definition never changes — the AI substitutes based on what it finds in context. Build using the `create-course` skill as a community user would — this tests the skill chain end-to-end. No reference material or sample progress files needed; the AI tutor draws on its own knowledge for these fundamentals.
 
-- [ ] `core/courses/git-101/COURSE.md` — version control fundamentals. Assignments TBD during build (likely: repo basics, branching & merging, collaboration workflows). Target: Novice in git, any background.
-- [ ] `core/courses/oop-101/COURSE.md` — core OOP concepts (encapsulation, inheritance, polymorphism, composition). Language-agnostic framing with examples in Java/Python. Target: Novice in OOP, has basic programming.
-- [ ] `core/courses/dsa-101/COURSE.md` — fundamental data structures (arrays, linked lists, stacks, queues, trees, hash maps) and algorithms (sorting, searching, recursion, basic complexity analysis). Target: Novice in DS&A, has basic programming.
+- [ ] `core/courses/git-fundamentals/COURSE.md` — version control basics and feature branch workflow. Three assignments: local repo and commits, branching and merging, pull requests and collaboration. Learner creates a fresh practice repo as the first step — not the Upstack repo (which has history that would confuse a novice). Tutor verifies actions by asking the learner to share command output (`git log --oneline`, `git status`, `git branch -a`) and interpret it. Target: Novice in git, any programming background. Learning path integration task: create the capstone project repo.
+- [ ] `core/courses/markdown-fundamentals/COURSE.md` — structured writing for engineers: READMEs, PR descriptions, technical notes, documentation. Assignments produce real artefacts (a README, a design note, a structured bug report). Target: any background, no prior Markdown experience needed.
+- [ ] `core/courses/oop-fundamentals/COURSE.md` — core OOP concepts through to SOLID principles and an introduction to design patterns. Four assignments: (1) model a domain with classes (encapsulation, state, behaviour), (2) extend with inheritance and polymorphism, then identify where composition is the better choice, (3) apply SOLID — find violations in existing code, refactor to fix them, understand each principle's intent, (4) apply 3–4 patterns (Strategy, Observer, Factory Method, Decorator) to the same domain and reason about when each earns its complexity. Java examples throughout. Target: Novice in OOP but with basic programming experience; has seen classes before but not design discipline. Standalone example: library management system (rich enough to support SRP violations, OCP extension points, LSP hierarchies, and Strategy for fee/checkout algorithms).
+- [ ] `core/courses/agile-fundamentals/COURSE.md` — SDLC evolution, Agile manifesto, Scrum roles, ceremonies, sprint artefacts. Written and scenario-based assignments: write user stories, groom a backlog, diagnose a dysfunctional team scenario, run a retrospective. Target: Novice in Agile/Scrum, any background.
+- [ ] `core/courses/code-quality-fundamentals/COURSE.md` — naming conventions, code smells, self-documenting code, refactoring. Java examples on the same domain as oop-fundamentals. Assignments: identify smells in provided code, rename and restructure for clarity. Target: Novice in clean code practices, basic programming experience.
+- [ ] `core/courses/testing-fundamentals/COURSE.md` — test scenario identification, test case design, acceptance criteria, boundary analysis. Written artefact assignments only — no test framework or automation. Target: Novice in test design, any background.
+- [ ] `core/courses/dsa-fundamentals/COURSE.md` — arrays, hash maps, recursion, Big O intuition. Java implementation. Assignments: choose the right structure for a problem, implement a search, analyse the complexity of a solution. Target: Novice in DS&A, basic programming experience.
+
+### Engineering Bootcamp Learning Path
+
+The first curated learning path. Bundles the seven fundamentals courses into a sequenced, project-driven programme for fresh graduate software engineers. Build after all seven courses are defined — the path depends on them, not the reverse.
+
+**Core design:** Courses do not know about the learning path. The learning path knows about the courses and adds integration tasks on top. Each integration task applies the skill just learned to the learner's chosen capstone project. Some integration tasks produce early components of the capstone (e.g., the oop-fundamentals integration task produces the domain model). The capstone is the learning path's final milestone — not a course — where the learner assembles all components into a working application. Integration task outputs live in `progress/<learning-path-slug>/integration-journal.md`, separate from individual course journals.
+
+- [ ] `LEARNING-PATH.md` schema — extend the existing schema to support: project options (curated project briefs the learner picks at enrollment), integration tasks (one per course, each with a prompt applying that course's skill to the chosen project), capstone definition (the final assembly milestone). Document in `docs/UPSTACK-TECH-SPEC.md` alongside the COURSE.md schema.
+- [ ] `progress/<learning-path-slug>/` structure — `learner-context.md` (project choice, sequence position, integration task completion state) + `integration-journal.md` (scribe record of integration task work). Sits alongside course directories in `progress/`, not nested inside them.
+- [ ] `core/learning-paths/engineering-bootcamp/LEARNING-PATH.md` — seven-course sequence with prerequisites: git-fundamentals → markdown-fundamentals → oop-fundamentals → agile-fundamentals → code-quality-fundamentals → testing-fundamentals → dsa-fundamentals. Three capstone project options with full briefs: **Fact Checker** (claim → sources → evidence → verdict, confidence scoring), **Research Assistant** (topic → sources → notes → structured summary), **Job Application Tracker** (company → application → interview stages → offer). Integration task per course applied to the chosen project. Capstone: integrate all components into a working CLI application.
+- [ ] `start-learning-path` skill — enrollment flow: present the three project options in plain language, record choice in `progress/engineering-bootcamp/learner-context.md`, initialise `integration-journal.md`, display the full course roadmap. Distinguishes enrollment (one-time, learning path level) from starting a course (delegates to `start-course`).
 
 ---
 
@@ -153,15 +169,6 @@ Needed for org-ready use cases and the self-directed engineer to track learning.
 - [ ] `send-report` skill — email report to coordinator(s). Includes `send-report.js` script.
 - [ ] Shared `scripts/utils/` — parse-journal.js, parse-course.js, git-utils.js (extracted during earlier skill builds)
 - [ ] Tech spec §5 path cleanup — forward-looking script code blocks (§5.2–5.4) use old `curated/custom` directory naming and stale relative paths from before the `core/` skill nesting. Update inline code to match actual directory structure when implementing these scripts.
-
-### Learning Paths
-
-The sequenced course bundle concept. Enables the engineering bootcamp and similar curated paths.
-
-- [ ] `LEARNING-PATH.md` schema — YAML frontmatter (title, slug, courses with order/unlock dependencies, milestones) + markdown body
-- [ ] `core/learning-paths/` directory structure
-- [ ] `engineering-bootcamp/LEARNING-PATH.md` — fresh grad learning path bundling Go Lang for Developers, git-101, oop-101, dsa-101, with sequencing and prerequisites
-- [ ] `start-learning-path` skill — initialise journals for all courses in sequence, show roadmap (defer if `start-course` per course is sufficient)
 
 ### Static Site
 
