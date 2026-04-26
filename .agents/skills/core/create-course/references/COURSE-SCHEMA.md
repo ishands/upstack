@@ -46,6 +46,7 @@ updated: 'YYYY-MM-DD'
 # Categorisation
 domain: 'languages'                # languages | system-design | architecture
                                    # engineering-practices | soft-skills | domain-knowledge
+                                   # software-engineering
 tags:
   - tag1
   - tag2
@@ -81,7 +82,7 @@ estimated-hours: 0
 | `author` | Yes | Course author name |
 | `created` | Yes | Creation date (YYYY-MM-DD) |
 | `updated` | Yes | Last update date (YYYY-MM-DD) |
-| `domain` | Yes | One of: languages, system-design, architecture, engineering-practices, soft-skills, domain-knowledge |
+| `domain` | Yes | One of: languages, system-design, architecture, engineering-practices, soft-skills, domain-knowledge, software-engineering |
 | `level` | Yes | Target Dreyfus level: novice, beginner, competent, proficient, expert |
 | `target-audience` | Yes | Description of who this course is for |
 | `tags` | No | Searchable tags for catalogue |
@@ -126,6 +127,10 @@ Brief description of what this module covers and why it is sequenced first.
 #### Assignment 1: Title
 
 Brief description of what this assignment produces and why.
+
+<!-- ⚠ File references in assignment bodies must use full paths from the
+     repo root: `core/courses/<slug>/references/FILE.md` — not bare
+     filenames or relative paths. See File References section below. -->
 
 > **Note for learners and tutors:** (Optional) Clarify what is and isn't
 > the learning objective. If the assignment uses a domain the learner
