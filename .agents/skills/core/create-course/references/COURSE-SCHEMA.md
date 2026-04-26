@@ -241,3 +241,10 @@ worth struggling over. If an assignment requires domain knowledge that
 isn't the learning objective (an API, a data format, a regulatory rule),
 tell the tutor to help with that so the learner's struggle stays focused
 on the course subject.
+
+### File References
+
+All file paths in a COURSE.md must be **full paths from the repo root**
+(e.g., `core/courses/my-course/references/MY-FILE.md`). Never use relative
+paths (e.g., `references/MY-FILE.md`) — an AI tool resolves these against
+the repo root, not the course directory, and will fail to find the file.
