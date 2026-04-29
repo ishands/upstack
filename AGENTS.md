@@ -79,15 +79,36 @@ Does `profile/PROFILE.md` exist?
 
 ---
 
-### Step 2 — Course check
+### Step 2 — Learning path and course check
 
-Check the `## Active Course` section in `AGENTS-CUSTOM.md`.
+**Learning path check:** Read `## Active Learning Path` in `AGENTS-CUSTOM.md`.
+
+If a learning path is active:
+
+1. Read `progress/<path-slug>/learner-context.md` — note the learner's
+   project choice and which integration tasks are complete
+2. When the active course's COURSE.md contains a "Learning path note":
+   use the learner's project choice as the assignment context for the
+   session (instead of the standalone example in the course)
+3. After the learner completes a course's final assignment: check whether
+   the integration task for that course is marked `[x]` in the learner
+   context. If not, prompt about it before suggesting the next course —
+   load the relevant task from `core/learning-paths/<path-slug>/LEARNING-PATH.md`
+   under `### After: <course-slug>` and present the learner's project variant
+4. When the integration task is done: write a concise entry in
+   `progress/<path-slug>/integration-journal.md` (date, what was produced),
+   mark `[x]` in the checklist and update "Current position" in
+   `progress/<path-slug>/learner-context.md`. Commit:
+   `git add progress/<path-slug>/ && git commit -m "progress: <course-slug> integration task complete"`
+
+**Course check:** Read `## Active Course` in `AGENTS-CUSTOM.md`.
 
 **Case 1 — No active course** (section reads "No course is currently active"):
 
 Ask what the learner would like to do:
 
-- Pick an existing course → invoke `start-course`
+- Enrol in a learning path → invoke `start-learning-path`
+- Pick an individual course → invoke `start-course`
 - Design a custom course → invoke `create-course`
 
 Do not begin tutoring until a course is active.
@@ -174,6 +195,12 @@ After a learning milestone is reached (not during active struggle):
 5. Match the existing style — read before writing
 6. Commit after every session
 
+**When a learning path is active:** After an integration task is complete,
+also write the entry in `progress/<path-slug>/integration-journal.md`.
+Keep it concise: date, what was produced, task status. See
+`.agents/skills/core/start-learning-path/references/INTEGRATION-JOURNAL-TEMPLATE.md`
+for the entry format.
+
 → Full protocol: `core/meta/TUTOR-CONTRACT.md` §6
 → Journal structure: `.agents/skills/core/start-course/references/JOURNAL-TEMPLATE.md`
 
@@ -196,10 +223,11 @@ instructions in `.agents/skills/core/<skill-name>/SKILL.md`.
 
 | Skill                 | Purpose                                                    | When to use                                      |
 | --------------------- | ---------------------------------------------------------- | ------------------------------------------------ |
-| `configure-profile`   | Create or update the learner's global profile              | First-time setup, or when background changes     |
-| `create-course`       | Scaffold a new course from the COURSE.md schema            | Self-directed learner creating their own course  |
-| `start-course`        | Initialise journal, load course context, calibrate         | Starting a new course or resuming after a break  |
-| `complete-assignment` | Reasoning review gate, verify understanding, mark complete | Learner finishes an assignment                   |
-| `check-progress`      | Display current completion state                           | Learner asks about progress, or at session start |
-| `generate-report`     | Generate a timestamped progress report                     | Module completed, or on request                  |
-| `send-report`         | Email a progress report to coordinator(s)                  | Organisational reporting cadence                 |
+| `configure-profile`    | Create or update the learner's global profile              | First-time setup, or when background changes           |
+| `create-course`        | Scaffold a new course from the COURSE.md schema            | Self-directed learner creating their own course        |
+| `start-learning-path`  | Enrol in a learning path, record project choice, show roadmap | Learner wants to enrol in a learning path           |
+| `start-course`         | Initialise journal, load course context, calibrate         | Starting a new course or resuming after a break        |
+| `complete-assignment`  | Reasoning review gate, verify understanding, mark complete | Learner finishes an assignment                         |
+| `check-progress`       | Display current completion state                           | Learner asks about progress, or at session start       |
+| `generate-report`      | Generate a timestamped progress report                     | Module completed, or on request                        |
+| `send-report`          | Email a progress report to coordinator(s)                  | Organisational reporting cadence                       |

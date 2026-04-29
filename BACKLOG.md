@@ -1,6 +1,6 @@
 # Upstack — Product Backlog
 
-**Last updated:** 2026-04-25
+**Last updated:** 2026-04-29
 **Status key:** `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` descoped
 
 ---
@@ -11,7 +11,7 @@ Three users can learn with Upstack:
 
 1. **Individual learner** — starts a curated course (Go Lang for Developers, or any of the seven engineering fundamentals courses), works through assignments with the AI tutor, tracks progress
 2. **Self-directed engineer** — configures their profile, creates their own course (Java Spring Boot), learns with the AI tutor
-3. **Bootcamp participant** — enrols in the engineering bootcamp learning path, picks a capstone project (Fact Checker, Research Assistant, or Job Application Tracker), works through seven fundamentals courses with integration tasks that accumulate into a working application
+3. **Bootcamp participant** — enrols in the engineering bootcamp learning path, picks a capstone project (Personal Library Catalogue, Recipe Manager, or Job Application Tracker), works through seven fundamentals courses with integration tasks that accumulate into a working application
 
 ---
 
@@ -152,10 +152,10 @@ The first curated learning path. Bundles the seven fundamentals courses into a s
 
 **Core design:** Courses do not know about the learning path. The learning path knows about the courses and adds integration tasks on top. Each integration task applies the skill just learned to the learner's chosen capstone project. Some integration tasks produce early components of the capstone (e.g., the oop-fundamentals integration task produces the domain model). The capstone is the learning path's final milestone — not a course — where the learner assembles all components into a working application. Integration task outputs live in `progress/<learning-path-slug>/integration-journal.md`, separate from individual course journals.
 
-- [ ] `LEARNING-PATH.md` schema — extend the existing schema to support: project options (curated project briefs the learner picks at enrollment), integration tasks (one per course, each with a prompt applying that course's skill to the chosen project), capstone definition (the final assembly milestone). Document in `docs/UPSTACK-TECH-SPEC.md` alongside the COURSE.md schema.
-- [ ] `progress/<learning-path-slug>/` structure — `learner-context.md` (project choice, sequence position, integration task completion state) + `integration-journal.md` (scribe record of integration task work). Sits alongside course directories in `progress/`, not nested inside them.
-- [ ] `core/learning-paths/engineering-bootcamp/LEARNING-PATH.md` — seven-course sequence with prerequisites: git-fundamentals → markdown-fundamentals → oop-fundamentals → agile-fundamentals → code-quality-fundamentals → testing-fundamentals → dsa-fundamentals. Three capstone project options with full briefs: **Fact Checker** (claim → sources → evidence → verdict, confidence scoring), **Research Assistant** (topic → sources → notes → structured summary), **Job Application Tracker** (company → application → interview stages → offer). Integration task per course applied to the chosen project. Capstone: integrate all components into a working CLI application.
-- [ ] `start-learning-path` skill — enrollment flow: present the three project options in plain language, record choice in `progress/engineering-bootcamp/learner-context.md`, initialise `integration-journal.md`, display the full course roadmap. Distinguishes enrollment (one-time, learning path level) from starting a course (delegates to `start-course`).
+- [x] `LEARNING-PATH.md` schema — YAML frontmatter (courses list, project-options list, capstone-title) + markdown body (Learning Path Narrative, Project Options, Integration Tasks, Capstone, For L&D Coordinators). Documented in `docs/UPSTACK-TECH-SPEC.md` §9 and `.agents/skills/core/start-learning-path/references/LEARNING-PATH-SCHEMA.md`.
+- [x] `progress/<learning-path-slug>/` structure — `learner-context.md` (project choice, current position, integration task checklist) + `integration-journal.md` (concise record of integration task outputs, one entry per course). Templates in `.agents/skills/core/start-learning-path/references/`. Sits alongside course directories in `progress/`.
+- [x] `core/learning-paths/engineering-bootcamp/LEARNING-PATH.md` — seven-course sequence: git-fundamentals → markdown-fundamentals → oop-fundamentals → dsa-fundamentals → code-quality-fundamentals → testing-fundamentals → agile-fundamentals. Three capstone project options with full briefs: **Personal Library Catalogue** (book → author → friend → loan, lifecycle tracking), **Recipe Manager** (recipe → ingredient → meal plan → shopping list, aggregation), **Job Application Tracker** (company → application → interview stages → offer). Per-project integration task per course. Capstone: assemble all components into a working CLI application.
+- [x] `start-learning-path` skill — enrolment flow: check for existing enrolment, present three project options in plain language, record choice in `progress/<path-slug>/learner-context.md`, initialise `integration-journal.md`, update `## Active Learning Path` in `AGENTS-CUSTOM.md`, display course roadmap. Distinguishes enrolment (path level, one-time) from starting a course (delegates to `start-course`). Also: `AGENTS.md` updated with learning path check in Session Start Step 2 and new Available Skills row; `.claude/commands/start-learning-path.md` stub added.
 
 ---
 

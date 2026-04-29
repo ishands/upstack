@@ -55,7 +55,7 @@ as information, not noise to scroll past.
 All three assignments use the same practice repository, created in Assignment 1.
 Keep the same repo throughout — its growing history is part of the learning.
 
-> **Learning path note:** If you are enrolled in the Engineering Bootcamp, your
+> **Learning path note:** If you are enrolled in a learning path, your
 > integration task replaces the standalone practice project: apply each
 > assignment's skills directly to your capstone project repository. The tutor
 > will read your project choice from your learner context before each session.
