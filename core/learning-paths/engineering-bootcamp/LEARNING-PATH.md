@@ -17,30 +17,37 @@ featured: true
 
 courses:
   - slug: 'git-fundamentals'
+    title: 'Git Fundamentals'
     order: 1
     required: true
     integration-task-summary: 'Create the project repo'
   - slug: 'markdown-fundamentals'
+    title: 'Markdown Fundamentals'
     order: 2
     required: true
     integration-task-summary: 'Document the project'
   - slug: 'oop-fundamentals'
+    title: 'OOP Fundamentals'
     order: 3
     required: true
     integration-task-summary: 'Design the domain model'
   - slug: 'dsa-fundamentals'
+    title: 'DSA Fundamentals'
     order: 4
     required: true
     integration-task-summary: 'Implement the data store'
   - slug: 'code-quality-fundamentals'
+    title: 'Code Quality Fundamentals'
     order: 5
     required: true
     integration-task-summary: 'Refactor for clarity'
   - slug: 'testing-fundamentals'
+    title: 'Testing Fundamentals'
     order: 6
     required: true
     integration-task-summary: 'Write test scenarios'
   - slug: 'agile-fundamentals'
+    title: 'Agile Fundamentals'
     order: 7
     required: true
     integration-task-summary: 'Plan the capstone sprint'

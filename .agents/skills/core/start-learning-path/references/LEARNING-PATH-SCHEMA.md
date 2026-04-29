@@ -73,10 +73,12 @@ estimated-weeks: 16
 # Course sequence
 courses:
   - slug: 'course-slug'
+    title: 'Course Title'              # human-readable, authoritative for path display
     order: 1
     required: true
     integration-task-summary: 'One-line summary of the integration task'
   - slug: 'another-course'
+    title: 'Another Course Title'
     order: 2
     required: true
     integration-task-summary: 'One-line summary of the integration task'
@@ -118,6 +120,7 @@ estimated-weeks: 0
 | `estimated-weeks` | Yes | Estimated completion time in weeks |
 | `courses` | Yes | Ordered list of courses in the path |
 | `courses[].slug` | Yes | Must match an existing course directory |
+| `courses[].title` | Yes | Human-readable course title used in path display (roadmap, orient table). Authoritative — skill does not read each course's COURSE.md to derive it. Should match the title in the course's COURSE.md, but path author owns it |
 | `courses[].order` | Yes | Integer sequence position (1-based) |
 | `courses[].required` | Yes | Whether the course is required or optional |
 | `courses[].integration-task-summary` | Yes | One-line summary used in the learner's checklist and roadmap display |

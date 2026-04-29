@@ -1659,6 +1659,7 @@ featured: false
 # Ordered course sequence
 courses:
   - slug: 'course-slug'
+    title: 'Course Title'
     order: 1
     required: true
     integration-task-summary: 'One-line summary of the integration task'
