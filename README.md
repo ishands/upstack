@@ -91,7 +91,7 @@ Upstack has two layers, each with different tool requirements:
 | Layer                             | What it does                                                                           | Works with                                                                                                                                                       |
 | --------------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Tutor behaviour** (`AGENTS.md`) | Ambient configuration — Socratic protocol, calibration, anti-patterns, scribe protocol | Any tool that reads AGENTS.md: Claude Code, OpenAI Codex, Google Jules, Cursor, VS Code + Copilot, Gemini CLI, and others. Plain chat interfaces via copy-paste. |
-| **Skills** (`.claude/skills/`)    | Discrete actions — `/start-course`, `/configure-profile`, `/check-progress`, etc.      | Claude Code natively. Other tools: `@`-mention the skill's `SKILL.md`, or follow the steps manually.                                                             |
+| **Skills** (`.agents/skills/`)    | Discrete actions — `/start-course`, `/configure-profile`, `/check-progress`, etc.      | Claude Code natively. Other tools: `@`-mention the skill's `SKILL.md`, or follow the steps manually.                                                             |
 
 Upstack is built and tested with **Claude Code**. The tutor behaviour
 layer works well across any AGENTS.md-compatible tool. Skill support
@@ -146,18 +146,40 @@ whichever AI tool you choose.
 
 ## Courses
 
-| Course                                                                  | Domain      | Target Audience                                                                   |
-| ----------------------------------------------------------------------- | ----------- | --------------------------------------------------------------------------------- |
-| [Go Lang for Developers](core/courses/go-lang-for-developers/COURSE.md) | Programming | Developer with experience in at least one general-purpose language — Novice in Go |
-| [Java Web Programming](core/courses/java-web-programming/COURSE.md) | Programming | Experienced developer (C++, C#, Python) — new to Java and web development |
+| Course                                                                            | Domain               | Target Audience                                                                   |
+| --------------------------------------------------------------------------------- | -------------------- | --------------------------------------------------------------------------------- |
+| [Go Lang for Developers](core/courses/go-lang-for-developers/COURSE.md)           | Programming          | Developer with experience in at least one general-purpose language — Novice in Go |
+| [Java Web Programming](core/courses/java-web-programming/COURSE.md)               | Programming          | Experienced developer (C++, C#, Python) — new to Java and web development         |
+| [Git Fundamentals](core/courses/git-fundamentals/COURSE.md)                       | Engineering practice | Novice in version control, any programming background                             |
+| [Markdown Fundamentals](core/courses/markdown-fundamentals/COURSE.md)             | Engineering practice | Any background, no prior Markdown experience needed                               |
+| [OOP Fundamentals](core/courses/oop-fundamentals/COURSE.md)                       | Programming          | Novice in OOP, basic programming experience                                       |
+| [DSA Fundamentals](core/courses/dsa-fundamentals/COURSE.md)                       | Programming          | Novice in data structures and algorithms, basic programming experience            |
+| [Code Quality Fundamentals](core/courses/code-quality-fundamentals/COURSE.md)     | Engineering practice | Novice in clean code practices, basic programming experience                      |
+| [Testing Fundamentals](core/courses/testing-fundamentals/COURSE.md)               | Engineering practice | Novice in test design, any background                                             |
+| [Agile Fundamentals](core/courses/agile-fundamentals/COURSE.md)                   | Engineering practice | Novice in Agile/Scrum, any background                                             |
 
-More courses are planned (git, OOP, data structures & algorithms).
 You can also [create your own](CONTRIBUTING.md#contributing-a-course)
 in any domain using the `create-course` skill.
 
+## Learning Paths
+
+Learning paths bundle a sequence of courses around a single project.
+You pick the project at enrolment and it threads through every course —
+each course's integration task adds another component to it. The
+capstone at the end is assembly, not a new course.
+
+| Path                                                                              | Courses | Target Audience                                                          |
+| --------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------ |
+| [Engineering Bootcamp](core/learning-paths/engineering-bootcamp/LEARNING-PATH.md) | 7       | Fresh graduate or early-career software engineer building from the ground up |
+
+Use `/start-learning-path` to enrol.
+
 ## For Organisations
 
-Upstack supports structured learning paths for teams and cohorts.
+Upstack supports structured learning paths for teams and cohorts. The
+[Engineering Bootcamp](core/learning-paths/engineering-bootcamp/LEARNING-PATH.md)
+sequences seven fundamentals courses into a project-driven programme
+suitable for graduate intakes.
 
 Progress reports with reasoning review prompts help managers probe for
 genuine understanding — not just completion. See the

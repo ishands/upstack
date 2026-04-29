@@ -141,7 +141,7 @@ upstack/
 ├── custom/
 │   └── courses/                 ← your own courses
 │
-└── .claude/skills/core/         ← skill definitions
+└── .agents/skills/core/         ← skill definitions
 ```
 
 ---
@@ -230,7 +230,7 @@ Render as two clearly separated zones with distinct visual treatment.
 - `AGENTS.md`
 - `CLAUDE.md`
 - `core/`
-- `.claude/skills/core/`
+- `.agents/skills/core/`
 - Updated by upstream and skills
 
 *(Visual treatment: lock icon, restricted colour — use earth brown
@@ -240,7 +240,7 @@ Render as two clearly separated zones with distinct visual treatment.
 - `profile/`
 - `progress/`
 - `custom/`
-- `.claude/skills/custom/`
+- `.agents/skills/custom/`
 - `AGENTS-CUSTOM.md` (below the managed section marker)
 - Your data. Never touched by upstream.
 

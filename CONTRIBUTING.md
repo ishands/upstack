@@ -51,7 +51,7 @@ that others could learn from, consider submitting it to
 **Quality bar:**
 
 - Course must follow the `COURSE.md` schema (see
-  `.claude/skills/core/create-course/references/COURSE-SCHEMA.md`)
+  `.agents/skills/core/create-course/references/COURSE-SCHEMA.md`)
 - Assignments should be real problems, not toy exercises
 - Learning objectives and topic checklists for each assignment
 - Clear learner context: who is this for and what prior knowledge
@@ -121,8 +121,8 @@ Include `Co-Authored-With: <name>` if AI-assisted.
 | `core/meta/` | Upstream | Yes — via issue + PR |
 | `custom/` | You (your fork) | No — this is yours |
 | `profile/`, `progress/` | You (your fork) | No — this is yours |
-| `.claude/skills/core/` | Upstream | Yes — via issue + PR |
-| `.claude/skills/custom/` | You (your fork) | No — this is yours |
+| `.agents/skills/core/` | Upstream | Yes — via issue + PR |
+| `.agents/skills/custom/` | You (your fork) | No — this is yours |
 | `scripts/` | Upstream | Yes — via PR |
 
 ---

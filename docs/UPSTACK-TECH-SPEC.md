@@ -3,7 +3,7 @@
 **Version:** 2.1
 **Author:** Ishan De Silva
 **Date:** 1 March 2026
-**Status:** Living specification — through M4 (open-source readiness)
+**Status:** Living specification — through v0.3.0 (skills migration, engineering fundamentals courses, engineering bootcamp learning path)
 **Major Revision:** Skills-based architecture; AGENTS.md + Agent Skills open standards
 
 ---
@@ -18,7 +18,7 @@
 6. [AI Tool Integration](#6-ai-tool-integration)
 7. [Local Web Application](#7-local-web-application)
 8. [Report Generation and Delivery](#8-report-generation-and-delivery)
-9. [Bootcamp / Learning Path Model](#9-bootcamp--learning-path-model)
+9. [Learning Path Model](#9-learning-path-model)
 10. [Getting Started Flows](#10-getting-started-flows)
 11. [Updated Concept Paper Amendments](#11-updated-concept-paper-amendments)
 
@@ -72,6 +72,7 @@ upstack/
 ├── CODE_OF_CONDUCT.md           # Contributor Covenant v2.1
 ├── LICENSE                      # Dual: MIT (code) + CC-BY-SA 4.0 (content)
 ├── BACKLOG.md                   # Product backlog (milestones + tasks)
+├── CHANGELOG.md                 # Versioned release notes (Keep a Changelog)
 ├── package.json                 # Root — dependencies + npm run scripts
 ├── .gitignore
 │
@@ -97,12 +98,30 @@ upstack/
 │   │   ├── TUTOR-CONTRACT.md    # Base tutor behaviour (referenced by AGENTS.md)
 │   │   └── ANTI-PATTERNS.md     # What Upstack is not
 │   │
-│   └── courses/                 # Community-contributed, reviewed courses
-│       ├── go-lang-for-developers/ # Featured use case (fully annotated)
-│       │   ├── COURSE.md        # Course definition with YAML frontmatter
-│       │   └── references/      # Sample progress, scribe calibration material
-│       └── java-web-programming/   # Web development course
-│           └── COURSE.md
+│   ├── courses/                 # Community-contributed, reviewed courses
+│   │   ├── go-lang-for-developers/    # Featured use case (fully annotated)
+│   │   │   ├── COURSE.md        # Course definition with YAML frontmatter
+│   │   │   └── references/      # Sample progress, scribe calibration material
+│   │   ├── java-web-programming/      # Web development course
+│   │   │   └── COURSE.md
+│   │   ├── git-fundamentals/          # Engineering fundamentals series (v0.3.0)
+│   │   │   └── COURSE.md
+│   │   ├── markdown-fundamentals/
+│   │   │   └── COURSE.md
+│   │   ├── oop-fundamentals/
+│   │   │   └── COURSE.md
+│   │   ├── dsa-fundamentals/
+│   │   │   └── COURSE.md
+│   │   ├── code-quality-fundamentals/
+│   │   │   └── COURSE.md
+│   │   ├── testing-fundamentals/
+│   │   │   └── COURSE.md
+│   │   └── agile-fundamentals/
+│   │       └── COURSE.md
+│   │
+│   └── learning-paths/          # Curated learning paths
+│       └── engineering-bootcamp/      # v0.3.0 — seven fundamentals courses + capstone
+│           └── LEARNING-PATH.md
 │
 ├── custom/                      # User-owned — modify freely
 │   ├── courses/                 # Your personal courses — not upstreamed
@@ -111,7 +130,18 @@ upstack/
 │       └── .gitkeep
 │
 ├── .claude/                     # Claude Code tool configuration
-│   └── skills/                  # Agent Skills (agentskills.io format)
+│   └── commands/                # Slash-command stubs that redirect to .agents/skills/
+│       ├── configure-profile.md
+│       ├── create-course.md
+│       ├── start-learning-path.md
+│       ├── start-course.md
+│       ├── complete-assignment.md
+│       ├── check-progress.md
+│       ├── generate-report.md   # Stub — skill not yet implemented
+│       └── send-report.md       # Stub — skill not yet implemented
+│
+├── .agents/                     # Provider-neutral agent configuration (agentskills.io)
+│   └── skills/                  # Agent Skills (canonical location)
 │       ├── README.md            # Skill conventions and structure guide
 │       ├── core/                # Upstream skills — don't modify
 │       │   ├── configure-profile/
@@ -122,6 +152,12 @@ upstack/
 │       │   │   ├── SKILL.md     # Scaffold new course from schema
 │       │   │   └── references/
 │       │   │       └── COURSE-SCHEMA.md
+│       │   ├── start-learning-path/
+│       │   │   ├── SKILL.md     # Enrol in a learning path
+│       │   │   └── references/
+│       │   │       ├── LEARNING-PATH-SCHEMA.md
+│       │   │       ├── LEARNER-CONTEXT-TEMPLATE.md
+│       │   │       └── INTEGRATION-JOURNAL-TEMPLATE.md
 │       │   ├── start-course/
 │       │   │   ├── SKILL.md     # Initialise journal, load course context
 │       │   │   └── references/
@@ -145,10 +181,13 @@ upstack/
 │   └── PROFILE.md               # Created by configure-profile skill
 │
 ├── progress/                    # Learner-owned — never upstreamed
-│   └── <course-slug>/           # One directory per active course
-│       ├── learner-context.md   # This learner's calibration for this course
-│       ├── journal.md           # Living learning journal (source of truth)
-│       └── report-YYYYMMDD.md   # Generated progress reports
+│   ├── <course-slug>/           # One directory per active course
+│   │   ├── learner-context.md   # This learner's calibration for this course
+│   │   ├── journal.md           # Living learning journal (source of truth)
+│   │   └── report-YYYYMMDD.md   # Generated progress reports (planned)
+│   └── <path-slug>/             # One directory per active learning path
+│       ├── learner-context.md   # Project choice + integration task checklist
+│       └── integration-journal.md # Concise record of integration task outputs
 │
 └── site/                        # Static site (GitHub Pages) — TBD
     └── .gitkeep
@@ -156,9 +195,9 @@ upstack/
 
 **`core/` vs `custom/` separation.** Everything in `core/` is upstream-managed — learners do not modify these files. Everything in `custom/` is user-owned. This separation guarantees zero merge conflicts when pulling upstream course updates. The `profile/` and `progress/` directories are also user-owned but serve distinct purposes: profile captures who the learner is (static-ish), progress captures what they've done (changes every session).
 
-**Two-layer calibration model.** Upstack calibrates the AI tutor using two complementary layers. The **Learner Profile** (`profile/PROFILE.md`) is the learner's full anatomy — professional background, skills inventory, mental models, Dreyfus self-assessment, and learning preferences across all courses. The **Learner Context** (`progress/<slug>/learner-context.md`) is the body spec for one garment — which parts of the learner's anatomy are relevant to *this specific course*. The profile changes slowly as the learner grows (the anatomy grows — completing courses builds new skills and shifts Dreyfus levels upward); the context is created once per course. The tutor reads both: profile first (who you are), then context (how your background applies to this course). See `.claude/skills/core/configure-profile/references/PROFILE-TEMPLATE.md` and `.claude/skills/core/start-course/references/LEARNER-CONTEXT.md` for the measurement checklists.
+**Two-layer calibration model.** Upstack calibrates the AI tutor using two complementary layers. The **Learner Profile** (`profile/PROFILE.md`) is the learner's full anatomy — professional background, skills inventory, mental models, Dreyfus self-assessment, and learning preferences across all courses. The **Learner Context** (`progress/<slug>/learner-context.md`) is the body spec for one garment — which parts of the learner's anatomy are relevant to _this specific course_. The profile changes slowly as the learner grows (the anatomy grows — completing courses builds new skills and shifts Dreyfus levels upward); the context is created once per course. The tutor reads both: profile first (who you are), then context (how your background applies to this course). See `.agents/skills/core/configure-profile/references/PROFILE-TEMPLATE.md` and `.agents/skills/core/start-course/references/LEARNER-CONTEXT.md` for the measurement checklists.
 
-**Note on tool-specific skill discovery:** Upstream skills live in `.claude/skills/core/`, user-created skills in `.claude/skills/custom/`. This is the native discovery path for Claude Code. Other AI tools discover skills in their own locations (e.g., `.gemini/skills/` for Gemini). Cross-provider discovery (symlinks or copies) can be added when needed. The SKILL.md format is the same regardless of discovery path.
+**Note on tool-specific skill discovery:** Upstream skills live in `.agents/skills/core/`, user-created skills in `.agents/skills/custom/`. Claude Code discovers skills via `.claude/commands/` stubs that redirect to the canonical `.agents/skills/` path. Other AI tools discover skills in their own locations (e.g., `.gemini/skills/` for Gemini). Cross-provider discovery (symlinks or copies) can be added when needed. The SKILL.md format is the same regardless of discovery path.
 
 ---
 
@@ -170,7 +209,7 @@ Every course is defined by a `COURSE.md` file at the root of its directory. The 
 
 **Key principle:** `COURSE.md` is the curriculum definition. Learners never edit it. All progress and completion state lives in `progress/<slug>/journal.md`. This separation guarantees zero merge conflicts when learners pull upstream course updates.
 
-**Full schema reference:** `.claude/skills/core/create-course/references/COURSE-SCHEMA.md` — contains YAML frontmatter fields, markdown body template, directory structure, and structure rules (module/assignment/topic heading patterns).
+**Full schema reference:** `.agents/skills/core/create-course/references/COURSE-SCHEMA.md` — contains YAML frontmatter fields, markdown body template, directory structure, and structure rules (module/assignment/topic heading patterns).
 
 ### 3.2 COURSE.md Parsing Rules
 
@@ -199,17 +238,12 @@ The parser builds a structured curriculum object:
         {
           "id": "01",
           "title": "Assignment 1: Title",
-          "topics": [
-            "Topic 1 — brief description",
-            "Topic 2 — brief description"
-          ]
+          "topics": ["Topic 1 — brief description", "Topic 2 — brief description"]
         },
         {
           "id": "02",
           "title": "Assignment 2: Title",
-          "topics": [
-            "Topic 1 — brief description"
-          ]
+          "topics": ["Topic 1 — brief description"]
         }
       ]
     }
@@ -230,10 +264,10 @@ Progress state lives in `progress/<course-slug>/journal.md` — a learner-owned 
 
 **The separation:**
 
-| File | Owner | Contains |
-|------|-------|----------|
-| `courses/*/COURSE.md` | Course author | Curriculum topics, reasoning prompts |
-| `progress/*/journal.md` | Learner | Completion checkboxes, narrative, mistakes |
+| File                    | Owner         | Contains                                   |
+| ----------------------- | ------------- | ------------------------------------------ |
+| `courses/*/COURSE.md`   | Course author | Curriculum topics, reasoning prompts       |
+| `progress/*/journal.md` | Learner       | Completion checkboxes, narrative, mistakes |
 
 This separation guarantees zero merge conflicts: course authors update `COURSE.md`, learners accumulate progress in `journal.md`. The two files never conflict.
 
@@ -272,13 +306,13 @@ Reports are never overwritten — each generation creates a new timestamped file
 
 **Location:** `progress/<course-slug>/journal.md`
 
-**Created by:** AI tutor from `.claude/skills/core/start-course/references/JOURNAL-TEMPLATE.md` when the learner starts a course.
+**Created by:** AI tutor from `.agents/skills/core/start-course/references/JOURNAL-TEMPLATE.md` when the learner starts a course.
 
 **Updated by:** AI tutor as Scribe during every learning session.
 
 **Purpose:** Not a log, not a diary — a **narrative of productive struggle.** The journal is the real learning artifact. It is private to the learner's fork and is never upstreamed.
 
-For the full journal structure (header format, per-assignment sections, error documentation format, scribe instructions), see `.claude/skills/core/start-course/references/JOURNAL-TEMPLATE.md`. For the scribe protocol that governs how the tutor maintains the journal, see `core/meta/TUTOR-CONTRACT.md` §6.
+For the full journal structure (header format, per-assignment sections, error documentation format, scribe instructions), see `.agents/skills/core/start-course/references/JOURNAL-TEMPLATE.md`. For the scribe protocol that governs how the tutor maintains the journal, see `core/meta/TUTOR-CONTRACT.md` §6.
 
 ---
 
@@ -290,14 +324,14 @@ Scripts are Node.js and live inside their owning skill's `scripts/` subdirectory
 
 ### 5.1 `collect-progress.js`
 
-**Location:** `.claude/skills/core/check-progress/scripts/collect-progress.js`
+**Location:** `.agents/skills/core/check-progress/scripts/collect-progress.js`
 
 Walks the `progress/` directory, parses all `journal.md` files, extracts completion state including git timestamps, and outputs structured JSON.
 
 ```javascript
 #!/usr/bin/env node
-// .claude/skills/core/check-progress/scripts/collect-progress.js
-// Usage: node .claude/skills/core/check-progress/scripts/collect-progress.js [--course <slug>] [--output json|text]
+// .agents/skills/core/check-progress/scripts/collect-progress.js
+// Usage: node .agents/skills/core/check-progress/scripts/collect-progress.js [--course <slug>] [--output json|text]
 
 const fs = require('fs');
 const path = require('path');
@@ -365,14 +399,14 @@ module.exports = { collectProgress };
 
 ### 5.2 `generate-report.js`
 
-**Location:** `.claude/skills/core/generate-report/scripts/generate-report.js`
+**Location:** `.agents/skills/core/generate-report/scripts/generate-report.js`
 
 Calls `collect-progress.js` for completion state, loads `COURSE.md` for module structure, generates a formatted markdown report, and commits it to `progress/<slug>/`.
 
 ```javascript
 #!/usr/bin/env node
-// .claude/skills/core/generate-report/scripts/generate-report.js
-// Usage: node .claude/skills/core/generate-report/scripts/generate-report.js --course <slug> [--learner <name>]
+// .agents/skills/core/generate-report/scripts/generate-report.js
+// Usage: node .agents/skills/core/generate-report/scripts/generate-report.js --course <slug> [--learner <name>]
 //   AI agents: invoke this when a module is completed or learner requests a report.
 
 const fs = require('fs');
@@ -421,16 +455,17 @@ async function generateReport({ courseSlug, learnerName, periodDays = 7 }) {
     progressMap[a.title] = { completed: a.completed, completedDate: a.completedDate };
   }
 
-  const moduleBreakdown = courseStructure?.modules.map((mod) => {
-    const modAssignments = mod.assignments.map((a) => ({
-      ...a,
-      ...(progressMap[a.title] || { completed: false, completedDate: null }),
-    }));
-    const modCompleted = modAssignments.filter((a) => a.completed).length;
-    const modTotal = modAssignments.length;
-    const pct = Math.round((modCompleted / modTotal) * 100);
-    return { name: mod.name, assignments: modAssignments, pct, modCompleted, modTotal };
-  }) || [];
+  const moduleBreakdown =
+    courseStructure?.modules.map((mod) => {
+      const modAssignments = mod.assignments.map((a) => ({
+        ...a,
+        ...(progressMap[a.title] || { completed: false, completedDate: null }),
+      }));
+      const modCompleted = modAssignments.filter((a) => a.completed).length;
+      const modTotal = modAssignments.length;
+      const pct = Math.round((modCompleted / modTotal) * 100);
+      return { name: mod.name, assignments: modAssignments, pct, modCompleted, modTotal };
+    }) || [];
 
   // Build report markdown
   const reportDate = formatDate(now);
@@ -454,9 +489,7 @@ ${generateSummaryNarrative(journalData, completedThisPeriod, periodDays)}
 ${
   completedThisPeriod.length === 0
     ? '_No assignments completed in this period._'
-    : completedThisPeriod
-        .map((a) => `- [x] **${a.title}**\n` + `  Completed: ${a.completedDate}`)
-        .join('\n\n')
+    : completedThisPeriod.map((a) => `- [x] **${a.title}**\n` + `  Completed: ${a.completedDate}`).join('\n\n')
 }
 
 ---
@@ -545,9 +578,7 @@ function generateNextSteps(journalData) {
     .filter((a) => !a.completed)
     .slice(0, 2)
     .map((a) => `- **${a.title}**`);
-  return next.length > 0
-    ? next.join('\n')
-    : '_All assignments complete. Consider contributing a new course!_';
+  return next.length > 0 ? next.join('\n') : '_All assignments complete. Consider contributing a new course!_';
 }
 
 function extractReasoningPrompts(courseMdPath, completedAssignments) {
@@ -590,7 +621,10 @@ const learnerName = args.includes('--learner') ? args[args.indexOf('--learner') 
 const periodDays = args.includes('--days') ? parseInt(args[args.indexOf('--days') + 1]) : 7;
 
 if (!courseSlug) {
-  console.error('Usage: node .claude/skills/core/generate-report/scripts/generate-report.js --course <slug> ' + '[--learner "Name"] [--days 7]');
+  console.error(
+    'Usage: node .agents/skills/core/generate-report/scripts/generate-report.js --course <slug> ' +
+      '[--learner "Name"] [--days 7]',
+  );
   process.exit(1);
 }
 
@@ -601,15 +635,15 @@ module.exports = { generateReport };
 
 ### 5.3 `send-report.js`
 
-**Location:** `.claude/skills/core/send-report/scripts/send-report.js`
+**Location:** `.agents/skills/core/send-report/scripts/send-report.js`
 
 Opens the user's default email client with the report pre-populated, or sends via SMTP if configured.
 
 ```javascript
 #!/usr/bin/env node
-// .claude/skills/core/send-report/scripts/send-report.js
-// Usage: node .claude/skills/core/send-report/scripts/send-report.js --report <path> --to <email>[,<email>]
-//   Or:  node .claude/skills/core/send-report/scripts/send-report.js --course <slug> --to <email> --generate
+// .agents/skills/core/send-report/scripts/send-report.js
+// Usage: node .agents/skills/core/send-report/scripts/send-report.js --report <path> --to <email>[,<email>]
+//   Or:  node .agents/skills/core/send-report/scripts/send-report.js --course <slug> --to <email> --generate
 
 const fs = require('fs');
 const path = require('path');
@@ -664,7 +698,7 @@ const reportArg = args.includes('--report') ? args[args.indexOf('--report') + 1]
 const subjectArg = args.includes('--subject') ? args[args.indexOf('--subject') + 1] : null;
 
 if (!toArg || !reportArg) {
-  console.error('Usage: node .claude/skills/core/send-report/scripts/send-report.js --report <path> --to <email>[,<email>]');
+  console.error('Usage: node .agents/skills/core/send-report/scripts/send-report.js --report <path> --to <email>[,<email>]');
   process.exit(1);
 }
 
@@ -746,10 +780,10 @@ async function generateCatalogue() {
           data.progress = {
             started: journalData.started,
             completed: journalData.completionPercent === 100,
-            'last-active': journalData.assignments
-              .filter((a) => a.completedDate)
-              .sort((a, b) => new Date(b.completedDate) - new Date(a.completedDate))[0]
-              ?.completedDate || null,
+            'last-active':
+              journalData.assignments
+                .filter((a) => a.completedDate)
+                .sort((a, b) => new Date(b.completedDate) - new Date(a.completedDate))[0]?.completedDate || null,
           };
         }
 
@@ -846,8 +880,7 @@ function parseJournal(journalPath) {
 
   const totalAssignments = assignments.length;
   const completedAssignments = assignments.filter((a) => a.completed).length;
-  const completionPercent =
-    totalAssignments > 0 ? Math.round((completedAssignments / totalAssignments) * 100) : 0;
+  const completionPercent = totalAssignments > 0 ? Math.round((completedAssignments / totalAssignments) * 100) : 0;
 
   return {
     slug,
@@ -872,24 +905,24 @@ module.exports = { parseJournal };
 
 Upstack's AI integration is split into two layers aligned with open standards:
 
-| Layer | Standard | Purpose | Loaded when |
-|-------|----------|---------|-------------|
-| **Ambient behaviour** | AGENTS.md (agents.md) | Defines *how* the AI behaves — Socratic tutoring, scribe protocol, calibration | Session start (always) |
-| **Discrete actions** | Agent Skills (agentskills.io) | Defines *what* the AI does at specific moments — start course, complete assignment, generate report | On invocation |
+| Layer                 | Standard                      | Purpose                                                                                             | Loaded when            |
+| --------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------- | ---------------------- |
+| **Ambient behaviour** | AGENTS.md (agents.md)         | Defines _how_ the AI behaves — Socratic tutoring, scribe protocol, calibration                      | Session start (always) |
+| **Discrete actions**  | Agent Skills (agentskills.io) | Defines _what_ the AI does at specific moments — start course, complete assignment, generate report | On invocation          |
 
 **Why two layers?** The tutor's teaching behaviour (guide rather than answer, preserve mistakes, calibrate to learner context) is a continuous mode — it applies to every interaction. This belongs in the ambient configuration. The operational actions (creating a journal, running a script, marking an assignment complete) are discrete, triggered events. Packaging them as skills makes them self-contained, discoverable, and invocable.
 
 **Migration from v2.0:** The monolithic `TUTOR-CONTRACT.md` is decomposed as follows:
 
-| v2.0 location (TUTOR-CONTRACT.md section) | v2.1 location |
-|--------------------------------------------|---------------|
-| Tutor identity, Socratic method, calibration | AGENTS.md (ambient) |
-| Scribe protocol (documenting mistakes, corrections, aha moments) | AGENTS.md (ambient) |
-| "On course start" operational block | `start-course` skill |
-| "On assignment completion" operational block | `complete-assignment` skill |
-| Tools Available table | Distributed across skill instructions |
-| Trigger Conditions / Workflow When Triggered | `generate-report` skill |
-| Privacy Rules | AGENTS.md (cross-cutting) |
+| v2.0 location (TUTOR-CONTRACT.md section)                        | v2.1 location                         |
+| ---------------------------------------------------------------- | ------------------------------------- |
+| Tutor identity, Socratic method, calibration                     | AGENTS.md (ambient)                   |
+| Scribe protocol (documenting mistakes, corrections, aha moments) | AGENTS.md (ambient)                   |
+| "On course start" operational block                              | `start-course` skill                  |
+| "On assignment completion" operational block                     | `complete-assignment` skill           |
+| Tools Available table                                            | Distributed across skill instructions |
+| Trigger Conditions / Workflow When Triggered                     | `generate-report` skill               |
+| Privacy Rules                                                    | AGENTS.md (cross-cutting)             |
 
 The base `core/meta/TUTOR-CONTRACT.md` file is retained as the detailed reference for learning theory and tutor behaviour. AGENTS.md references it. Skills reference specific sections as needed.
 
@@ -905,10 +938,10 @@ spec and the actual configuration. The file contains:
 
 - **Identity and role** — configures the AI as an Upstack learning tutor with Guide and Scribe modes
 - **Core behaviour** — Socratic protocol summary (core loop, hint escalation, when to answer directly). References `core/meta/TUTOR-CONTRACT.md` §2.
-- **Calibration** — Dreyfus-based adjustment table, profile and course context reading protocol. References `core/meta/TUTOR-CONTRACT.md` §3 and `.claude/skills/core/start-course/references/LEARNER-CONTEXT.md`.
+- **Calibration** — Dreyfus-based adjustment table, profile and course context reading protocol. References `core/meta/TUTOR-CONTRACT.md` §3 and `.agents/skills/core/start-course/references/LEARNER-CONTEXT.md`.
 - **Principles summary** — one-line summary of all eight principles. References `core/meta/PRINCIPLES.md`.
 - **Anti-pattern guardrails** — the seven named anti-patterns as a compact checklist with self-correction protocol. References `core/meta/ANTI-PATTERNS.md`.
-- **Scribe protocol** — when and how to maintain the learning journal. References `core/meta/TUTOR-CONTRACT.md` §6 and `.claude/skills/core/start-course/references/JOURNAL-TEMPLATE.md`.
+- **Scribe protocol** — when and how to maintain the learning journal. References `core/meta/TUTOR-CONTRACT.md` §6 and `.agents/skills/core/start-course/references/JOURNAL-TEMPLATE.md`.
 - **Privacy rules** — constraints on email, outbound communication, external services
 - **Available skills table** — lists all invocable skills with purpose and trigger conditions
 
@@ -918,13 +951,13 @@ See `AGENTS.md` at the repository root for the current content.
 
 Skills follow the `{verb}-{object}` naming convention. The verb indicates the action type:
 
-| Verb | Action type | Example |
-|------|-------------|---------|
-| `start-` / `complete-` | Lifecycle operations | `start-course`, `complete-assignment` |
-| `check-` | Read-only inspection | `check-progress` |
-| `generate-` | AI-driven artifact creation | `generate-report` |
-| `send-` | Delivery | `send-report` |
-| `create-` | Human-judgment artifact | `create-course` |
+| Verb                   | Action type                 | Example                               |
+| ---------------------- | --------------------------- | ------------------------------------- |
+| `start-` / `complete-` | Lifecycle operations        | `start-course`, `complete-assignment` |
+| `check-`               | Read-only inspection        | `check-progress`                      |
+| `generate-`            | AI-driven artifact creation | `generate-report`                     |
+| `send-`                | Delivery                    | `send-report`                         |
+| `create-`              | Human-judgment artifact     | `create-course`                       |
 
 This convention aligns with the `{verb}-{object}-{stack?}` pattern used in organisational skill systems. No stack suffix is needed for Upstack skills as they are not technology-specific.
 
@@ -945,13 +978,14 @@ metadata:
 ```
 
 **Instructions summary:**
+
 1. Read the active `COURSE.md` — extract the Course Structure section
 2. Check if `progress/<slug>/journal.md` exists
-3. If not: create journal from `.claude/skills/core/start-course/references/JOURNAL-TEMPLATE.md`, populating the Progress Tracker with assignments from COURSE.md
+3. If not: create journal from `.agents/skills/core/start-course/references/JOURNAL-TEMPLATE.md`, populating the Progress Tracker with assignments from COURSE.md
 4. Check if `progress/<slug>/learner-context.md` exists
-5. If not: interview the learner using `.claude/skills/core/start-course/references/LEARNER-CONTEXT.md` as the measurement checklist, write answers to `progress/<slug>/learner-context.md`
+5. If not: interview the learner using `.agents/skills/core/start-course/references/LEARNER-CONTEXT.md` as the measurement checklist, write answers to `progress/<slug>/learner-context.md`
 6. Commit: `git add progress/<slug>/ && git commit -m "progress: start <slug>"`
-7. Calibrate: read `profile/PROFILE.md` (if it exists) for the learner's full background, then `progress/<slug>/learner-context.md` for course-specific context. Profile first (who you are), then context (how your background applies to this course). See `.claude/skills/core/configure-profile/references/PROFILE-TEMPLATE.md` §"How the Tutor Reads the Profile" for per-section guidance.
+7. Calibrate: read `profile/PROFILE.md` (if it exists) for the learner's full background, then `progress/<slug>/learner-context.md` for course-specific context. Profile first (who you are), then context (how your background applies to this course). See `.agents/skills/core/configure-profile/references/PROFILE-TEMPLATE.md` §"How the Tutor Reads the Profile" for per-section guidance.
 8. Summarise: what assignments are ahead, where the learner left off (if resuming)
 
 #### 6.3.2 `complete-assignment`
@@ -971,6 +1005,7 @@ metadata:
 ```
 
 **Instructions summary:**
+
 1. Identify which assignment the learner is completing
 2. Load the Reasoning Review Prompts for that assignment from COURSE.md
 3. Follow the reasoning review protocol in `core/meta/TUTOR-CONTRACT.md` §7
@@ -996,7 +1031,8 @@ metadata:
 ```
 
 **Instructions summary:**
-1. Run `node .claude/skills/core/check-progress/scripts/collect-progress.js --course <slug> --output text`
+
+1. Run `node .agents/skills/core/check-progress/scripts/collect-progress.js --course <slug> --output text`
 2. Display the result to the learner
 
 **Contains:** `scripts/collect-progress.js` (source code in Section 5.1)
@@ -1018,13 +1054,15 @@ metadata:
 ```
 
 **Instructions summary:**
-1. Run `node .claude/skills/core/check-progress/scripts/collect-progress.js --course <slug>` to get current state
+
+1. Run `node .agents/skills/core/check-progress/scripts/collect-progress.js --course <slug>` to get current state
 2. Inform the learner: "You've completed [X]. I'll generate a progress report now."
-3. Run `node .claude/skills/core/generate-report/scripts/generate-report.js --course <slug> --learner "Name"`
+3. Run `node .agents/skills/core/generate-report/scripts/generate-report.js --course <slug> --learner "Name"`
 4. This commits the report to `progress/<slug>/report-YYYYMMDD.md`
 5. Confirm: "Report saved to `progress/<slug>/`."
 
 **Trigger conditions** (auto-generate when):
+
 1. The learner completes all assignments in a module (all marked `[x]`)
 2. The learner explicitly requests: "generate my progress report", "send my progress", "report my progress"
 3. At session start, if the last report is more than 7 days old and progress has been made since
@@ -1046,8 +1084,9 @@ metadata:
 ```
 
 **Instructions summary:**
+
 1. Ask: "Who should I send this to? Please provide email address(es)." (If learner says "just save it", stop here)
-2. Run `node .claude/skills/core/send-report/scripts/send-report.js --report <path> --to <email>`
+2. Run `node .agents/skills/core/send-report/scripts/send-report.js --report <path> --to <email>`
 3. Confirm: "Report sent to [addresses]."
 4. Do not store email addresses anywhere — ask every time
 
@@ -1069,6 +1108,7 @@ metadata:
 ```
 
 **Instructions summary:**
+
 1. Ask the author for: course title, slug, domain, level, number of modules and assignments
 2. Create `custom/courses/<slug>/` directory
 3. Generate `COURSE.md` from the schema in `references/COURSE-SCHEMA.md`, populating frontmatter and structure
@@ -1084,7 +1124,7 @@ metadata:
 name: configure-profile
 description: >
   Create or update the global learner profile. Interviews the learner
-  using the measurement checklist in .claude/skills/core/configure-profile/references/PROFILE-TEMPLATE.md and
+  using the measurement checklist in .agents/skills/core/configure-profile/references/PROFILE-TEMPLATE.md and
   writes the structured result to profile/PROFILE.md. Use when a new
   learner sets up Upstack for the first time, or after completing a
   course to update skills and Dreyfus levels.
@@ -1094,7 +1134,8 @@ metadata:
 ```
 
 **Instructions summary:**
-1. Read `.claude/skills/core/configure-profile/references/PROFILE-TEMPLATE.md` — the measurement checklist
+
+1. Read `.agents/skills/core/configure-profile/references/PROFILE-TEMPLATE.md` — the measurement checklist
 2. Check if `profile/PROFILE.md` exists
 3. If new profile: interview the learner through all 7 measurement fields (Name, Professional Background, Skills Inventory, Mental Models, Dreyfus Self-Assessment, Learning Preferences, Completed Courses). Use the Ask/Probe guidance in the template. Do not rush — the profile interview is the learner's first experience with Upstack's conversational calibration.
 4. If updating: read the existing profile, ask what has changed rather than starting from scratch. Natural update triggers: after completing a course (new skills, shifted Dreyfus levels), after a career change, when starting a course in a new domain.
@@ -1118,8 +1159,8 @@ metadata:
     "start": "node scripts/generate-catalogue.js && cd site && npm start",
     "build": "node scripts/generate-catalogue.js && cd site && npm run build",
     "catalogue": "node scripts/generate-catalogue.js",
-    "progress": "node .claude/skills/core/check-progress/scripts/collect-progress.js --output text",
-    "report": "node .claude/skills/core/generate-report/scripts/generate-report.js"
+    "progress": "node .agents/skills/core/check-progress/scripts/collect-progress.js --output text",
+    "report": "node .agents/skills/core/generate-report/scripts/generate-report.js"
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
@@ -1494,14 +1535,15 @@ export default function ReportViewer({ courseSlug }) {
     <section className="report-viewer">
       <h2>Progress Reports</h2>
       <p>
-        Reports are version-controlled markdown files in <code>progress/{courseSlug}/</code>. View them in your editor, or run:
+        Reports are version-controlled markdown files in <code>progress/{courseSlug}/</code>. View them in your editor, or
+        run:
       </p>
       <code className="code-block">ls progress/{courseSlug}/report-*.md</code>
       <p>To generate a new report:</p>
       <code className="code-block">npm run report -- --course {courseSlug} --learner "Your Name"</code>
       <p>To send the latest report:</p>
       <code className="code-block">
-        node .claude/skills/core/send-report/scripts/send-report.js \<br />
+        node .agents/skills/core/send-report/scripts/send-report.js \<br />
         &nbsp;&nbsp;--report progress/{courseSlug}/report-YYYYMMDD.md \<br />
         &nbsp;&nbsp;--to coordinator@yourorg.com
       </code>
@@ -1549,12 +1591,12 @@ Overall course progress is now 67% (2 of 3 assignments).
 
 **Module 1: Core Language** — 100% (2/2)
 
-  - [x] Assignment 1: HostManager
-  - [x] Assignment 2: Feed Catcher
+- [x] Assignment 1: HostManager
+- [x] Assignment 2: Feed Catcher
 
 **Module 2: Resilience (Optional)** — 0% (0/1)
 
-  - [ ] Assignment 3: Resilience Layer
+- [ ] Assignment 3: Resilience Layer
 
 ---
 
@@ -1590,80 +1632,163 @@ _Repository: run `git log progress/` to see full report history_
 
 ---
 
-## 9. Bootcamp / Learning Path Model
+## 9. Learning Path Model
 
-### 9.1 BOOTCAMP.md Schema
+### 9.1 Overview
 
-```markdown
+A learning path bundles a sequence of courses into a structured programme
+with an overarching project. The path adds two things that standalone courses
+do not have: **project options** (a real project the learner chooses at
+enrolment and applies every course's skill to) and **integration tasks** (one
+per course, applying that course's skill to the chosen project).
+
+**Design principle:** Courses do not know about the learning path. The path
+knows about the courses and adds integration tasks on top. Course definitions
+never change; the AI tutor reads the learner's project choice from
+`progress/<path-slug>/learner-context.md` and adapts the assignment context
+accordingly.
+
+**Directory layout:**
+
+```
+core/learning-paths/
+  engineering-bootcamp/
+    LEARNING-PATH.md          # Path definition
+
+custom/learning-paths/
+  .gitkeep                    # User-created paths go here
+
+progress/
+  engineering-bootcamp/
+    learner-context.md        # Project choice, position, integration task state
+    integration-journal.md    # Record of integration task outputs
+```
+
+**Slug uniqueness:** Path slugs and course slugs share the
+`progress/<slug>/` namespace. A path slug must therefore not collide with
+any course slug under `core/courses/` or `custom/courses/`. This is a
+contributor convention enforced by review, not by code.
+
+**Full schema reference:** `.agents/skills/core/start-learning-path/references/LEARNING-PATH-SCHEMA.md`
+
 ---
-title: 'Software Engineering Fundamentals'
-slug: 'se-fundamentals'
+
+### 9.2 LEARNING-PATH.md Schema
+
+Every learning path is defined by a `LEARNING-PATH.md` file. It has two parts:
+YAML frontmatter carrying machine-readable metadata, and a markdown body
+carrying human-readable content.
+
+**YAML frontmatter — key fields:**
+
+```yaml
+---
+title: 'Path Title'
+slug: 'path-slug'
 version: '1.0'
-author: 'Your Organisation'
-target-audience: 'New software engineering graduates and interns'
-duration-weeks: 12
-level: 'beginner'
-domain: 'engineering-practices'
+author: 'Author Name'
+created: 'YYYY-MM-DD'
+updated: 'YYYY-MM-DD'
+domain: 'software-engineering'
+level: 'novice'
+target-audience: 'Description of target learner'
+estimated-weeks: 16
 featured: false
 
+# Ordered course sequence
 courses:
-  - slug: 'go-lang-for-developers'
-    required: true
+  - slug: 'course-slug'
+    title: 'Course Title'
     order: 1
-    unlock-after: null
-    milestone: 'Language Foundations'
-
-  - slug: 'learning-design-patterns'
     required: true
-    order: 2
-    unlock-after: 'go-lang-for-developers'
-    milestone: 'Design Thinking'
+    integration-task-summary: 'One-line summary of the integration task'
 
-  - slug: 'learning-system-design'
-    required: false
-    order: 3
-    unlock-after: 'learning-design-patterns'
-    milestone: 'Systems Thinking'
+# Machine-readable project identifiers (full briefs in markdown body)
+project-options:
+  - slug: 'project-slug'
+    title: 'Human-readable project title'
 
-reporting:
-  frequency-days: 7
-  coordinator-prompt: >
-    Review the reasoning prompts for each completed assignment.
-    In 1-on-1s, probe for far transfer: ask how concepts from
-    one course apply in the context of another.
+# For catalogue display
+capstone-title: 'Short capstone description'
+---
+```
+
+**Markdown body — required sections:**
+
+| Section                      | Purpose                                                                              |
+| ---------------------------- | ------------------------------------------------------------------------------------ |
+| `## Learning Path Narrative` | Why this course sequence, what each course contributes                               |
+| `## Project Options`         | Full brief per project: workflow, domain entities, key design decisions              |
+| `## Integration Tasks`       | One `### After: <course-slug>` block per course; one task variant per project option |
+| `## Capstone`                | What the final assembly requires; references integration task outputs                |
+| `## For L&D Coordinators`    | Optional: duration, progress tracking, discussion prompts                            |
+
+**Integration task block format:**
+
+```markdown
+### After: course-slug
+
+**Project Title:**
+Task description — specific, produces a named artefact, states where it goes.
+
+**Another Project Title:**
+Task description.
+```
+
 ---
 
-# Software Engineering Fundamentals Bootcamp
+### 9.3 Progress Files
 
-A 12-week structured learning path for new engineers joining your team.
-Designed to build genuine understanding through productive struggle,
-not just output production.
+Learning path progress lives in two files under `progress/<path-slug>/`,
+separate from individual course journals:
 
-## Learning Path Narrative
+**`learner-context.md`** — created at enrolment by `start-learning-path`.
+Contains: learner name, enrolment date, project choice (slug and title),
+current sequence position, integration task checklist (one checkbox per
+course + capstone). Updated by the tutor when each integration task completes.
 
-Week 1-4 establishes language fluency in Go — chosen not because your
-team necessarily uses Go, but because its deliberate departure from
-OOP conventions forces fresh graduates to examine their assumptions
-rather than cargo-cult familiar patterns.
+**`integration-journal.md`** — created at enrolment by `start-learning-path`.
+One section per course (`## After: <course-slug>`) plus a capstone section.
+Each section starts as "Not yet completed" and is replaced by the tutor with
+a concise entry when the integration task is done: date, what was produced,
+task status. The journal is a progress record, not a learning narrative —
+keep entries short.
 
-Week 5-8 builds design thinking through patterns — learning why
-abstractions are structured the way they are, not just how to apply them.
+---
 
-Week 9-12 introduces systems thinking — how components interact,
-how Conway's Law shapes architecture, how to reason about emergent
-behaviour in distributed systems.
+### 9.4 `start-learning-path` Skill
 
-## For L&D Coordinators
+Handles enrolment only. Does not start the first course — that is a separate
+learner action via `start-course`.
 
-Each course includes Reasoning Review Prompts — use these in weekly
-1-on-1s. The goal is not to test recall but to probe for the mental
-model: can the learner explain, in their own words, why a design
-decision was made? Can they identify where the pattern breaks down?
+**Flow:**
 
-Progress reports are generated automatically and emailed to you
-weekly. The reports include suggested discussion questions tied
-to what was completed that week.
-```
+1. Check for existing enrolment — if found, display current state and stop
+2. Present project options in plain language (no filenames, no framework terms)
+3. Record project choice
+4. Write `progress/<path-slug>/learner-context.md` and `integration-journal.md`
+5. Update `## Active Learning Path` in `AGENTS-CUSTOM.md`
+6. Commit: `progress: enrol in <path-slug> (<project-slug>)`
+7. Display roadmap and prompt learner to use `/start-course`
+
+**Full instructions:** `.agents/skills/core/start-learning-path/SKILL.md`
+
+---
+
+### 9.5 Tutor Behaviour in Learning Path Mode
+
+When `## Active Learning Path` in `AGENTS-CUSTOM.md` shows an active path,
+the tutor reads `progress/<path-slug>/learner-context.md` at session start
+and:
+
+- Uses the learner's project choice as the assignment context when a course's
+  COURSE.md contains a "Learning path note" (instead of the standalone example)
+- After the final assignment of each course: checks integration task state and
+  prompts about the integration task if not yet complete
+- When the integration task is done: writes the journal entry, ticks the
+  checklist, updates current position, commits
+
+See `AGENTS.md` §Session Start — Step 2 for the full tutor instructions.
 
 ---
 
@@ -1726,7 +1851,7 @@ cp -r core/learning-paths/template custom/learning-paths/se-fundamentals
 #    echo "COORDINATOR_EMAIL=manager@yourorg.com" > .env
 #    Reports are sent weekly by the AI tutor or manually via:
 #    Use /generate-report then /send-report, or run directly:
-node .claude/skills/core/send-report/scripts/send-report.js \
+node .agents/skills/core/send-report/scripts/send-report.js \
   --report progress/go-lang-for-developers/report-YYYYMMDD.md \
   --to manager@yourorg.com
 ```
