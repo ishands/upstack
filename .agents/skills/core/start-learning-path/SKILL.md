@@ -115,10 +115,11 @@ context for the choice they're about to make.
 **Part B — What you'll build, course by course:**
 
 Show a concrete table built from the path's `courses` YAML so the learner
-can see what they will actually have produced by the end. Use the course's
-human-readable title (from its `COURSE.md`, falling back to the slug) and
-`courses[].integration-task-summary`. Append the capstone row using
-`capstone-title`.
+can see what they will actually have produced by the end. Derive the
+course title by title-casing the slug (e.g. `git-fundamentals` → "Git
+Fundamentals") — do not open the course's `COURSE.md` for this. Use
+`courses[].integration-task-summary` for the second column. Append the
+capstone row using `capstone-title`.
 
 ```
 | # | Course           | What gets built                       |
@@ -214,9 +215,10 @@ git commit -m "progress: enrol in <path-slug> (<project-slug>)"
 ### Step 10 — Display the roadmap
 
 Build the roadmap from the path's `courses` YAML — one line per course
-showing `order`, the human-readable course title (from the course's own
-`COURSE.md`, or the slug if unavailable), and `integration-task-summary`.
-Append the capstone using `capstone-title`.
+showing `order`, the course title (title-cased from the slug — e.g.
+`git-fundamentals` → "Git Fundamentals"), and `integration-task-summary`.
+Append the capstone using `capstone-title`. Do not read each course's
+`COURSE.md` for this — the slug is sufficient.
 
 Example shape (the actual course count and content depends on the path):
 
