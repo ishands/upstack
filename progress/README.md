@@ -27,7 +27,7 @@ progress/
 | -------------------- | ----------------------- | ------------------------------------ |
 | `learner-context.md` | `start-course` skill    | `.agents/skills/core/start-course/references/LEARNER-CONTEXT.md` |
 | `journal.md`         | `start-course` skill    | `.agents/skills/core/start-course/references/JOURNAL-TEMPLATE.md` |
-| `report-YYYYMMDD.md` | `generate-report` skill | Generated from journal + course data |
+| `report-YYYYMMDD.md` | `generate-report` skill _(planned — not yet implemented)_ | Generated from journal + course data |
 
 You don't create these files manually. The skills handle it.
 

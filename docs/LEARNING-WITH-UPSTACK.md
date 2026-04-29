@@ -297,16 +297,52 @@ content never touch the same files.
 
 ---
 
-## 9. For Organisations
+## 9. Learning Paths
 
-If you're using Upstack as part of a team or cohort **_(planned features
-— not yet available)_**:
+A learning path bundles a sequence of courses around a single project.
+You pick the project at enrolment and it threads through every course —
+each course's integration task adds another component to your project.
+By the time you finish all the courses, every part of the project has
+been built. The capstone at the end is assembly, not a new course.
 
-- Progress reports can be generated and sent to L&D coordinators
-- Reports include **reasoning review prompts** — questions designed
-  for 1-on-1 discussions that probe for understanding, not just
-  completion
-- Learning paths sequence multiple courses into structured programmes
+Use `/start-learning-path` to enrol. The skill discovers available
+paths, presents project options in plain language, records your choice,
+and shows the full course roadmap. You then start the first course
+with `/start-course` as usual — the tutor reads your project choice
+from the path's learner context and uses it as the assignment context.
+
+Path-level state lives in `progress/<path-slug>/`:
+
+- `learner-context.md` — your project choice, current position in the
+  sequence, and integration task checklist
+- `integration-journal.md` — concise record of each integration task
+  output, one entry per course
+
+Course journals (`progress/<course-slug>/journal.md`) are unaffected —
+courses do not know about the learning path. The path adds integration
+tasks on top of standalone courses.
+
+The first curated path is the
+[Engineering Bootcamp](../core/learning-paths/engineering-bootcamp/LEARNING-PATH.md):
+seven fundamentals courses for fresh-graduate software engineers, with
+three capstone project options (Personal Library Catalogue, Recipe
+Manager, Job Application Tracker).
+
+---
+
+## 10. For Organisations
+
+If you're using Upstack as part of a team or cohort:
+
+- The Engineering Bootcamp learning path sequences seven fundamentals
+  courses into a project-driven programme suitable for graduate
+  intakes
+- Progress reports for L&D coordinators are planned but **not yet
+  available** (`/generate-report` and `/send-report` are on the
+  roadmap; see `BACKLOG.md`)
+- The journal is already a credible understanding artefact — managers
+  can read it directly today and ask **reasoning review prompts** in
+  1-on-1s to probe for understanding, not just completion
 
 See the [concept paper](UPSTACK-CONCEPT-PAPER.md) §4.4 for
 the Reasoning Visibility Principle — why "walk me through your

@@ -229,5 +229,5 @@ instructions in `.agents/skills/core/<skill-name>/SKILL.md`.
 | `start-course`         | Initialise journal, load course context, calibrate         | Starting a new course or resuming after a break        |
 | `complete-assignment`  | Reasoning review gate, verify understanding, mark complete | Learner finishes an assignment                         |
 | `check-progress`       | Display current completion state                           | Learner asks about progress, or at session start       |
-| `generate-report`      | Generate a timestamped progress report                     | Module completed, or on request                        |
-| `send-report`          | Email a progress report to coordinator(s)                  | Organisational reporting cadence                       |
+| `generate-report` _(planned)_ | Generate a timestamped progress report              | Module completed, or on request                        |
+| `send-report` _(planned)_     | Email a progress report to coordinator(s)           | Organisational reporting cadence                       |

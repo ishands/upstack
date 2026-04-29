@@ -3,7 +3,7 @@
 **Version:** 2.1
 **Author:** Ishan De Silva
 **Date:** 1 March 2026
-**Status:** Living specification — through M4 (open-source readiness)
+**Status:** Living specification — through v0.3.0 (skills migration, engineering fundamentals courses, engineering bootcamp learning path)
 **Major Revision:** Skills-based architecture; AGENTS.md + Agent Skills open standards
 
 ---
@@ -72,6 +72,7 @@ upstack/
 ├── CODE_OF_CONDUCT.md           # Contributor Covenant v2.1
 ├── LICENSE                      # Dual: MIT (code) + CC-BY-SA 4.0 (content)
 ├── BACKLOG.md                   # Product backlog (milestones + tasks)
+├── CHANGELOG.md                 # Versioned release notes (Keep a Changelog)
 ├── package.json                 # Root — dependencies + npm run scripts
 ├── .gitignore
 │
@@ -97,12 +98,30 @@ upstack/
 │   │   ├── TUTOR-CONTRACT.md    # Base tutor behaviour (referenced by AGENTS.md)
 │   │   └── ANTI-PATTERNS.md     # What Upstack is not
 │   │
-│   └── courses/                 # Community-contributed, reviewed courses
-│       ├── go-lang-for-developers/ # Featured use case (fully annotated)
-│       │   ├── COURSE.md        # Course definition with YAML frontmatter
-│       │   └── references/      # Sample progress, scribe calibration material
-│       └── java-web-programming/   # Web development course
-│           └── COURSE.md
+│   ├── courses/                 # Community-contributed, reviewed courses
+│   │   ├── go-lang-for-developers/    # Featured use case (fully annotated)
+│   │   │   ├── COURSE.md        # Course definition with YAML frontmatter
+│   │   │   └── references/      # Sample progress, scribe calibration material
+│   │   ├── java-web-programming/      # Web development course
+│   │   │   └── COURSE.md
+│   │   ├── git-fundamentals/          # Engineering fundamentals series (v0.3.0)
+│   │   │   └── COURSE.md
+│   │   ├── markdown-fundamentals/
+│   │   │   └── COURSE.md
+│   │   ├── oop-fundamentals/
+│   │   │   └── COURSE.md
+│   │   ├── dsa-fundamentals/
+│   │   │   └── COURSE.md
+│   │   ├── code-quality-fundamentals/
+│   │   │   └── COURSE.md
+│   │   ├── testing-fundamentals/
+│   │   │   └── COURSE.md
+│   │   └── agile-fundamentals/
+│   │       └── COURSE.md
+│   │
+│   └── learning-paths/          # Curated learning paths
+│       └── engineering-bootcamp/      # v0.3.0 — seven fundamentals courses + capstone
+│           └── LEARNING-PATH.md
 │
 ├── custom/                      # User-owned — modify freely
 │   ├── courses/                 # Your personal courses — not upstreamed
@@ -111,7 +130,18 @@ upstack/
 │       └── .gitkeep
 │
 ├── .claude/                     # Claude Code tool configuration
-│   └── skills/                  # Agent Skills (agentskills.io format)
+│   └── commands/                # Slash-command stubs that redirect to .agents/skills/
+│       ├── configure-profile.md
+│       ├── create-course.md
+│       ├── start-learning-path.md
+│       ├── start-course.md
+│       ├── complete-assignment.md
+│       ├── check-progress.md
+│       ├── generate-report.md   # Stub — skill not yet implemented
+│       └── send-report.md       # Stub — skill not yet implemented
+│
+├── .agents/                     # Provider-neutral agent configuration (agentskills.io)
+│   └── skills/                  # Agent Skills (canonical location)
 │       ├── README.md            # Skill conventions and structure guide
 │       ├── core/                # Upstream skills — don't modify
 │       │   ├── configure-profile/
@@ -122,6 +152,12 @@ upstack/
 │       │   │   ├── SKILL.md     # Scaffold new course from schema
 │       │   │   └── references/
 │       │   │       └── COURSE-SCHEMA.md
+│       │   ├── start-learning-path/
+│       │   │   ├── SKILL.md     # Enrol in a learning path
+│       │   │   └── references/
+│       │   │       ├── LEARNING-PATH-SCHEMA.md
+│       │   │       ├── LEARNER-CONTEXT-TEMPLATE.md
+│       │   │       └── INTEGRATION-JOURNAL-TEMPLATE.md
 │       │   ├── start-course/
 │       │   │   ├── SKILL.md     # Initialise journal, load course context
 │       │   │   └── references/
@@ -145,10 +181,13 @@ upstack/
 │   └── PROFILE.md               # Created by configure-profile skill
 │
 ├── progress/                    # Learner-owned — never upstreamed
-│   └── <course-slug>/           # One directory per active course
-│       ├── learner-context.md   # This learner's calibration for this course
-│       ├── journal.md           # Living learning journal (source of truth)
-│       └── report-YYYYMMDD.md   # Generated progress reports
+│   ├── <course-slug>/           # One directory per active course
+│   │   ├── learner-context.md   # This learner's calibration for this course
+│   │   ├── journal.md           # Living learning journal (source of truth)
+│   │   └── report-YYYYMMDD.md   # Generated progress reports (planned)
+│   └── <path-slug>/             # One directory per active learning path
+│       ├── learner-context.md   # Project choice + integration task checklist
+│       └── integration-journal.md # Concise record of integration task outputs
 │
 └── site/                        # Static site (GitHub Pages) — TBD
     └── .gitkeep
