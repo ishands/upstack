@@ -140,6 +140,29 @@ and the first curated learning path ships.
   - `progress/README.md` referenced `generate-report` as the active
     producer of `report-YYYYMMDD.md`. Marked planned.
 
+### Testing
+
+v0.3.0 was tested with:
+
+- **Claude Code — Sonnet 4.6 (High effort)** — full skill chain end-to-end,
+  including `start-learning-path` enrolment, integration task flow, and
+  the new `configure-profile` CV fast path. Reference platform.
+- **Gemini 3.1 Pro via Antigravity (High effort)** — `start-learning-path`
+  and orient-table display. Surfaced the `courses[].title` token-bloat and
+  acronym-handling issues corrected in this release. Tutor behaviour layer
+  and learning path enrolment work with high-effort Gemini at this tier.
+- **GitHub Copilot Free (Auto)** — tutor behaviour layer (AGENTS.md) and
+  manual skill invocation. Functional at the ambient tutor layer; skill
+  fidelity and context retention are more variable on free-tier models,
+  consistent with the characteristics described in
+  [AI Tutor Limitations](docs/AI-LIMITATIONS.md).
+
+As noted in [Independence & Costs](README.md#independence--costs):
+free tiers typically have reduced context windows and usage limits that can
+affect sustained learning sessions. Paid-tier models are recommended for
+the full tutoring experience; free-tier use is supported and may work well
+for shorter sessions.
+
 ### Known limitations
 
 - **Progress reports not yet implemented.** `/generate-report` and
@@ -148,7 +171,7 @@ and the first curated learning path ships.
   artefact for L&D 1-on-1s.
 - **Other AI tools' learning-path support depends on skill
   invocation.** `start-learning-path` works natively in Claude Code via
-  `.claude/commands/start-learning-path.md`. Other tools require
+  `.claude/commands/start-learning-path.md`. Other tools may require
   `@`-mentioning the skill file or following the steps manually until
   they adopt the Agent Skills specification.
 
